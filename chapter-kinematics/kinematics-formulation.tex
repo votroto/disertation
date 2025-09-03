@@ -1,0 +1,85 @@
+Starting with the POP for globally solving IK recently proposed by Trutman \textit{et al.} \cite{trutman2022globally}, we lift it into a \emph{quadratically constrained quadratic program} (QCQP). Specifically, we find a new basis in lifting variables of the feasible set of the initial POP, such that the new higher-dimensional representation is at most quadratically constrained. For example, for a polynomial constraint $x_1x_2x_3=0$ we introduce a variable $y$ and rewrite the constraint as $y=x_1x_2$ and $yx_3=0$. Solvers for non-convex QCQPs, such as \href{www.scipopt.org/}{SCIP} \cite{scip} or \href{www.gurobi.com/}{Gurobi} \cite{gurobi}, can find the global solution to this new problem by the spatial branch-and-bound method.
+
+\subsection{Denavit–Hartenberg parameters}
+\label{DH}
+It is conventional to describe $n$-joint manipulators in terms of their \emph{Denavit–Hartenberg} (D-H) parameters for each link $i=1,\dots,n$: the offset $d_i$, the link length $r_i$, the link twist $\alpha_i$, and the joint angle variable~$\theta_i$.
+
+\begin{figure}[htpb]
+    \center
+    \includegraphics[width=0.3\linewidth]{DH.pdf}
+    \caption{Diagram of Denavit–Hartenberg parameters}
+\end{figure}
+\noindent
+The transformation between successive coordinate frames from link $i$ to $i-1$ is defined by a D-H matrix
+\[
+T_i(\theta_i) = \left[ {\begin{array}{rrrr}
+ \cos\theta_i & -\cos\alpha_i\sin\theta_i &  \sin\alpha_i\sin\theta_i & r_i\cos\theta_i  \\
+ \sin\theta_i &  \cos\alpha_i\cos\theta_i & -\sin\alpha_i\cos\theta_i & r_i\sin\theta_i  \\
+              0 &                \sin\alpha_i &                \cos\alpha_i &               d_i  \\
+              0 &                             0 &                             0 &                 1  \\
+\end{array} } \right].
+\]
+
+The end effector pose w.r.t. the base coordinate system is represented by the matrix $P$, which induces the \emph{pose constraint} $T_1(\theta_1)\dotsb T_n(\theta_n)= P$.
+
+\subsection{Polynomial Formulation}
+In this section we describe the POP for IK initially formulated by Trutman \textit{et al.} \cite{trutman2022globally}. This formulation avoids trigonometric functions in the D-H matrices. For each link $i=1,\dots,n$ introduce variables $c_i \coloneqq \cos \theta_i $ and $s_i\coloneqq \sin \theta_i$, along with the identity $c_i^2 + s_i^2 = 1$. After the change of variables, every D-H matrix $T_i(\theta_i)$ depends only on $c_i$ and~$s_i$, and we denote is simply by $T_i$.  We assume that each joint angle $\theta_i$ is constrained by the maximal value $\theta^{\mathit{max}}_i\in [0,\pi]$ and the minimal value $\theta^{\mathit{min}}_i\in [-\pi,0]$. The vector of preferred joint angles is $(\hat{\theta}_1,\dots,\hat{\theta}_n)$ and we consider some weights $w_1,\dots,w_n\ge 0$ satisfying $w_1+\dotsb + w_n=1$. The~goal is to minimize the weighted distance 
+\begin{equation}\label{criterion}
+\sum_{i=1}^n w_i\bigl((c_i-\cos \hat{\theta}_i)^2+(s_i-\sin \hat{\theta}_i)^2\bigr).
+\end{equation}
+The choice of preferred joint angles $(\hat{\theta}_1,\dots,\hat{\theta}_n)$ makes it possible to minimize the total movement of joints, or to find configurations where some links achieve desirable orientations (e.g. an upright posture in humanoid robots \cite{minimumjerk}).
+
+Further, we split the kinematic chain with $n$ joints into two subchains that meet in the middle\footnote{The placement of the split does not significantly affect the runtime as long as each subchain involves at least two joints.}: the first anchored at the origin $1$ and ending at $\nu$ and the second starting at $\nu+1$ and ending at $n$. The pose constraint $T_1(\theta_1)\dotsb T_n(\theta_n)= P$ then becomes $T_1\dotsb T_\nu = P T_n^{-1}\dotsb T_{\nu+1}^{-1}$. 
+This formulation enables us to lower the degree of polynomials appearing in the above constraint and, consequently, to reduce the number of lifting variables (see \cref{sec:lift}). 
+
+The resulting POP (see \cite[(9)]{trutman2022globally}) with variables $\mathbf{c}=(c_1,\dots,c_n)$, $\mathbf{s}=(s_1,\dots,s_n)$, the objective function \eqref{criterion}, and the constraints formulated above is:
+\begin{alignat}{3}
+\min_{\mathbf{c}, \mathbf{s}} &\quad& \sum_{i=1}^n 2w_i(1-c_i\cos&\,\hat{\theta}_i-s_i\sin\hat{\theta}_i) \label{linobj}    \\
+\text{s.t.}   &\quad&     P T_n^{-1}\dotsb T_{\nu+1}^{-1} &= T_1\dotsb T_\nu \label{polycons}\\
+              &\quad& (c_i + 1) \tan \frac{\theta^{\mathit{min}}_i}{2} & \le s_i &i=1,\dots,n \label{min}\\
+              &\quad& (c_i + 1) \tan \frac{\theta^{\mathit{max}}_i}{2} & \ge s_i &i=1,\dots,n \label{max}\\
+              &\quad&                                    c_i^2 + s_i^2 &  =  1   &i=1,\dots,n \label{popfinal}
+\end{alignat}
+Since \eqref{criterion} is equal to the linear function in  \eqref{linobj}, this POP is in fact a minimization problem with a linear objective, and non-convex quadratic \ref{popfinal} and multilinear \ref{polycons} constraints. Linear inequalities \eqref{min}-\eqref{max} are equivalent to design constraints $\theta^{\mathit{min}}_i\le \theta_i \le \theta^{\mathit{max}}_i$ by basic trigonometric identities and the convention $0\le\theta^{\mathit{max}}_i\le \pi$,  $-\pi\le\theta^{\mathit{min}}_i\le 0$. We use $\theta_i = \atantwo(s_i, c_i)$ to recover the optimal joint angles $\theta_i$.
+
+\subsection{Reformulating Multivariate Polynomials as Quadratics}\label{sec:lift}
+The SOS-based method by \textcite{trutman2022globally} solves a non-convex POP equivalent to \eqref{linobj}--\eqref{popfinal} using Lasserre's hierarchy presented in \cref{sec:momsos}; However, quartic systems in 14 variables are challenging already for the method, and obtaining solutions is often predicated on the use of costly algebraic preprocessing using Groebner Basis computation. Reformulating the problem such that it can be solved by Spatial Branch and Bound obviates the need for such preprocessing.
+
+The bounding step in Branch and Bound is predicated on being able to construct convex relaxations of the constraints. We will achieve this by reformulating the multilinear constraints \ref{polycons} as non-convex quadratics, for which the appropriate convex relaxations are McCormick envelopes.
+
+We rewrite each polynomial constraint of the POP into a set of equivalent quadratic constraints in a higher dimensional space. That is, we rewrite the monomials of each polynomial constraint by repeatedly substituting the multiplication of two optimization variables with a new lifting variable equal to their product. For example, the monomial $x_1x_2x_3\cdots x_n$ could be lifted as $y_{12}x_3\cdots x_n$, where $y_{12}=x_1x_2$. Each application of such a rewriting reduces the degree of the polynomial and can be applied repeatedly to each monomial of the original expression until only single variables remain. Since the lifting variables are quadratically constrained, we effectively transform the non-convex POP \eqref{linobj}--\eqref{popfinal} into a non-convex QCQP. Such a straight-forward lifting technique was already discussed by Shor \cite{Shor1987}.
+
+Due to the structure of the pose constraint, we can apply the same rewriting to the expressions involving D-H matrices directly. Since the result of $T_iT_j$ will contain at most quadratic terms, we can introduce a matrix of lifting variables for every matrix product and proceed as described above.
+
+The number of variables and constraints in the resulting program depends on the order of application of such a rewriting rule. For example, the constraint $x_1x_2x_3x_4 + x_2x_3x_5 = 0$ can be reformulated in at least two different ways:
+
+\vspace{0.5em}
+\noindent\begin{minipage}{.5\linewidth}
+\[
+\label{eq:liftA}
+\tag{A}
+\begin{aligned}
+    0 &= y_{12}y_{34} + y_{23}x_5 \\
+    y_{12} &= x_1x_2 \\
+    y_{34} &= x_3x_4 \\
+    y_{23} &= x_2x_3 \\
+\end{aligned}
+\]
+\end{minipage}%
+\noindent\begin{minipage}{.5\linewidth}
+\[
+\tag{B}
+\begin{aligned}
+    0 &= y_{123}x_4 + y_{23}x_5 \\
+    y_{23} &= x_2x_3 \\
+    y_{123} &= x_1y_{23} \\
+\end{aligned}
+\]
+\end{minipage}
+\vspace{0.5em}
+Taking advantage of repeated terms, and even the order in which products are lifted, has an observable impact on the speed and behavior of solvers and on the cuts that they apply. 
+
+In the next section, we will focus on the performance of the method corresponding to System~\ref{eq:liftA} and the matrix based method. We will refer to these methods as $\lift_\text{A}$ and $\lift_\text{M}$, respectively. While $\lift_\text{M}$ often results in the fewest variables after presolve, it is not always the fastest. We found the behavior of $\lift_\text{A}$ more predictable. The full implementation of this approach is available in our public \href{https://github.com/votroto/IK.jl}{code repository}.
+
+\subsection{Applicability of QCQP Lifting}
+The lifting algorithm presented in \cref{sec:lift} applies to any IK problem involving polynomials since it needs no additional assumptions about the degree of polynomials or their properties. This enlarges the scope of applicability of our model significantly. For example, instead of the distance from preferred angles \eqref{criterion}, we can optimize \emph{manipulability}. We can also use the QCQP lifting for the \emph{design of manipulators} by introducing new variables in place of the parameters of the manipulator. This is based on the observation that even if all the parameters in the D-H matrices are treated as optimization variables, the resulting IK problem would still be a POP. Since polynomials are closed under addition and multiplication, the resulting constraints could be lifted as described in \cref{sec:lift}.

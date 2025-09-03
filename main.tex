@@ -1,0 +1,99 @@
+\documentclass[ headings=standardclasses, headings=big, chapterprefix=false ]{scrbook}
+
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{lipsum}
+\usepackage{microtype}
+\usepackage[section]{placeins}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{algorithm,algpseudocode}
+\usepackage{scrhack}
+\usepackage{optidef}  
+\usepackage{enumitem} 
+\usepackage{varioref} 
+\usepackage{xfrac}
+\usepackage{todonotes}
+\usepackage{fontspec}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+\usepackage{biblatex}
+\usepackage{pgfplots,tikz}
+\usepackage{pgfplotstable}
+\usepackage{etoolbox}
+\usepackage{subfiles}
+\usepackage[capitalise]{cleveref}
+\BeforeBeginEnvironment{captionbeside}{\setcapindent{0pt}}
+\pgfplotsset{compat=1.18} 
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{colorbrewer}
+\setlipsum{auto-lang=false}
+\setcounter{tocdepth}{\sectiontocdepth}
+
+\definecolor{pantone300}{rgb}{0, 0.368, 0.722}
+\hypersetup{colorlinks, breaklinks, pdftitle={Thesis Proposal}, pdfauthor={Tomas Votroubek}, allcolors=pantone300}
+
+\setmathfont{STIX Two Math}
+\setmainfont{STIX Two Text}
+
+\graphicspath{{chapter-intro/img}{chapter-continuous/img}{chapter-global/img}{chapter-kinematics/img}{chapter-future/img}}
+
+\addbibresource{chapter-global/global.bib}
+\addbibresource{chapter-kinematics/kinematics.bib}
+\addbibresource{chapter-continuous/oracle.bib}
+\addbibresource{chapter-continuous/compilation.bib}
+\addbibresource{chapter-continuous/separable.bib}
+\addbibresource{chapter-games/games.bib}
+
+
+\input{macros.tex}
+
+\subject{Thesis Proposal}
+\title{Algorithms and Iterative Methods \\for Infinite Games}
+\subtitle{Instances of Feasible Global Optimization}
+\author{Tomáš Votroubek}
+\date{\today}
+\publishers{Czech Technical University in Prague \\Faculty of Electrical Engineering}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\section*{Acknowledgments}
+This thesis proposal is based on papers written with Tomáš Kroupa and Sara Vannucci. I would like to thank Didier Henrion (LAAS-CNRS, University of Toulouse) and Jakub Mareček (Czech Technical University in Prague) for their valuable comments on globally optimal solutions to inverse kinematics.
+\tableofcontents
+
+\mainmatter
+\chapter{Introduction}
+\subfile{chapter-intro/intro}
+
+\chapter{Strategies for Global Optimization}\label{ch:global}
+\subfile{chapter-global/global}
+
+\chapter{Applications in Continuous Games}\label{ch:games}
+\subfile{chapter-continuous/continuous}
+
+\chapter{Optimal Inverse Kinematics}\label{ch:ik}
+\subfile{chapter-kinematics/kinematics}
+
+\chapter{Future Research}
+\subfile{chapter-future/future}
+
+\appendix
+\chapter{List of Games}\label{appendix:games}
+\subfile{chapter-games/games}
+
+\chapter{Experimental Results of Double Oracle}\label{appendix:results}
+\subfile{chapter-results/results}
+
+\backmatter
+
+\printbibliography
+
+\end{document}

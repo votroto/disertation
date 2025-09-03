@@ -1,0 +1,43 @@
+
+
+The following examples are various settings for the classical two-player zero-sum game known as \emph{General Blotto}. The utility functions are sums of non-linearly weighted margins of victory over fronts.  \textcite{Golman2009} completely characterized the existence of pure equilibria for the following family of weighing functions:
+\[
+f(z) = \operatorname{sgn}(z)\,|z|^p
+\]
+parametrized by $p$, which is strictly positive for continuous games. The margins of victory are differences of products of the allocations to each front. 
+
+\begin{example}\label{ex.golman09.isolated}
+A two-player zero-sum game in $m \times m$ variables on the simplex
+\[
+x_i \in \Delta^{m-1} = \left\{ z \in \mathbb{R}^m \ \middle|\ z_j \ge 0,\ \sum_{j=1}^m z_j = 1 \right\} \quad \forall i \in \{1,2\}.
+\]
+The utility function is defined by
+\[
+u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)
+\]
+where $f(x) = \operatorname{sign}(x)\,|x|^p$ and $p>0$. This is a continuous version of \emph{General Blotto}, where all isolated fronts have equal value. When $p = 1$, every strategy is optimal; when $p>1$, players may allocate all resources to any one front; no pure equilibrium exists for $p$ less than one \cite{Golman2009}.
+\end{example}
+
+\begin{example}\label{ex.golman09.pairs}
+A two-player zero-sum game in $m \times m$ variables on the simplex
+\[
+x_i \in \Delta^{m-1} \quad \forall i \in \{1,2\}.
+\]
+The utility function is defined by
+\[
+u_1(x_1, x_2) = \sum_{i=1}^m\sum_{j=i+1}^m f\left( x_{1i}x_{1j} - x_{2i}x_{2j} \right) + \sum_{i=1}^m f\left( x_{1i} - x_{2i} \right)
+\]
+where $f(x) = \operatorname{sign}(x)\,|x|^p$ and $p>0$. This is a continuous version of \emph{General Blotto}, where all pairs of fronts have equal value. When $p = 1$, players should allocate $\frac{1}{m}$ to all fronts; otherwise, no pure equilibrium exists \cite{Golman2009}.
+\end{example}
+
+\begin{example}\label{ex.golman09.sets}
+A two-player zero-sum game in $m \times m$ variables on the simplex
+\[
+x_i \in \Delta^{m-1} \quad \forall i \in \{1,2\}.
+\]
+The utility function is defined by
+\[
+u_1(x_1, x_2) = \sum_{\substack{I \subseteq \{1, \dots, m\} \\ I \ne \emptyset}} f\left( \prod_{i \in I} x_{1i} - \prod_{i \in I} x_{2i} \right)
+\]
+where $f(x) = \operatorname{sign}(x)\,|x|^p$ and $p>0$. This is a continuous version of \emph{General Blotto}, where all sets of fronts have equal value. When $p = 1$ players should allocate $\frac{1}{m}$ to all fronts. No pure equilibrium exists for other values of $p$ \cite{Golman2009}.
+\end{example}

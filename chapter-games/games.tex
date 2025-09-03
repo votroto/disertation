@@ -1,0 +1,41 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+While there exist datasets, such as \textsc{gamut}, useful for testing algorithms designed for finite games, we found no established projects for continuous games. To address this, we present a compilation of parametrized games drawn from both recent and classical literature, which should provide a convincing and comprehensive evaluation of any game-solving algorithm.
+
+Note that continuous games are inherently complex, as even apparently simple games may only have Nash equilibria supported on infinitely many points. A case in point are \cref{ex.dresher61.pg111,ex.karlin59.vol2.sec71.ex2} played on the $[0,1]$ interval.
+
+We chose to consistently present the utility function of player $i$ denoted as $u_i$ in the variables $x_{ij}$, where the first digit $i$ denotes the player, while $j$ is the variable index. None of the games that follow have more than ten players nor variables for any of the players.
+
+\section{General Blotto}
+\input{chapter-games/games-blotto.tex}
+
+\section{Polynomial Saddle Point Games}
+\input{chapter-games/games-nie.tex}
+
+\section{Miscellaneous Games}
+The following is a list of example games appearing in papers and books by various authors, which we loosely grouped by the research topic.
+\subsection{Games from Classical Literature}
+\input{chapter-games/games-misc-classical.tex}
+\subsection{Experiments on Games with Interesting Weaker Solution Concepts}
+\input{chapter-games/games-misc-weaker.tex}
+\subsection{Experiments on Games by Parillo, Stein and Ozdaglar}
+\input{chapter-games/games-misc-parillo.tex}
+\subsection{Experiments on Applied Games and Others}
+\input{chapter-games/games-misc-applied.tex}
+\subsection{Rational Saddle Point Games}
+\input{chapter-games/games-misc-zhou.tex}
+
+\section{Optimization Test Functions}
+\input{chapter-games/games-test-functions.tex}
+
+\section{Discontinuous Games with Known Equilibria}
+\input{chapter-games/games-bad.tex}
+\subsection{Polynomial Saddle Point Games}
+\input{chapter-games/games-bad-nie.tex}
+\subsection{Rational Saddle Point Games}
+\input{chapter-games/games-bad-zhou.tex}
+
+
+
+\end{document}

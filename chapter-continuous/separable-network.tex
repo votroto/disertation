@@ -1,0 +1,81 @@
+Separable network games can capture situations in which players distribute their capacities or resources in a continuous way across multiple targets to achieve control over them. The targets can be battlefields, inspection sites, exit points etc.
+
+In the class of games considered in this chapter, each player $i \in N$ is identified with a node of an undirected graph $(N,E)$ without loops. The presence of an edge $\{i,j\}\in E$ means that players $i$ and $j$ engage in a two-person general-sum strategic game in which the utility functions of players $i$ and $j$ are functions $u_{ij}\colon X_i\times X_j\to\R$ and $u_{ji}\colon X_j\times X_i\to\R$.
+
+We will always assume that the functions $u_{ij}$ and $u_{ji}$ are at least integrable, ensuring that every expected utility appearing below is correctly defined. Typically, a player $i$ participates in multiple pairwise games, in which case, the same strategy strategy $x_i\in X_i$ is implemented in all two-person games played with the adjacent players in the graph $(N,E)$. Thus, the aggregated utility of player $i$ is computed as
+\begin{equation}\label{def:pi}
+    u_i(\bx) = \sum_{\substack{j\in N \\ \{i,j\}\in E}} u_{ij}(x_i,x_j), \qquad \bx\in\bX.
+\end{equation}
+The resulting $n$-person game 
+\begin{equation} \label{def:game}
+    \calG=\langle N,(X_i)_{i\in N},(u_i)_{i\in N} \rangle
+\end{equation}
+is called a \emph{separable network game with compact strategy sets}. Throughout the paper we refer to game (\ref{def:game}) as a ``network game'' for short. We say that $\calG$ is 
+\begin{itemize}
+    \item a \emph{polymatrix game} when all strategy sets~$X_i$ are finite;
+    \item \emph{zero-sum} if  $\sum_{i\in N} u_i(\bx)=0$ for all $\bx\in\bX$;
+    \item \emph{continuous} if each utility function $u_i$ is continuous.
+\end{itemize}
+The class of network games most studied in the literature is the class of zero-sum polymatrix games. The ``global'' zero-sum assumption makes such finite games computationally tractable \cite{Cai16,FPNet,Bailey19,Rubinstein,CaiDaskalkis}.
+
+\begin{example}
+Let $N=\{1,2,3,4\}$ and the graph $(N,E)$ be the cycle on Figure \ref{fig:4}. This is the smallest example of a network game such that each player interacts only with a strict subset of other players. For example, the utility function of player $3$ is $u_3(x_1,x_2,x_3,x_4)=u_{31}(x_3,x_1)+u_{34}(x_3,x_4)$. The zero-sum condition for this game can be formulated as $u_3=-u_1-u_2-u_4$.
+\end{example}
+
+\begin{figure}[ht]
+    \centering
+  \begin{tikzpicture}
+    \node[circle,fill=blue!20,draw,minimum size=0.5cm,inner sep=0pt] (1) {$1$};
+    \node[circle,fill=blue!20,draw,minimum size=0.5cm,inner sep=0pt] (2) [right = 1cm  of 1]  {$2$};
+    \node[circle,fill=blue!20,draw,minimum size=0.5cm,inner sep=0pt] (3) [below = 1cm  of 1] {$3$};
+    \node[circle,fill=blue!20,draw,minimum size=0.5cm,inner sep=0pt] (4) [right = 1cm  of 3] {$4$};
+
+    \path[draw,thick]
+    (1) edge node {} (2)
+    (1) edge node {} (3)
+    (4) edge node {} (2)
+    (3) edge node {} (4)
+    ;
+\end{tikzpicture}
+    \caption{A network game with $4$ players and $4$ pairwise games}
+    \label{fig:4}
+\end{figure}
+
+As a direct consequence of Glicksberg's theorem, every continuous network game $\calG$ has a NE $\bmu^* \in \bM$ in mixed strategies. We will show that the NE in a zero-sum continuous network game can be characterized using an optimization-based approach. Specifically, we consider the following infinite-dimensional linear optimization problem, which generalizes \emph{Linear Program 1} of \textcite{Cai16}:
+\begin{mini!}{\bmu,\bw}{\sum_{i\in N} w_i} {\label{P}}{}
+    \addConstraint{w_i}{\geq U_i(x_i,\bmu_{-i})\qquad \forall i\in N\enskip \forall x_i\in X_i} \label{P:ineq}
+    \addConstraint{\bmu}{=(\mu_1,\dots,\mu_n) \in\bM}
+    \addConstraint{\bw}{=(w_1,\dots,w_n) \in\R^n}
+\end{mini!}
+
+\begin{theorem}\label{thm:opti}
+    For every profile of mixed strategies $\bmu^* \in \bcalP$ in a zero-sum continuous network game $\calG$, the following are equivalent:
+    \begin{enumerate}
+        \item $\bmu^*$ is a Nash equilibrium of game $\calG$.
+        \item $(\bmu^*, \bw^*)$ is an optimal solution to (\ref{P}), where
+        \begin{equation}\label{def:wi}
+            w_i^* = \max_{x_i \in S_i} U_i(x_i, \bmu_{-i}^*), \qquad i \in N.
+        \end{equation}
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Firstly, observe that the expression $\max_{\nu_i \in P_i} U_i(\nu_i, \bmu_{-i})$ is maximized by a $\nu_i$ supported on any of $U_i$'s maximizers. Therefore, given a feasible $(\bmu, \bw)$, the constraint (\ref{P:ineq}) implies
+    \begin{equation}\label{ineq1}
+        w_i \geq \max_{x_i \in X_i} U_i(x_i, \bmu_{-i}) = \max_{\nu_i \in P_i} U_i(\nu_i, \bmu_{-i}) \geq U_i(\mu_i, \bmu_{-i}) \quad \forall i \in N.
+    \end{equation}
+    Note that the maxima in inequalities (\ref{ineq1}) exist by compactness of $X_i$ and the continuity of the functions $U_i(\cdot, \bmu_{-i}) \colon X_i \to \R$. Applying inequalities (\ref{ineq1}) in the objective, together with the zero-sum property, gives:
+    \begin{equation}\label{ineq3}
+        \sum_{i \in N} w_i \geq \sum_{i \in N} U_i(\mu_i, \bmu_{-i}) = 0.
+    \end{equation}
+
+    By Theorem \ref{thm:Glick}, there exists an NE $\bmu^*$ such that $U_i(\bmu^*) = \max_{x_i \in X_i} U_i(x_i, \bmu_{-i}^*) \; \forall i \in N$. Let $\bmu$ be an NE and $\bw^*_i$ be as in condition (\ref{def:wi}), then the inequalities in (\ref{ineq1}) become equalities, and the lower bound of zero is achieved in (\ref{ineq3}).
+
+    We have shown that NE correspond to optimal solutions. Conversely, consider any optimal solution $(\bmu^*, \bw^*)$. Notice that $w_i^*$ must be tight upper bounds on $U_i(\cdot, \bmu_{-i}^*)$. By the zero-sum property, $\sum_{i \in N} U_i(\bmu) = 0$ for any $\bmu$. If $\bmu^*$ were not an NE, then there exists a player $i$ such that $\max_{x_i \in X_i} U_i(x_i, \bmu_{-i}) > U_i(\bmu)$. This implies that 
+    \[
+        0 = \sum_{i \in N} U_i(\bmu) < \sum_{i \in N} \max_{x_i \in X_i} U_i(x_i, \bmu_{-i}) = \sum_{i \in N} w_i,
+    \]
+    i.e., the objective value is not optimal.
+\end{proof}
+
+The Borel probability measures and continuous functions in Problem \ref{P} do not generally allow for effective computation. Still, there are cases where the solution can be computed. For example, in the case of zero-sum polymatrix games, Problem \ref{P} becomes a linear program \cite{Cai16}. Similarly, if we restrict the model to polynomial functions and semialgebraic sets, the solution can be computed using the tools of polynomial optimization discussed in \cref{sec:momsos}.

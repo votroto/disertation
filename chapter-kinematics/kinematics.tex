@@ -1,0 +1,14 @@
+\documentclass[../main.tex]{subfiles}
+\graphicspath{{{chapter-kinematics/img/}}{img/}}
+\begin{document}
+We show how to compute globally optimal solutions to inverse kinematics by formulating the problem as a non-convex quadratically constrained quadratic program. Our approach makes solving inverse kinematics instances of generic redundant manipulators feasible. We demonstrate the performance on randomly generated designs and real-world robots with up to ten revolute joints. The same technique can be used for manipulator design by introducing kinematic parameters as variables. 
+
+\section{Background}
+\input{chapter-kinematics/kinematics-intro}
+
+\section{Quadratic Program Formulation}\label{sec:kinematicsformulation}
+\input{chapter-kinematics/kinematics-formulation}
+
+\section{Results}
+\input{chapter-kinematics/kinematics-results}
+\end{document}

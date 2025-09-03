@@ -1,0 +1,10 @@
+blah... the following works well for us...
+
+\paragraph{Initialization}
+Blah... We initialize the algorithm by first selecting a feasible point in the interior of the players' strategy spaces and then allowing each player to select a best response to the feasible point. The algorithm then continues with standard Multiple Oracle iterations: by computing an equilibrium of the finite subgame and selecting additional best responses.
+
+\paragraph{Nash Equilibria in Finite General-Sum Games}
+Blah... While the \ref{eq:sturmfels} formulation worked acceptably well with \emph{Gurobi}, it appears that its performance relies on optimizations specific to the Baron solver, which we could not run extensive benchmarks on for practical reasons. Instead, we used the \emph{Gambit logit} utility, as it was the fastest and most reliable method for solving finite general-sum games in our testing.
+
+\paragraph{Oracles}
+Blah... The examples in our collections have utilities specified in terms of sums and products of functions such as logarithms and square roots. All such functions should be accepted either directly by global solvers or through external modeling libraries such as \textsc{ampl}.

@@ -1,0 +1,111 @@
+
+
+
+The following examples are games where the strategy spaces for each player are intervals. The games were originally solved using Lasserre hierarchies, discretization techniques, or were used to demonstrate methods for obtaining bounds on the size of support of equilibria.
+
+\begin{example}\label{ex.parrilo06.2.1}
+A two-player zero-sum game in $1 \times 1$ variables on the interval
+\[
+x_i \in [-1,1] \quad \forall i \in \{1,2\}.
+\]
+The utility function is \cite[Example 2.1]{parrilo:polynomial}
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &= \left( x_{11} - x_{21} \right)^{2}
+\end{align*}
+The Nash equilibrium is $\mu_1^\star = \mathcal{U}\{-1,1\}$;\;$\mu_2^\star = \delta_{0}$.
+\end{example}
+
+\begin{example}\label{ex.parrilo06.3.1}
+A two-player zero-sum game in $1 \times 1$ variables on the interval
+\[
+x_i \in [-1,1] \quad \forall i \in \{1,2\}.
+\]
+The utility function is \cite[Example 3.1]{parrilo:polynomial}
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &=  - x_{21} - x_{11}^{2} + 2 x_{21}^{2} x_{11} 
+\end{align*}
+The game has the following pure NE and a value of $-\frac{3 \sqrt[3]{2}}{8}$:
+\begin{align*}
+    x_1^\star &= 4^{-\frac{2}{4}},\\
+    x_2^\star &= 4^{-\frac{1}{4}}.
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.parrilo06.3.2}
+A two-player zero-sum game in $1 \times 1$ variables on the interval
+\[
+x_i \in [-1,1] \quad \forall i \in \{1,2\}.
+\]
+The utility function is \cite[Example 3.2]{parrilo:polynomial}
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &=  - x_{21} - 2 x_{11}^{2} + 5 x_{11} x_{21} - 2 x_{21}^{2} x_{11}
+\end{align*}
+The game has the following mixed NE with a value of $0.48$:
+\begin{align*}
+\mu_1^\star &\approx \delta_{0.2},\\
+\mu_2^\star &\approx 0.78\delta_{1} + 0.22\delta_{-1}.
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.stein07.4.3.1}
+A general-sum 2-player game in $1 \times 1$ variables on the interval
+\begin{align*}
+    x_i &\in [-1,1] \quad \forall i \in \{1,2\}
+\end{align*}
+with utility functions \cite[Example 3.1]{stein07} given by
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &= 0.554 + 1.36 x_{11} - 1.2 x_{21} + 0.596 x_{11}^{2} + 2.072 x_{11} x_{21} - 0.394 x_{21}^{2} \\
+u_{2}\left( x_{1}, x_{2} \right) &= 1.918 x_{11} x_{21} -1.886 - 1.232 x_{11} + 0.842 x_{21} - 0.108 x_{11}^{2} - 1.044 x_{21}^{2}.
+\end{align*}
+The game has an equilibrium $x^\star=(1,1)$.
+\end{example}
+
+
+\begin{example}\label{ex.stein08.2.3}
+A general-sum 2-player game in $1 \times 1$ variables on the interval
+\begin{align*}
+    x_i &\in [-1,1] \quad \forall i \in \{1,2\}
+\end{align*}
+with utility functions \cite[Example 2.3]{stein.ozdaglar.ea:separable} given by
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &=  - x_{11} + 2 x_{11} x_{21} - 2 x_{11}^{3} + 3 x_{21}^{3} - 3 x_{21}^{2} x_{11}^{2} \\
+u_{2}\left( x_{1}, x_{2} \right) &= 4 x_{21} - x_{11}^{2} + x_{11}^{2} x_{21} - 4 x_{21}^{3} + 2 x_{21}^{2} x_{11}^{2}
+\end{align*}
+The game has the mixed NE:
+\begin{align*}
+\mu_1^\star &\approx 0.5532\delta_{-1} + 0.4468\delta_{0.1149}, \\
+\mu_2^\star &\approx \delta_{0.7166}.
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.stein08.2.4}
+A general-sum 2-player game in $1 \times 1$ variables on the interval
+\begin{align*}
+    x_i &\in [-\pi,\pi] \quad \forall i \in \{1,2\}
+\end{align*}
+with utility functions \cite[Example 2.4]{stein.ozdaglar.ea:separable} given by
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &= \cos\left( x_{11} - x_{21} \right) \\
+u_{2}\left( x_{1}, x_{2} \right) &= \cos\left( -0.5 + x_{11} - x_{21} \right)
+\end{align*}
+The game has mixed equilibria where each player plays $\theta_i$ and $\theta_i + \pi$ with equal probability, where $\theta_i$ is arbitrary.
+\end{example}
+
+\begin{example}\label{ex.stein08.3.10}
+A 3-player game in $1 \times 1 \times 1$ variables on the interval
+\begin{align*}
+    x_i &\in [-1,1] \quad \forall i \in \{1,2,3\}
+\end{align*}
+with utility functions \cite[Example 3.10]{stein.ozdaglar.ea:separable} given by
+\begin{align*}
+u_{1}\left( x_{1}, x_{2}, x_{3} \right) &= 1 + 2 x_{11} + 3 x_{11}^{2} + 2 x_{21} x_{31} + 4 x_{11} x_{21} x_{31} + 6 x_{11}^{2} x_{21} x_{31} \\
+    &+ 3 x_{31}^{2} x_{21}^{2} + 6 x_{31}^{2} x_{21}^{2} x_{11} + 9 x_{31}^{2} x_{21}^{2} x_{11}^{2} \\
+u_{2}\left( x_{1}, x_{2}, x_{3} \right) &= 7 + 2 x_{11} + 2 x_{21} + 3 x_{11}^{2} + 4 x_{11} x_{21} + 3 x_{31}^{2} + 6 x_{11}^{2} x_{21} \\ & + 6 x_{31}^{2} x_{11} + 9 x_{31}^{2} x_{11}^{2} \\
+u_{3}\left( x_{1}, x_{2}, x_{3} \right) &=  - x_{31} - 2 x_{11} x_{31} - 2 x_{21} x_{31} - 3 x_{11}^{2} x_{31} - 4 x_{11} x_{21} x_{31} \\&- 3 x_{31}^{2} x_{21} - 6 x_{11}^{2} x_{21} x_{31} - 6 x_{31}^{2} x_{11} x_{21} - 9 x_{31}^{2} x_{11}^{2} x_{21}
+\end{align*}
+The game has the pure NE $x^\star = (1, 1, -0.5)$.
+\end{example}
+
+
+
+

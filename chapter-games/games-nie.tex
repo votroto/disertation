@@ -1,0 +1,235 @@
+The following examples are the saddle point problems of polynomials studied by \textcite{nie.yang.ea:saddle}, which we have reinterpreted as two-player zero-sum polynomial games.
+
+\begin{example}\label{ex.nie21.6.1.i}
+
+A zero-sum 2-player polynomial game in $3 \times 3$ variables on the simplex
+\[
+x_i \in \Delta^{2} \quad \forall i \in \{1,2\}.
+\]
+The nonconcave-nonconvex utility function \cite[Example 6.1 (i)]{nie.yang.ea:saddle} is
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &=  - x_{11} x_{12} - x_{11} x_{23} - x_{12} x_{13} - x_{13} x_{21} - x_{21} x_{22} - x_{22} x_{23}
+\end{align*}
+This game has the pure NE
+\begin{align*}
+x_1^\star \approx (0,1,0),\, x_2^\star \approx (0.25,0.5,0.25).
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.nie21.6.1.ii}
+
+A zero-sum 2-player polynomial game in $3 \times 3$ variables on the simplex
+\[
+x_i \in \Delta^{2} \quad \forall i \in \{1,2\}.
+\]
+The nonconcave-nonconvex utility function \cite[Example 6.1 (ii)]{nie.yang.ea:saddle} is
+\begin{align*}
+u_1(x_1, x_2) = &-x_{11}^3 - x_{12}^3 + x_{13}^3 + x_{21}^3 + x_{22}^3 - x_{23}^3 \\
+    &- x_{13}x_{21}x_{22}(x_{21} + x_{22}) - x_{12}x_{21}x_{23}(x_{21} + x_{23}) - x_{11}x_{22}x_{23}(x_{22} + x_{23})
+\end{align*}
+This game has the pure NE
+\begin{align*}
+x_1^\star \approx (0,0,1),\, x_2^\star \approx (0,0,1).
+\end{align*}
+\end{example}
+
+
+\begin{example}\label{ex.nie21.6.1.iii}
+
+A zero-sum 2-player polynomial game in $4 \times 4$ variables on the simplex
+\[
+x_i \in \Delta^{3} \quad \forall i \in \{1,2\}.
+\]
+The nonconcave-nonconvex utility function \cite[Example 6.1 (iii)]{nie.yang.ea:saddle} is
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &= \sum_{i=1}^{4} \sum_{\substack{j=1 \\ i \ne j}}^{4} (x_{1i} x_{1j} + x_{2i} x_{2j})  - \sum_{i=1}^{4} x_{1i}^2 x_{2i}^2 
+\end{align*}
+This game has 4 pure NE involving each one-hot vector $e_i$
+\begin{align*}
+\text{NE}_i:\;x_1^\star \approx (0.25,0.25,0.25,0.25),\, x_2^\star = e_i \quad \forall i \in \{1,2,3,4\}.
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.nie21.6.1.iv}
+
+A zero-sum 2-player polynomial game in $3 \times 3$ variables on the simplex
+\[
+x_i \in \Delta^{2} \quad \forall i \in \{1,2\}.
+\]
+the nonconcave-nonconvex utility function \cite[Example 6.1 (iv)]{nie.yang.ea:saddle} is
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &= x_{23}^{2} x_{11}^{2} - x_{11} x_{12} x_{21} x_{22} - x_{11} x_{13} x_{21} x_{23} + x_{21}^{2} x_{12}^{2} - x_{12} x_{13} x_{22} x_{23} + x_{22}^{2} x_{13}^{2}
+\end{align*}
+The utility function has no saddle point.
+\end{example}
+
+\begin{example}\label{ex.nie21.6.2.i}
+
+A zero-sum 2-player game in $2 \times 2$ variables on the unit hypercube
+\[
+x_i \in [0,1]^2 \quad \forall i \in \{1,2\}
+\]
+with the concave-nonconvex utility function
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) &=  - \left( 1 + x_{11} + x_{12} + x_{21} + x_{22} \right)^{2} + 4 \left( x_{11} + x_{22} + x_{11} x_{12} + x_{12} x_{21} + x_{21} x_{22} \right)
+\end{align*}
+\textcite[Example 6.2 (i)]{nie.yang.ea:saddle} report the pure NE
+\begin{align*}
+x_1^\star \approx (0.3249, 0.3249),\, x_2^\star = (1,0).
+\end{align*}
+Similarly, we recover a pure $\eps$-NE with any feasible $x_{11} = x_{12}$ and $x_2=(0,1)$.
+\end{example}
+
+\begin{example}\label{ex.nie21.6.2.ii}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the unit hypercube
+\[
+x_i \in [0,1]^3 \quad \forall i \in \{1,2\}
+\]
+with the nonconcave-nonconvex utility function \cite[Example 6.2 (ii)]{nie.yang.ea:saddle}
+\begin{align*}
+u_{1}\left( x_{1}, x_{2} \right) =  &- x_{11} - x_{12} - x_{13} - x_{21} - x_{22} - x_{23} - x_{22}^{2} x_{11}^{2} \\
+&- x_{23}^{2} x_{11}^{2} + x_{21}^{2} x_{12}^{2} - x_{23}^{2} x_{12}^{2} + x_{21}^{2} x_{13}^{2} + x_{22}^{2} x_{13}^{2}
+\end{align*}
+The utility function has no saddle point.
+\end{example}
+
+\begin{example}\label{ex.nie21.6.3.i}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the hypercube
+\[
+x_i \in [-1,1]^3 \quad \forall i \in \{1,2\}
+\]
+with the nonconcave-nonconvex utility function \cite[Example 6.3 (i)]{nie.yang.ea:saddle}
+\[
+u_1(x_1, x_2) = -\sum_{i=1}^{3} (x_{1i} + x_{2i}) + \prod_{i=1}^{3} (x_{1i} - x_{2i})
+\]
+This game has three pure Nash equilibria:
+\begin{align*}
+\text{NE}_1: &x_1^\star = (−1, −1, 1), x_2^\star = (1, 1, 1),\\
+\text{NE}_2: &x_1^\star = (−1, 1, −1), x_2^\star = (1, 1, 1),\\
+\text{NE}_3: &x_1^\star = (1, −1, −1), x_2^\star = (1, 1, 1).
+\end{align*}
+\end{example}
+
+
+\begin{example}\label{ex.nie21.6.3.ii}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the hypercube
+\[
+x_i \in [-1,1]^3 \quad \forall i \in \{1,2\}
+\]
+with the nonconcave-nonconvex utility function \cite[Example 6.3 (ii)]{nie.yang.ea:saddle}
+\[
+u_1(x_1, x_2) = -\sum_{i=1}^{3} x_{2i}^2 + \sum_{i=1}^{3} x_{1i}^2 - \sum_{\substack{i=1 \\ i < j}}^{3} \sum_{j=1}^{3} (x_{1i}x_{2j} - x_{1j}x_{2i})
+\]
+This game has the following pure Nash equilibrium:
+\begin{align*}
+x_1^\star = (-1, 1, −1), x_2^\star = (-1, 1, -1).
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.nie21.6.4.i}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the sphere
+\[
+x_i \in \left\{ z \in \mathbb{R}^3 \,\middle|\, \norm{z} = 1  \right\} \quad \forall i \in \{1,2\}
+\]
+with the utility function \cite[Example 6.4 (i)]{nie.yang.ea:saddle}
+\begin{align*}
+u_1(x_1, x_2) = &-x_{11}^3 - x_{12}^3 - x_{13}^3 - x_{21}^3 - x_{22}^3 - x_{23}^3 \\
+    &- 2(x_{11}x_{12}x_{21}x_{22} + x_{11}x_{13}x_{21}x_{23} + x_{12}x_{13}x_{22}x_{23})
+\end{align*}
+This game has the following 9 pure NE:
+\begin{align*}
+\text{NE}_{ij}:\;x_1^\star = e_i,\, x_2^\star = e_j \quad \forall i,j \in \{1,2,3\}.
+\end{align*}
+\end{example}
+
+
+\begin{example}\label{ex.nie21.6.4.ii}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the sphere
+\[
+x_i \in \left\{ z \in \mathbb{R}^3 \,\middle|\, \norm{z} = 1  \right\} \quad \forall i \in \{1,2\}
+\]
+with the utility function \cite[Example 6.4 (ii)]{nie.yang.ea:saddle}
+\begin{align*}
+u_1(x_1, x_2) = &-x_{11}^2x_{21}^2 - x_{12}^2x_{22}^2 - x_{13}^2x_{23}^2 - x_{11}^2x_{22}x_{23} - x_{12}^2x_{21}x_{23} \\
+    &- x_{13}^2x_{21}x_{22} - x_{21}^2x_{12}x_{13} - x_{22}^2x_{11}x_{13} - x_{23}^2x_{11}x_{12}
+\end{align*}
+The utility function has no saddle points.
+\end{example}
+
+
+\begin{example}\label{ex.nie21.6.5}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the ball
+\[
+x_i \in \left\{ z \in \mathbb{R}^3 \,\middle|\, \norm{z} \leq 1  \right\} \quad \forall i \in \{1,2\}
+\]
+with the nonconcave-convex utility function \cite[Example 6.5]{nie.yang.ea:saddle}
+\[
+u_1(x_1, x_2) = -x_{11}^2x_{21} - 2x_{12}^2x_{22} - 3x_{13}^2x_{23} + x_{11} + x_{12} + x_{13}
+\]
+This game has the following pure Nash equilibrium:
+\begin{align*}
+\text{NE}_3: &x_1^\star \approx (0.7264, 0.4576, 0.3492), x_2^\star \approx (0.6883, 0.5463, 0.4772).
+\end{align*}
+\end{example}
+
+\begin{example}\label{ex.nie21.6.6}
+
+A zero-sum 2-player game in $3 \times 3$ variables on the intersection of the nonnegative orthant and the sphere
+\[
+x_i \in \left\{ z \in \mathbb{R}^3_+ \,\middle|\, \norm{z} = 1  \right\} \quad \forall i \in \{1,2\}
+\]
+with the utility function \cite[Example 6.6]{nie.yang.ea:saddle}
+\[
+u_1(x_1, x_2) = -x_{11}^2x_{22}x_{23} - x_{21}^2x_{12}x_{13} - x_{12}^2x_{21}x_{23} - x_{22}^2x_{11}x_{13} - x_{13}^2x_{21}x_{22} - x_{23}^2x_{11}x_{12}
+\]
+The utility function has no saddle points.
+\end{example}
+
+\begin{example}\label{ex.nie21.6.10}
+
+A zero-sum 2-player game in $5 \times 5$ variables on the simplex
+\[
+x_i \in \Delta^{4} \quad \forall i \in \{1,2\}.
+\]
+The utility function is defined by \cite[Example 6.10]{nie.yang.ea:saddle}
+\[
+u_1(x_1, x_2) = x_1^\top A_1 x_1 + x_2^\top A_2 x_2 + x_1^\top B x_2
+\]
+where the matrix parameters $A_1$, $A_2$, and $B$ are
+\[
+A_1 = \begin{bmatrix*}[r]
+-4 & 4 & 0 & 3 & -4 \\
+3 & 4 & 3 & -4 & -5 \\
+-3 & 0 & -2 & 0 & 4 \\
+-4 & -4 & -1 & 3 & -5 \\
+4 & 1 & -3 & 0 & -5
+\end{bmatrix*},\, A_2 = \begin{bmatrix*}[r]
+-4 & 4 & 1 & 0 & 1 \\
+-2 & -4 & 2 & -3 & 1 \\
+-3 & 1 & 1 & 4 & 4 \\
+3 & -4 & 0 & 1 & -2 \\
+-1 & -3 & -1 & 3 & -2
+\end{bmatrix*}
+\]
+
+\[
+B = \begin{bmatrix*}[r]
+-2 & -4 & -2 & -5 & 3 \\
+0 & 0 & 2 & 4 & 2 \\
+0 & -4 & -1 & -5 & 3 \\
+1 & -3 & -4 & 0 & -3 \\
+3 & -1 & -5 & 4 & -4
+\end{bmatrix*}
+\]
+The game has the following two NE:
+\begin{align*}
+    \text{NE}_1: &x_1^\star = (0, 1, 0, 0, 0), x_2^\star = (1, 0, 0, 0, 0),\\
+    \text{NE}_2: &x_1^\star = (0, 1, 0, 0, 0), x_2^\star = (0, 1, 0, 0, 0).
+\end{align*}
+\end{example}

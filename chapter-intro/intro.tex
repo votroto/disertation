@@ -1,0 +1,11 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+This thesis proposal covers our published results related to the solutions of generic games with infinite action spaces, and it outlines the future direction for our research. 
+
+In practice, the inherent complexity of game-theoretical concepts often necessitates simplifying assumptions to model interactions between agents. There exist several classes of games with known theoretical results, allowing us to map our problem to one of those. Interesting interactions in the real world care little about game theory, however, and they appear arbitrarily far from any of the convenient classes of games. In scenarios where such reductions would be too drastic, we may still gain some insight into players' behavior with ad hoc heuristics, such as by discretizing the action spaces. While these approaches can be useful, they may lack robustness and guarantees.
+
+In this proposal, we explore methods capable of providing guarantees or certificates on the quality of their solutions across a broad range of games. Additionally, we explore methods for global optimization, which appears as a very common sub-task in game theory. The ability to check global optimality is, for example, useful in answering whether an agent in an interaction is behaving rationally.
+
+Finding global optima of functions over a set in the absence of any assumptions is a hard problem; even approximating such solutions is hard. Nevertheless, there exist classes of problems where global optimization is feasible. This proposal demonstrates how Lasserre's hierarchies and the Spatial Branch and Bound method can be effectively applied to solve tasks in game theory and robotics. Our research indicates that the practicality of global methods remains largely unexplored despite the potential.
+\end{document}
