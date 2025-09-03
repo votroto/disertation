@@ -1,0 +1,29 @@
+We show a comparison of Oracle implementations based on non-linear solvers.
+While we have succesfully used local-solvers as oracles, it is important to remember that convergence to equilibria is no longer guaranteed.
+Regardless, we compare their performance in some of the following experiments.
+
+The experiments are split into three groups, random polynomials, non-polynomial test functions, and a practical experiment
+where we solve a where we run a fixed number of iterations of Double Oracle on the Colonel Blotto game.
+
+
+\paragraph{polynomials}
+blah
+
+\paragraph{non-polynomial test functions}
+blah
+
+The next experiment is a measurement of the runtime of different solvers in practice over a course of ten iterations of double oracle in a game of General Blotto. The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts.
+We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$ with a non-differentiable weighing function $f(z) = \operatorname{sgn}(z)\,|z|^{0.5}$. This game exhibits very slow convergence with the Double Oracle algorithm.
+
+Multilinear terms, square roots and sums can be formulated directly via the generic modelling languages \emph{JuMP}, and \emph{AMPL}; however the sign function and absolute value are more challenging. Due to a lack of support and differentiability, all of the solvers: \emph{Ipopt}, \emph{Bonmin}, \emph{Couenne}, \emph{SCIP}, and \emph{Gurobi} were unable to solve a direct formulation of the oracle problem. Instead, we reformulated the weighing function $f$ using a binary variable as $f(x) = (2b-1)z$, subject to the constraints:
+\[
+\begin{aligned}
+b &\in \{0,1\} \\
+s,n,p &\in [0,1] \\
+p &\leq b \\
+n &\leq 1-b \\
+x &= p - n \\
+z^2 &=  p + n. \\
+\end{aligned}
+\]
+The reformulation is a mixed-integer quadratic program.

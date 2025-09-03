@@ -1,12 +1,12 @@
 
 
-We show the performance that can be expected from Multiple Oracle when using custom oracles on various important examples from the literature. In this section we present only the examples which we thought demonstrate interesting behaviors. In appendix \ref{appendix:do.results}, we follow with a more comprehensive evaluation of the algorithm using a generic master problem and oracles based on global optimization.
+We show the performance that can be expected from Multiple Oracle on various important examples from the literature. In this section we present only the examples which we thought demonstrate interesting behaviors, and also special classes of games for which efficient oracles and master-problems exist. In appendix \ref{appendix:do.results}, we follow with a more comprehensive evaluation of a general implementation of the algorithm based on nonlinear solvers and finite general-sum games.
 
 In some cases we show the progress of the convergence-criterion value \eqref{crit1} called ``instability'' over the course of $10$ iterations, and we also plot the Wasserstein distance \eqref{crit2} between mixed strategies in consecutive iterations. Each experiment was initialized with a randomly chosen feasible pure strategy. In games with polynomial utility functions, the best response oracles can employ both methods of the methods of global optimization described in Chapter \ref{ch:global}. In the rest of the games we use the spatial Branch and Bound approach as the best response oracle. From our experience, local solvers can work sufficiently well as oracles in some games.
 
 
 \begin{example}[General Blotto]
-    
+
 
 The \emph{Double Oracle} algorithm converges unusually slowly (see Fig \ref{fig:ex.blotto.slow} for a game with 3 fronts) on the \emph{General Blotto} game valuing isolated fronts with $p=0.5$. Large gains are possible by winning a front by a small margin as the slope of the utility function around zero approaches infinity. After 40 iterations, the algorithm recovers the following $\epsilon$-NE with $\epsilon=0.03$:
 
@@ -141,7 +141,7 @@ NaN NaN
 \end{figure}
 
 \begin{align*}
-\mu_1^\star &\approx 0.003\delta_{ (0.15, 0.69, 0.16) } + 0.005\delta_{ (0.18, 0.16, 0.67) } + 0.006\delta_{ (0.57, 0.35, 0.08) } \\&+ 0.01\delta_{ (0.0, 0.5, 0.5) } + 0.011\delta_{ (0.45, 0.04, 0.51) } + 0.012\delta_{ (0.38, 0.11, 0.5) } \\&+ 0.018\delta_{ (0.09, 0.25, 0.66) } + 0.022\delta_{ (0.55, 0.01, 0.44) } + 0.026\delta_{ (0.06, 0.65, 0.29) } \\&+ 0.026\delta_{ (0.08, 0.52, 0.4) } + 0.029\delta_{ (0.49, 0.18, 0.32) } + 0.029\delta_{ (0.24, 0.16, 0.6) } \\&+ 0.032\delta_{ (0.44, 0.36, 0.2) } + 0.035\delta_{ (0.36, 0.0, 0.64) } + 0.039\delta_{ (0.04, 0.4, 0.55) } \\&+ 0.041\delta_{ (0.33, 0.12, 0.54) } + 0.041\delta_{ (0.28, 0.64, 0.08) } + 0.049\delta_{ (0.4, 0.02, 0.58) } \\&+ 0.051\delta_{ (0.2, 0.34, 0.46) } + 0.053\delta_{ (0.13, 0.55, 0.32) } + 0.061\delta_{ (0.26, 0.08, 0.66) } \\&+ 0.061\delta_{ (0.18, 0.58, 0.24) } + 0.069\delta_{ (0.0, 0.61, 0.39) } + 0.12\delta_{ (0.51, 0.45, 0.04) } \\&+ 0.151\delta_{ (0.64, 0.22, 0.14) },\\ 
+\mu_1^\star &\approx 0.003\delta_{ (0.15, 0.69, 0.16) } + 0.005\delta_{ (0.18, 0.16, 0.67) } + 0.006\delta_{ (0.57, 0.35, 0.08) } \\&+ 0.01\delta_{ (0.0, 0.5, 0.5) } + 0.011\delta_{ (0.45, 0.04, 0.51) } + 0.012\delta_{ (0.38, 0.11, 0.5) } \\&+ 0.018\delta_{ (0.09, 0.25, 0.66) } + 0.022\delta_{ (0.55, 0.01, 0.44) } + 0.026\delta_{ (0.06, 0.65, 0.29) } \\&+ 0.026\delta_{ (0.08, 0.52, 0.4) } + 0.029\delta_{ (0.49, 0.18, 0.32) } + 0.029\delta_{ (0.24, 0.16, 0.6) } \\&+ 0.032\delta_{ (0.44, 0.36, 0.2) } + 0.035\delta_{ (0.36, 0.0, 0.64) } + 0.039\delta_{ (0.04, 0.4, 0.55) } \\&+ 0.041\delta_{ (0.33, 0.12, 0.54) } + 0.041\delta_{ (0.28, 0.64, 0.08) } + 0.049\delta_{ (0.4, 0.02, 0.58) } \\&+ 0.051\delta_{ (0.2, 0.34, 0.46) } + 0.053\delta_{ (0.13, 0.55, 0.32) } + 0.061\delta_{ (0.26, 0.08, 0.66) } \\&+ 0.061\delta_{ (0.18, 0.58, 0.24) } + 0.069\delta_{ (0.0, 0.61, 0.39) } + 0.12\delta_{ (0.51, 0.45, 0.04) } \\&+ 0.151\delta_{ (0.64, 0.22, 0.14) },\\
 \mu_2^\star &\approx 0.006\delta_{ (0.07, 0.66, 0.26) } + 0.009\delta_{ (0.0, 0.41, 0.59) } + 0.011\delta_{ (0.19, 0.59, 0.22) } \\&+ 0.012\delta_{ (0.54, 0.33, 0.13) } + 0.016\delta_{ (0.41, 0.14, 0.45) } + 0.02\delta_{ (0.0, 0.5, 0.5) } \\&+ 0.021\delta_{ (0.36, 0.4, 0.24) } + 0.023\delta_{ (0.44, 0.56, 0.0) } + 0.026\delta_{ (0.02, 0.61, 0.37) } \\&+ 0.028\delta_{ (0.14, 0.47, 0.39) } + 0.031\delta_{ (0.11, 0.26, 0.63) } + 0.033\delta_{ (0.37, 0.54, 0.09) } \\&+ 0.034\delta_{ (0.44, 0.51, 0.05) } + 0.037\delta_{ (0.5, 0.07, 0.43) } + 0.041\delta_{ (0.21, 0.32, 0.47) } \\&+ 0.045\delta_{ (0.05, 0.54, 0.41) } + 0.046\delta_{ (0.32, 0.06, 0.61) } + 0.055\delta_{ (0.47, 0.0, 0.53) } \\&+ 0.058\delta_{ (0.09, 0.61, 0.29) } + 0.06\delta_{ (0.28, 0.15, 0.57) } + 0.063\delta_{ (0.6, 0.03, 0.36) } \\&+ 0.064\delta_{ (0.24, 0.66, 0.1) } + 0.07\delta_{ (0.02, 0.32, 0.67) } + 0.087\delta_{ (0.56, 0.44, 0.01) } \\&+ 0.104\delta_{ (0.67, 0.17, 0.17) }.
 \end{align*}
 
@@ -278,6 +278,7 @@ x y z
   \end{figure}
 \end{example}
 
+\iffalse
 \begin{example}[Torus game \cite{Chasnov20}]\label{ex2}
   Each strategy set is the unit circle $S^1 = [-\pi, \pi]$ and the utility functions are
   \begin{align*}
@@ -317,7 +318,7 @@ x y z
     \caption{Convergence in Example \ref{ex3}. We recovered pure strategies $\textbf{x} \approx (0, 0, 1, 0, 0)$ and $\textbf{y} \approx (1, 0, 0, 0, 0)$ resulting in payoffs \((0, 0)\). This is an~equilibrium computed by \textcite[Proposition 5]{Golman09}}
   \end{figure}
 \end{example}
-
+\fi
 
 \begin{example}[Random polymatrix games]\label{exsep}
   Separable network games (polymatrix games) with finitely many strategies of each player can be solved in polynomial time \cite{Cai16} by linear programming. We use Algorithm \ref{alg:do} to compute equilibria of five-player polymatrix games defined by 20 by 20 matrices. Specifically, we generated a random matrix for each edge in the network and then transposed and subtracted the matrix of utility functions to make the game globally zero sum. We remark that zero-sum polymatrix games are payoff-equivalent to the general polymatrix games by \cite[Theorem 7]{Cai16}. In a test of 100 games, our algorithm found an $\eps$-equilibrium with $\eps = 0.01$ after $17.69$ iterations in a mean time of $0.29$ seconds.

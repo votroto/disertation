@@ -4,7 +4,7 @@
 
 \section{Experimental Evaluation}
 
-This section presents our experimental evaluation of our generic Double Oracle algorithm implementation over the dataset of games in Appendix \ref{appendix:games}. 
+This section presents our experimental evaluation of our generic Double Oracle algorithm implementation over the dataset of games in Appendix \ref{appendix:games}.
 
 \iffalse
 The experimental results reveal significant computational improvements over state-of-the-art methods. To illustrate the performance gains, we highlight Example \ref{ex.zhou19.5.1}, where our algorithm identifies the pure strategy Nash equilibrium in 0.086 seconds, representing a speedup of over three orders of magnitude compared to the 184.5 seconds reported in the original work. This substantial improvement is achieved despite our implementation being a general-purpose proof-of-concept, suggesting that further optimizations could yield even greater performance gains.
@@ -17,55 +17,44 @@ The utility functions in \emph{General Blotto} games are sums of non-linearly we
 \[
 f(z) = \operatorname{sgn}(z)\,|z|^p
 \]
-parametrized by $p$, which is strictly positive for continuous games. The margins of victory are differences of products of the allocations to each front. 
+parametrized by $p$, which is strictly positive for continuous games. The margins of victory are differences of products of the allocations to each front.
 
-While products, exponents, sums and differences should be available through most modeling interfaces for non-linear problems; neither $\operatorname{sgn}$, nor the absolute value is available via the non-linear input for \emph{Gurobi}. We attempted to model the absolute value as $\sqrt{z^2}$ and the sign function as $\frac{z}{\sqrt{z^2}}$.
-
+While products, exponents, sums and differences should be available through most modeling interfaces for non-linear problems; neither $\operatorname{sgn}$, nor the absolute value is available via the non-linear input for \emph{Gurobi}. Instead, we modelled the absolute value as $\sqrt{z^2}$, leading to the utility of $z\,\sqrt{z^2}$ for $p=0.5$.
 
 \begin{figure}
-    \centering    
+    \centering
     \begin{tikzpicture}
     \begin{axis}[
         xmin=-1, xmax=1,
         ymin=-1.2, ymax=1.2,
-        xlabel="margin of victory",
+        xlabel=Margin of victory,
         legend pos=outer north east,
-        samples=100,
-        cycle list/Set1,
+        colormap/Set1,
         legend cell align={left},
         width=0.4\textwidth
     ]
-
-    \addplot[index of colormap={3 of Set1}, ] {sign(x)*abs(x)^2};
+    \addplot[index of colormap={3 of Set1}, samples=101]{sign(x)*abs(x)^2};
     \addlegendentry{$p=2.0$}
-  
-    \addplot[index of colormap={2 of Set1}, ] {sign(x)*abs(x)^1};
+
+    \addplot[index of colormap={2 of Set1}]{x};
     \addlegendentry{$p=1.0$}
-    
-    \addplot[index of colormap={1 of Set1}, ]    {sign(x)*abs(x)^0.5};
+
+    \addplot[index of colormap={1 of Set1}, samples=301]{sign(x)*sqrt(abs(x))};
     \addlegendentry{$p=0.5$}
-    
+
     \addplot[index of colormap={4 of Set1}, domain=-1:-0.0001] {-1};
     \addplot[index of colormap={4 of Set1}, domain=0.0001:1] {1};
     \addplot[index of colormap={4 of Set1}, only marks,mark=o] coordinates {(0,1)}; % open circle
     \addplot[index of colormap={4 of Set1}, only marks,mark=o] coordinates {(0,-1)}; % open circle
     \addplot[index of colormap={4 of Set1}, only marks,mark=*] coordinates {(0,0)}; % filled circle
     \addlegendentry{$p=0.0$}
-    
     \end{axis}
     \end{tikzpicture}
     \caption{Behavior of weighing functions for \emph{General Blotto} for $p\in\{0, 0.5, 1, 2\}$.}
     \label{fig:blotto.weighing.functions}
 \end{figure}
 
-For each Example \ref{ex.golman09.isolated}--\ref{ex.golman09.sets}, we computed equilibria in a game with 5 fronts for each of the values $p\in\{0.5, 1, 2\}$ as representative cases of each function behavior. The functions are shown in \cref{fig:blotto.weighing.functions}, and our representation is:
-\[
-f(z) = \begin{cases}
-\frac{z}{\sqrt[4]{z^2}} & \quad p = 0.5 \\
-z & \quad p = 1 \\
-z\,\sqrt{z^2} & \quad p = 2.
-\end{cases}
-\]
+For each Example \ref{ex.golman09.isolated}--\ref{ex.golman09.sets}, we computed equilibria in a game with 5 fronts for each of the values $p\in\{0.5, 1, 2\}$ as representative cases of each behavior as shown in \cref{fig:blotto.weighing.functions}.
 
 In the smooth case of $p=2$, \emph{Double Oracle} was able to recover a pure equilibrium for the game with  isolated fronts, and mixed equilibria in the other two games where pure equilibria do not exist.
 \begin{description}
@@ -73,14 +62,14 @@ In the smooth case of $p=2$, \emph{Double Oracle} was able to recover a pure equ
 in a single iteration, with a total runtime of $0.4\,s$.
 \item[Result of Example \ref{ex.golman09.pairs}] For the case of all pairs of front we computed the mixed $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx \frac{1}{3}\delta_{ (1, 0, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 0, 0, 1, 0) } + \frac{1}{3}\delta_{ (0, 1, 0, 0, 0) },\\ 
+\mu_1^\star &\approx \frac{1}{3}\delta_{ (1, 0, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 0, 0, 1, 0) } + \frac{1}{3}\delta_{ (0, 1, 0, 0, 0) },\\
 \mu_2^\star &\approx \frac{1}{3}\delta_{ (1, 0, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 1, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 0, 0, 1, 0) }
 \end{align*}
 in 5 iterations and a time of $0.91\,s$.
 Equilibrium:
 \item[Result of Example \ref{ex.golman09.sets}] With all sets equally valued, we got the following mixed $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx \frac{1}{3}\delta_{ (0, 0, 0, 0, 1) } + \frac{1}{3}\delta_{ (1, 0, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 1, 0, 0, 0) },\\ 
+\mu_1^\star &\approx \frac{1}{3}\delta_{ (0, 0, 0, 0, 1) } + \frac{1}{3}\delta_{ (1, 0, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 1, 0, 0, 0) },\\
 \mu_2^\star &\approx \frac{1}{3}\delta_{ (1, 0, 0, 0, 0) } + \frac{1}{3}\delta_{ (0, 0, 0, 0, 1) } + \frac{1}{3}\delta_{ (0, 1, 0, 0, 0) };
 \end{align*}
 in 5 iterations and a time of $2.2\,s$.
@@ -99,77 +88,78 @@ $x_1^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \fr
 in two iterations and $1.5\,s$.
 \end{description}
 
-The utility functions are continuous but not differentiable for $0<p<1$; However, our reformulation contains a discontinuity at $f(0)$, which we believe to be the reason why \emph{Gurobi} was unable to converge for all three \emph{Blotto} games for this parameter value. We will return to this case along with the discontinuous game of \emph{Colonel Blotto} with $p=0$ later in section \ref{sec:bad}.
+The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its non-linear interface. Attempting to model the utility as $\frac{z}{sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} was failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
 
+While our generic algorithm failed on all non-differentiable instances, specifying a custom oracle makes it possible to send more information about the utility to solvers. We investigated this approach in section \ref{sec:custom.oracles}.
 
 To illustrate the complexity of the utility functions in \cref{ex.golman09.sets} where all sets of fronts are equally important, we write it out explicitly (we break our rule of consistent notation due to a lack of space, and denote the variables of player 1 as $x_1,\dots,x_5$, and player 2 as $y_1,\dots,y_5$.):
 {\tiny
 \begin{align*}
-u_1(x,y) 
-    &= \operatorname{sgn}(x_1x_3x_4 - y_1y_3y_4)\abs{x_1x_3x_4 - y_1y_3y_4}^p 
-    + \operatorname{sgn}(x_1x_2x_5 - y_1y_2y_5)\abs{x_1x_2x_5 - y_1y_2y_5}^p 
-    + \operatorname{sgn}(x_3x_4x_5 - y_3y_4y_5)\abs{x_3x_4x_5 - y_3y_4y_5}^p\\ 
-    &+ \operatorname{sgn}(x_1x_2x_3x_5 - y_1y_2y_3y_5)\abs{x_1x_2x_3x_5 - y_1y_2y_3y_5}^p 
+u_1(x,y)
+    &= \operatorname{sgn}(x_1x_3x_4 - y_1y_3y_4)\abs{x_1x_3x_4 - y_1y_3y_4}^p
+    + \operatorname{sgn}(x_1x_2x_5 - y_1y_2y_5)\abs{x_1x_2x_5 - y_1y_2y_5}^p
+    + \operatorname{sgn}(x_3x_4x_5 - y_3y_4y_5)\abs{x_3x_4x_5 - y_3y_4y_5}^p\\
+    &+ \operatorname{sgn}(x_1x_2x_3x_5 - y_1y_2y_3y_5)\abs{x_1x_2x_3x_5 - y_1y_2y_3y_5}^p
     + \operatorname{sgn}(x_1x_3x_4x_5 - y_1y_3y_4y_5)\abs{x_1x_3x_4x_5 - y_1y_3y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_1x_2x_4x_5 - y_1y_2y_4y_5)\abs{x_1x_2x_4x_5 - y_1y_2y_4y_5}^p 
-    + \operatorname{sgn}(x_2x_3x_4 - y_2y_3y_4)\abs{x_2x_3x_4 - y_2y_3y_4}^p 
+    &+ \operatorname{sgn}(x_1x_2x_4x_5 - y_1y_2y_4y_5)\abs{x_1x_2x_4x_5 - y_1y_2y_4y_5}^p
+    + \operatorname{sgn}(x_2x_3x_4 - y_2y_3y_4)\abs{x_2x_3x_4 - y_2y_3y_4}^p
     + \operatorname{sgn}(x_5 - y_5)\abs{x_5 - y_5}^p \\
-    &+ \operatorname{sgn}(x_4 - y_4)\abs{x_4 - y_4}^p 
-    + \operatorname{sgn}(x_2x_4 - y_2y_4)\abs{x_2x_4 - y_2y_4}^p 
-    + \operatorname{sgn}(x_1 - y_1)\abs{x_1 - y_1}^p 
+    &+ \operatorname{sgn}(x_4 - y_4)\abs{x_4 - y_4}^p
+    + \operatorname{sgn}(x_2x_4 - y_2y_4)\abs{x_2x_4 - y_2y_4}^p
+    + \operatorname{sgn}(x_1 - y_1)\abs{x_1 - y_1}^p
     + \operatorname{sgn}(x_2x_3 - y_2y_3)\abs{x_2x_3 - y_2y_3}^p \\
-    &+ \operatorname{sgn}(x_2x_4x_5 - y_2y_4y_5)\abs{x_2x_4x_5 - y_2y_4y_5}^p 
-    + \operatorname{sgn}(x_3x_5 - y_3y_5)\abs{x_3x_5 - y_3y_5}^p 
+    &+ \operatorname{sgn}(x_2x_4x_5 - y_2y_4y_5)\abs{x_2x_4x_5 - y_2y_4y_5}^p
+    + \operatorname{sgn}(x_3x_5 - y_3y_5)\abs{x_3x_5 - y_3y_5}^p
     + \operatorname{sgn}(x_1x_2x_4 - y_1y_2y_4)\abs{x_1x_2x_4 - y_1y_2y_4}^p \\
-    &+ \operatorname{sgn}(x_1x_5 - y_1y_5)\abs{x_1x_5 - y_1y_5}^p 
-    + \operatorname{sgn}(x_3 - y_3)\abs{x_3 - y_3}^p 
+    &+ \operatorname{sgn}(x_1x_5 - y_1y_5)\abs{x_1x_5 - y_1y_5}^p
+    + \operatorname{sgn}(x_3 - y_3)\abs{x_3 - y_3}^p
     + \operatorname{sgn}(x_1x_2x_3 - y_1y_2y_3)\abs{x_1x_2x_3 - y_1y_2y_3}^p \\
-    &+ \operatorname{sgn}(x_3x_4 - y_3y_4)\abs{x_3x_4 - y_3y_4}^p 
-    + \operatorname{sgn}(x_1x_3 - y_1y_3)\abs{x_1x_3 - y_1y_3}^p 
+    &+ \operatorname{sgn}(x_3x_4 - y_3y_4)\abs{x_3x_4 - y_3y_4}^p
+    + \operatorname{sgn}(x_1x_3 - y_1y_3)\abs{x_1x_3 - y_1y_3}^p
     + \operatorname{sgn}(x_1x_2x_3x_4x_5 - y_1y_2y_3y_4y_5)\abs{x_1x_2x_3x_4x_5 - y_1y_2y_3y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_4x_5 - y_4y_5)\abs{x_4x_5 - y_4y_5}^p 
-    + \operatorname{sgn}(x_2x_3x_5 - y_2y_3y_5)\abs{x_2x_3x_5 - y_2y_3y_5}^p 
+    &+ \operatorname{sgn}(x_4x_5 - y_4y_5)\abs{x_4x_5 - y_4y_5}^p
+    + \operatorname{sgn}(x_2x_3x_5 - y_2y_3y_5)\abs{x_2x_3x_5 - y_2y_3y_5}^p
     + \operatorname{sgn}(x_2x_3x_4x_5 - y_2y_3y_4y_5)\abs{x_2x_3x_4x_5 - y_2y_3y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_1x_4 - y_1y_4)\abs{x_1x_4 - y_1y_4}^p 
-    + \operatorname{sgn}(x_2x_5 - y_2y_5)\abs{x_2x_5 - y_2y_5}^p 
+    &+ \operatorname{sgn}(x_1x_4 - y_1y_4)\abs{x_1x_4 - y_1y_4}^p
+    + \operatorname{sgn}(x_2x_5 - y_2y_5)\abs{x_2x_5 - y_2y_5}^p
     + \operatorname{sgn}(x_1x_4x_5 - y_1y_4y_5)\abs{x_1x_4x_5 - y_1y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_1x_3x_5 - y_1y_3y_5)\abs{x_1x_3x_5 - y_1y_3y_5}^p 
-    + \operatorname{sgn}(x_2 - y_2)\abs{x_2 - y_2}^p 
+    &+ \operatorname{sgn}(x_1x_3x_5 - y_1y_3y_5)\abs{x_1x_3x_5 - y_1y_3y_5}^p
+    + \operatorname{sgn}(x_2 - y_2)\abs{x_2 - y_2}^p
     + \operatorname{sgn}(x_1x_2x_3x_4 - y_1y_2y_3y_4)\abs{x_1x_2x_3x_4 - y_1y_2y_3y_4}^p \\
     &+ \operatorname{sgn}(x_1x_2 - y_1y_2)\abs{x_1x_2 - y_1y_2}^p.
 \end{align*}
 }
 The Double Oracle algorithm still successfully converges for a game with $p=2$ and $40$ isolated fronts in $11$ seconds; with $20$ fronts when all pairs are important in $12.7$ seconds; and for a game with $7$ fronts, of which all sets are important in $23.6$ seconds, at which point the utility function contains the weighing function $127$ times.
 
-
+\iffalse
 \subsection{Experiments on Games by Parillo, Stein and Ozdaglar}
 The following examples are games where the strategy spaces for each player are intervals. The games were originally solved using Lasserre hierarchies, discretization techniques, or were used to demonstrate methods for obtaining bounds on the size of support of equilibria.
 
 \begin{description}
 \item[Result of Example \ref{ex.parrilo06.2.1}] DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.5\delta_{ -1.0 } + 0.5\delta_{ 1.0 },\\ 
+\mu_1^\star &\approx 0.5\delta_{ -1.0 } + 0.5\delta_{ 1.0 },\\
 \mu_2^\star &\approx 1.0\delta_{ 0.0 }.
 \end{align*}
 in $4$ iterations, and a time of $0.016\,s$. Despite the simplicity of this \emph{guessing game}, it is interesting for the \emph{DO} algorithm. The \emph{avoiding} player quickly finds both $1$ and $-1$ as best responses, after which the pure strategy of the \emph{chasing} player oscillates to find the center of mass of the \emph{avoiding} player. The \emph{chasing} player will never reach the point $0$, and so will never play a pure strategy, except when initialized at that point.
 \todo[inline]{check and add supporting statements with lots of maths :) }
-\item[Result of Example \ref{ex.parrilo06.3.1}] After $0.036$ seconds and 6 iterations we get the pure equilibrium: 
+\item[Result of Example \ref{ex.parrilo06.3.1}] After $0.036$ seconds and 6 iterations we get the pure equilibrium:
 \[x_1^\star \approx 0.39, \; x_2^\star \approx 0.63.\]
 \item[Result of Example \ref{ex.parrilo06.3.2}] After $0.073\,s$, and 9 iterations, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.118\delta_{ 0.18 } + 0.882\delta_{ 0.2 },\\ 
+\mu_1^\star &\approx 0.118\delta_{ 0.18 } + 0.882\delta_{ 0.2 },\\
 \mu_2^\star &\approx 0.224\delta_{ -1.0 } + 0.776\delta_{ 1.0 }.
 \end{align*}
 \item[Result of Example \ref{ex.stein07.4.3.1}] After $0.018\,s$ and 4 iterations, DO converges to
 $x_1^\star \approx 1$, $x_2^\star \approx 1$.
 \item[Result of Example \ref{ex.stein08.2.3}]After $0.13\,s$, and 8 iterations, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.056\delta_{ 0.111 } + 0.379\delta_{ 0.115 } + 0.565\delta_{ -1.0 },\\ 
+\mu_1^\star &\approx 0.056\delta_{ 0.111 } + 0.379\delta_{ 0.115 } + 0.565\delta_{ -1.0 },\\
 \mu_2^\star &\approx 0.309\delta_{ 0.73 } + 0.691\delta_{ 0.71 }.
 \end{align*}
 \item[Result of Example \ref{ex.stein08.2.4}] It takes 22 iterations and $0.48\,s$ to converge to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.066\delta_{ -2.5 } + 0.069\delta_{ -3.0 } + 0.069\delta_{ -2.0 } + 0.078\delta_{ 2.78 } + 0.078\delta_{ -1.5 } \\ &+ 0.091\delta_{ 2.28 } + 0.091\delta_{ -1.0 } + 0.107\delta_{ 1.78 } + 0.107\delta_{ -0.5 } + 0.122\delta_{ 1.28 } + 0.122\delta_{ 0.0 },\\ 
+\mu_1^\star &\approx 0.066\delta_{ -2.5 } + 0.069\delta_{ -3.0 } + 0.069\delta_{ -2.0 } + 0.078\delta_{ 2.78 } + 0.078\delta_{ -1.5 } \\ &+ 0.091\delta_{ 2.28 } + 0.091\delta_{ -1.0 } + 0.107\delta_{ 1.78 } + 0.107\delta_{ -0.5 } + 0.122\delta_{ 1.28 } + 0.122\delta_{ 0.0 },\\
 \mu_2^\star &\approx 0.076\delta_{ -3.0 } + 0.076\delta_{ -2.5 } + 0.078\delta_{ 2.78 } + 0.078\delta_{ -2.0 } + 0.081\delta_{ 2.28 } + 0.081\delta_{ -1.5 } \\ &+ 0.085\delta_{ 1.78 } + 0.085\delta_{ -1.0 } + 0.089\delta_{ 1.28 } + 0.089\delta_{ -0.5 } + 0.092\delta_{ 0.78 } + 0.092\delta_{ 0.0 }.
 \end{align*}
 The game has much smaller known equilibria.
@@ -193,12 +183,12 @@ x_2^\star \approx 0.5.
 \end{align*}
 \item[Result of Example \ref{ex.daskalakis.e.1st}] DO converges in $0.063\,s$ and 4 iterations to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.5\delta_{ 1 } + 0.5\delta_{ -1 },\\ 
+\mu_1^\star &\approx 0.5\delta_{ 1 } + 0.5\delta_{ -1 },\\
 \mu_2^\star &\approx \delta_{ 0 }.
 \end{align*}
 \item[Result of Example \ref{ex.mertikopoulos18.fig1}]  DO converges in $0.087\,s$ and 6 iterations to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.435\delta_{ 0.44 } + 0.565\delta_{ 0.33 },\\ 
+\mu_1^\star &\approx 0.435\delta_{ 0.44 } + 0.565\delta_{ 0.33 },\\
 \mu_2^\star &\approx 0.192\delta_{ 2.5\times 10^{-6} } + 0.238\delta_{ 0 } + 0.569\delta_{ 1 }.
 \end{align*}
 \item[Result of Example \ref{ex.mertikopoulos18.2.2}] After 3 iterations and $0.027\,s$, DO converges to the equilibrium
@@ -208,18 +198,18 @@ x_2^\star \approx 0.
 \end{align*}
 \item[Result of Example \ref{ex.razaviyayn20.5.1}] After 3 iterations and $0.016\,s$, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.5\delta_{ -1 } + 0.5\delta_{ 1 },\\ 
+\mu_1^\star &\approx 0.5\delta_{ -1 } + 0.5\delta_{ 1 },\\
 \mu_2^\star &\approx 0.5\delta_{ -6.28 } + 0.5\delta_{ 6.28 }.
 \end{align*}
 \item[Result of Example \ref{ex.razaviyayn20.5.3}] After 5 iterations and $0.06\,s$, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.333\delta_{ 1.0 } + 0.667\delta_{ -0.5 },\\ 
+\mu_1^\star &\approx 0.333\delta_{ 1.0 } + 0.667\delta_{ -0.5 },\\
 \mu_2^\star &\approx 0.312\delta_{ 1.0 } + 0.688\delta_{ -1.0 }.
 \end{align*}
 \item[Result of Example \ref{ex.zheng23.convex.nonconcave}]
 After 9 iterations and $0.17\,s$, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.064\delta_{ -0.04 } + 0.936\delta_{ -0.02 },\\ 
+\mu_1^\star &\approx 0.064\delta_{ -0.04 } + 0.936\delta_{ -0.02 },\\
 \mu_2^\star &\approx 0.03\delta_{ -0.05 } + 0.064\delta_{ 1 } + 0.302\delta_{ -0.03804 } + 0.302\delta_{ -0.03802 } + 0.302\delta_{ -0.03801 }.
 \end{align*}
 \item[Result of Example \ref{ex.zheng23.kl.nonconcave}]
@@ -231,17 +221,17 @@ x_2^\star \approx 0.
 \item[Result of Example \ref{ex.zheng23.bilinearly.coupled.minimax}]
 After 8 iterations and $0.18\,s$, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.001\delta_{ 2.26 } + 0.024\delta_{ -2.25 } + 0.476\delta_{ -2.24 } + 0.499\delta_{ 2.24 },\\ 
+\mu_1^\star &\approx 0.001\delta_{ 2.26 } + 0.024\delta_{ -2.25 } + 0.476\delta_{ -2.24 } + 0.499\delta_{ 2.24 },\\
 \mu_2^\star &\approx 0.25\delta_{ 2.24 } + 0.25\delta_{ 2.24 } + 0.5\delta_{ -2.24 }.
 \end{align*}
 \item[Result of Example \ref{ex.zheng23.forsaken}]
 After 5 iterations and $0.13\,s$, DO converges to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.498\delta_{ 1.32 } + 0.502\delta_{ -1.31 },\\ 
+\mu_1^\star &\approx 0.498\delta_{ 1.32 } + 0.502\delta_{ -1.31 },\\
 \mu_2^\star &\approx 0.33\delta_{ -1.31 } + 0.67\delta_{ 1.31 }.
 \end{align*}
 \end{description}
-
+\fi
 
 \subsection{Experiments on Two-Player Zero-Sum Polynomial Games}
 The following examples are two-player zero-sum polynomial games, that originally served as experiments for the algorithm developed by \textcite{nie.yang.ea:saddle}. Their algorithm can prove the existence of (global) saddle points, i.e. pure Nash Equilibria.
@@ -252,7 +242,7 @@ Double Oracle usually converged to mixed strategies, even in the examples where 
 \item[Result of Example \ref{ex.nie21.6.1.i}]
 After $0.077\,s$ and $7$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.001\delta_{ (0, 0, 1) } + 0.999\delta_{ (0, 1, 0) },\\ 
+\mu_1^\star &\approx 0.001\delta_{ (0, 0, 1) } + 0.999\delta_{ (0, 1, 0) },\\
 \mu_2^\star &\approx 0.002\delta_{ (0.54, 0.46, 0) } + 0.998\delta_{ (0, 0.49, 0.51) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.1.ii}]
@@ -264,13 +254,13 @@ x_{2}^\star \approx  (0, 0, 1) .
 \item[Result of Example \ref{ex.nie21.6.1.iii}]
 After $1.1\,s$ and $22$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.003\delta_{ (0.23, 0.24, 0.27, 0.26) } + 0.03\delta_{ (0.24, 0.24, 0.25, 0.27) } + 0.966\delta_{ (0.25, 0.25, 0.25, 0.25) },\\ 
+\mu_1^\star &\approx 0.003\delta_{ (0.23, 0.24, 0.27, 0.26) } + 0.03\delta_{ (0.24, 0.24, 0.25, 0.27) } + 0.966\delta_{ (0.25, 0.25, 0.25, 0.25) },\\
 \mu_2^\star &\approx 0.236\delta_{ (0, 0, 1, 0) } + 0.236\delta_{ (0, 0, 0, 1) } + 0.242\delta_{ (1, 0, 0, 0) } + 0.286\delta_{ (0, 1, 0, 0) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.1.iv}]
 After $0.044\,s$ and $7$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.333\delta_{ (1, 0, 0) } + 0.334\delta_{ (0, 1, 0) } + 0.334\delta_{ (0, 0, 1) },\\ 
+\mu_1^\star &\approx 0.333\delta_{ (1, 0, 0) } + 0.334\delta_{ (0, 1, 0) } + 0.334\delta_{ (0, 0, 1) },\\
 \mu_2^\star &\approx 1\delta_{ (0.33, 0.33, 0.33) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.2.i}]
@@ -282,7 +272,7 @@ x_{2}^\star \approx  (1, 0) .
 \item[Result of Example \ref{ex.nie21.6.2.ii}]
 After $0.047\,s$ and $8$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.289\delta_{ (0, 0, 0) } + 0.711\delta_{ (0, 0, 1) },\\ 
+\mu_1^\star &\approx 0.289\delta_{ (0, 0, 0) } + 0.711\delta_{ (0, 0, 1) },\\
 \mu_2^\star &\approx 0.376\delta_{ (0.69, 0.69, 1) } + 0.624\delta_{ (0.72, 0.72, 1) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.3.i}]
@@ -294,37 +284,37 @@ x_{2}^\star \approx  (1, 1, 1) .
 \item[Result of Example \ref{ex.nie21.6.3.ii}]
 After $0.029\,s$ and $5$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.12\delta_{ (1, 1, -1) } + 0.16\delta_{ (1, -1, -1) } + 0.16\delta_{ (1, 1, 1) } + 0.28\delta_{ (-1, -1, -1) } + 0.28\delta_{ (-1, 1, 1) },\\ 
+\mu_1^\star &\approx 0.12\delta_{ (1, 1, -1) } + 0.16\delta_{ (1, -1, -1) } + 0.16\delta_{ (1, 1, 1) } + 0.28\delta_{ (-1, -1, -1) } + 0.28\delta_{ (-1, 1, 1) },\\
 \mu_2^\star &\approx 0.12\delta_{ (1, 1, -1) } + 0.16\delta_{ (1, -1, -1) } + 0.16\delta_{ (1, 1, 1) } + 0.28\delta_{ (-1, -1, -1) } + 0.28\delta_{ (-1, 1, 1) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.4.i}]
 After $0.061\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx \delta_{ (-1, 0, 0) },\\ 
+\mu_1^\star &\approx \delta_{ (-1, 0, 0) },\\
 \mu_2^\star &\approx 0.5\delta_{ (0, 0, 1) } + 0.5\delta_{ (1, 0, 0) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.4.ii}]
 After $1.5\,s$ and $13$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.078\delta_{ (0.71, -0.71, 0.00) } + 0.098\delta_{ (0.53, -0.8, 0.27) } + 0.103\delta_{ (-0.81, 0.46, 0.35) } \\ &+ 0.104\delta_{ (-0.77, 0.13, 0.63) } + 0.107\delta_{ (-0.58, 0.79, -0.21) } + 0.113\delta_{ (-0.32, 0.81, -0.49) } \\ &+ 0.121\delta_{ (-0.07, -0.67, 0.74) } + 0.136\delta_{ (0.69, 0.03, -0.72) } + 0.14\delta_{ (-0.45, -0.36, 0.82) },\\ 
+\mu_1^\star &\approx 0.078\delta_{ (0.71, -0.71, 0.00) } + 0.098\delta_{ (0.53, -0.8, 0.27) } + 0.103\delta_{ (-0.81, 0.46, 0.35) } \\ &+ 0.104\delta_{ (-0.77, 0.13, 0.63) } + 0.107\delta_{ (-0.58, 0.79, -0.21) } + 0.113\delta_{ (-0.32, 0.81, -0.49) } \\ &+ 0.121\delta_{ (-0.07, -0.67, 0.74) } + 0.136\delta_{ (0.69, 0.03, -0.72) } + 0.14\delta_{ (-0.45, -0.36, 0.82) },\\
 \mu_2^\star &\approx 0.008\delta_{ (0.58, 0.61, 0.54) } + 0.209\delta_{ (0.61, 0.57, 0.56) } + 0.783\delta_{ (-0.57, -0.58, -0.58) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.5}]
 After $0.094\,s$ and $10$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.204\delta_{ (0.74, 0.44, 0.37) } + 0.796\delta_{ (0.72, 0.47, 0.34) },\\ 
+\mu_1^\star &\approx 0.204\delta_{ (0.74, 0.44, 0.37) } + 0.796\delta_{ (0.72, 0.47, 0.34) },\\
 \mu_2^\star &\approx 0.5\delta_{ (0.7, 0.57, 0.44) } + 0.5\delta_{ (0.69, 0.53, 0.49) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.6}]
 After $0.13\,s$ and $7$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.333\delta_{ (0, 0, 1) } + 0.333\delta_{ (0, 1, 0) } + 0.333\delta_{ (1, 0, 0) },\\ 
+\mu_1^\star &\approx 0.333\delta_{ (0, 0, 1) } + 0.333\delta_{ (0, 1, 0) } + 0.333\delta_{ (1, 0, 0) },\\
 \mu_2^\star &\approx \delta_{ (0.58, 0.58, 0.58) }.
 \end{align*}
 \item[Result of Example \ref{ex.nie21.6.10}]
 After $0.017\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx \delta_{ (0, 1, 0, 0, 0) },\\ 
+\mu_1^\star &\approx \delta_{ (0, 1, 0, 0, 0) },\\
 \mu_2^\star &\approx 0.167\delta_{ (0, 1, 0, 0, 0) } + 0.833\delta_{ (1, 0, 0, 0, 0) }.
 \end{align*}
 \end{description}
@@ -333,7 +323,7 @@ After $0.017\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 \subsection{Experiments on Two-Player Zero-Sum Rational Games}
 The following examples are two-player zero-sum rational games, that originally served as experiments for the algorithm developed by \textcite{zhou.wang.ea:saddle}. Their algorithm can prove the existence of (global) saddle points, i.e. pure Nash Equilibria.
 
-Double Oracle recovered pure strategies in the games where they exist, except for \cref{ex.zhou19.5.5.ii, ex.zhou19.5.6.ii}. Tightening the $\epsilon$ in those cases did not produce simpler equilibria.
+Double Oracle recovered pure strategies in the games where they exist, except for \cref{ex.zhou19.5.5.ii,ex.zhou19.5.6.ii}. Tightening the $\epsilon$ in those cases did not produce simpler equilibria.
 
 \begin{description}
 \item[Result of Example \ref{ex.zhou19.5.1}]
@@ -351,25 +341,25 @@ x_{2}^\star \approx  (0, 0) .
 \item[Result of Example \ref{ex.zhou19.5.3.ii}]
 After $0.16\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.149\delta_{ (0, 0, 0) } + 0.425\delta_{ (0, 0, 1) } + 0.425\delta_{ (0, 0, 1) },\\ 
+\mu_1^\star &\approx 0.149\delta_{ (0, 0, 0) } + 0.425\delta_{ (0, 0, 1) } + 0.425\delta_{ (0, 0, 1) },\\
 \mu_2^\star &\approx 0.46\delta_{ (0.7, 0.24, 1) } + 0.54\delta_{ (0.58, 0.24, 0) }.
 \end{align*}
 \item[Result of Example \ref{ex.zhou19.5.5.i}]
 After $0.17\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.283\delta_{ (-0.71, -0.71) } + 0.29\delta_{ (-0.71, -0.71) } + 0.427\delta_{ (0.71, 0.71) },\\ 
+\mu_1^\star &\approx 0.283\delta_{ (-0.71, -0.71) } + 0.29\delta_{ (-0.71, -0.71) } + 0.427\delta_{ (0.71, 0.71) },\\
 \mu_2^\star &\approx \delta_{ (0, 0) }.
 \end{align*}
 \item[Result of Example \ref{ex.zhou19.5.5.ii}]
 After $0.34\,s$ and iterations: $10$ DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.456\delta_{ (0.49, 0.43, 0.35) } + 0.544\delta_{ (0.46, 0.47, 0.34) },\\ 
+\mu_1^\star &\approx 0.456\delta_{ (0.49, 0.43, 0.35) } + 0.544\delta_{ (0.46, 0.47, 0.34) },\\
 \mu_2^\star &\approx 0.365\delta_{ (0.64, 0.59, 0.49) } + 0.635\delta_{ (0.67, 0.54, 0.5) }.
 \end{align*}
 \item[Result of Example \ref{ex.zhou19.5.6.ii}]
 After $0.072\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx \delta_{ (0.41, 0.41, 0.82) },\\ 
+\mu_1^\star &\approx \delta_{ (0.41, 0.41, 0.82) },\\
 \mu_2^\star &\approx 0.006\delta_{ (-0.38, -0.84, -0.38) } + 0.994\delta_{ (-0.39, -0.84, -0.39) }.
 \end{align*}
 \item[Result of Example \ref{ex.zhou19.5.7.i}]
@@ -393,38 +383,38 @@ The following games appear in books from the $1950$s and $60$s, where they were 
 \item[Result of Example \ref{ex.dresher61.pg110}]
 After $0.018\,s$ and $4$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.5\delta_{ 0 } + 0.5\delta_{ 1 },\\ 
+\mu_1^\star &\approx 0.5\delta_{ 0 } + 0.5\delta_{ 1 },\\
 \mu_2^\star &\approx \delta_{ 0.5 }.
 \end{align*}
 \item[Result of Example \ref{ex.dresher61.pg111}] did not finish. Root relaxation failed.
 \item[Result of Example \ref{ex.gross58.poly}]
 After $0.042\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-x_{1}^\star \approx  0.5 ,\; 
+x_{1}^\star \approx  0.5 ,\;
 x_{2}^\star \approx  0.5 .
 \end{align*}
 \item[Result of Example \ref{ex.karlin59.vol2.sec71.ex1}]
 After $0.074\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 1\delta_{ 0.5 },\\ 
+\mu_1^\star &\approx 1\delta_{ 0.5 },\\
 \mu_2^\star &\approx 0.499\delta_{ 1 } + 0.501\delta_{ 0 }.
 \end{align*}
 \item[Result of Example \ref{ex.karlin59.vol2.sec71.ex2}]
 After $0.1\,s$ and $4$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.379\delta_{ 0 } + 0.621\delta_{ 1 },\\ 
+\mu_1^\star &\approx 0.379\delta_{ 0 } + 0.621\delta_{ 1 },\\
 \mu_2^\star &\approx 0.313\delta_{ 1 } + 0.687\delta_{ 0.11 }.
 \end{align*}
 \item[Result of Example \ref{ex.karlin59.vol2.sec76.pr1}]
 After $0.043\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.25\delta_{ 0 } + 0.75\delta_{ 1 },\\ 
+\mu_1^\star &\approx 0.25\delta_{ 0 } + 0.75\delta_{ 1 },\\
 \mu_2^\star &\approx 0.25\delta_{ 0 } + 0.75\delta_{ 1 }.
 \end{align*}
 \item[Result of Example \ref{ex.karlin59.vol2.sec76.pr2}]
 After $0.12\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.054\delta_{ 0.72 } + 0.087\delta_{ 0 } + 0.087\delta_{ 0 } + 0.144\delta_{ 1 } + 0.628\delta_{ 0.41 },\\ 
+\mu_1^\star &\approx 0.054\delta_{ 0.72 } + 0.087\delta_{ 0 } + 0.087\delta_{ 0 } + 0.144\delta_{ 1 } + 0.628\delta_{ 0.41 },\\
 \mu_2^\star &\approx 0.08\delta_{ 0 } + 0.231\delta_{ 0.41 } + 0.333\delta_{ 0.19 } + 0.356\delta_{ 0.8 }.
 \end{align*}
 
@@ -437,13 +427,13 @@ The following games are a mix from game theory applied to communication networks
 \item[Result of Example \ref{ex.chasnov20.5.2}]
 After $0.037\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx \delta_{ -1.08 },\\ 
+\mu_1^\star &\approx \delta_{ -1.08 },\\
 \mu_2^\star &\approx 0.5\delta_{ 0.98 } + 0.5\delta_{ 0.98 }.
 \end{align*}
 \item[Result of Example \ref{ex.chasnov20.B.1}]
 After $0.034\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.5\delta_{ 0.0 } + 0.5\delta_{ 1.0 },\\ 
+\mu_1^\star &\approx 0.5\delta_{ 0.0 } + 0.5\delta_{ 1.0 },\\
 \mu_2^\star &\approx 0.5\delta_{ 0.0 } + 0.5\delta_{ 1.0 }.
 \end{align*}
 \item[Result of Example \ref{ex.ratliff13.location}]
@@ -455,22 +445,22 @@ x_{2}^\star \approx  -3.14 .
 \item[Result of Example \ref{ex.kroupa21.5}]
 After $0.32\,s$ and $9$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.218\delta_{ -0.08 } + 0.782\delta_{ -0.06 },\\ 
-\mu_2^\star &\approx 0.161\delta_{ 0.37 } + 0.839\delta_{ 0.35 },\\ 
+\mu_1^\star &\approx 0.218\delta_{ -0.08 } + 0.782\delta_{ -0.06 },\\
+\mu_2^\star &\approx 0.161\delta_{ 0.37 } + 0.839\delta_{ 0.35 },\\
 \mu_3^\star &\approx 0.278\delta_{ -1 } + 0.722\delta_{ 1 }.
 \end{align*}
 \item[Result of Example \ref{ex.kroupa21.6}]
 After $1.6\,s$ and $11$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.001\delta_{ (0.3, 0, 0, 0.2) } + 0.218\delta_{ (0.29, 0, 0, 0.21) } + 0.245\delta_{ (0.29, 0, 0, 0.21) } \\ &+ 0.268\delta_{ (0.29, 0, 0, 0.21) } + 0.268\delta_{ (0.29, 0, 0, 0.21) },\\ 
-\mu_2^\star &\approx 0.278\delta_{ (0.34, 0, 0.22, 0.24) } + 0.279\delta_{ (0.32, 0.25, 0, 0.23) } + 0.444\delta_{ (0.4, 0.12, 0, 0.28) },\\ 
-\mu_3^\star &\approx 0.157\delta_{ (1, 0) } + 0.158\delta_{ (0.97, 0.03) } + 0.171\delta_{ (0.06, 0.94) } + 0.171\delta_{ (0.05, 0.95) } \\ &+ 0.171\delta_{ (0.02, 0.98) } + 0.171\delta_{ (0, 1) },\\ 
+\mu_1^\star &\approx 0.001\delta_{ (0.3, 0, 0, 0.2) } + 0.218\delta_{ (0.29, 0, 0, 0.21) } + 0.245\delta_{ (0.29, 0, 0, 0.21) } \\ &+ 0.268\delta_{ (0.29, 0, 0, 0.21) } + 0.268\delta_{ (0.29, 0, 0, 0.21) },\\
+\mu_2^\star &\approx 0.278\delta_{ (0.34, 0, 0.22, 0.24) } + 0.279\delta_{ (0.32, 0.25, 0, 0.23) } + 0.444\delta_{ (0.4, 0.12, 0, 0.28) },\\
+\mu_3^\star &\approx 0.157\delta_{ (1, 0) } + 0.158\delta_{ (0.97, 0.03) } + 0.171\delta_{ (0.06, 0.94) } + 0.171\delta_{ (0.05, 0.95) } \\ &+ 0.171\delta_{ (0.02, 0.98) } + 0.171\delta_{ (0, 1) },\\
 \mu_4^\star &\approx 0.239\delta_{ (0, 1) } + 0.761\delta_{ (1, 0) }.
 \end{align*}
 \item[Result of Example \ref{ex.adam21.townsend}]
 After $0.62\,s$ and $11$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
-\mu_1^\star &\approx 0.008\delta_{ -2.09 } + 0.013\delta_{ 1.33 } + 0.979\delta_{ 0.03 },\\ 
+\mu_1^\star &\approx 0.008\delta_{ -2.09 } + 0.013\delta_{ 1.33 } + 0.979\delta_{ 0.03 },\\
 \mu_2^\star &\approx 0.064\delta_{ -2.17 } + 0.137\delta_{ -0.9 } + 0.253\delta_{ 0.93 } + 0.546\delta_{ -2.11 }.
 \end{align*}
 \item[Result of Example \ref{ex.yasodharan19}]
@@ -505,13 +495,13 @@ x_{2} \approx { 0 }.
 \item[Example \ref{ex.surjanovic.branin}]
 In $11$ iterations and $0.18\,s$, DO converged to the equilibrium:
 \begin{align*}
-\mu_1^\star &\approx 0.151\delta_{ 6.23 } + 0.362\delta_{ 6.25 } + 0.487\delta_{ -5.0 },\\ 
+\mu_1^\star &\approx 0.151\delta_{ 6.23 } + 0.362\delta_{ 6.25 } + 0.487\delta_{ -5.0 },\\
 \mu_2^\star &\approx 0.023\delta_{ 9.01 } + 0.464\delta_{ 8.91 } + 0.514\delta_{ 8.95 }.
 \end{align*}
 \item[Example \ref{ex.surjanovic.mccorm}]
 In $10$ iterations and $0.15\,s$, DO converged to the equilibrium:
 \begin{align*}
-\mu_1^\star &\approx 0.403\delta_{ -1.5 } + 0.597\delta_{ 4 },\\ 
+\mu_1^\star &\approx 0.403\delta_{ -1.5 } + 0.597\delta_{ 4 },\\
 \mu_2^\star &\approx 0.128\delta_{ 0.51 } + 0.872\delta_{ 0.49 }.
 \end{align*}
 \item[Example \ref{ex.surjanovic.michal}]
