@@ -2,7 +2,7 @@ We propose Algorithm \ref{alg:do} as an iterative strategy-generation technique 
 \[
 \beta_i(\bmu_{-i}) =  \argmax_{x\in X_i} U_i(x,\bmu_{-i}).
 \]
-The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition \ref{prop:switch}. We assume that every player uses an oracle to recover at least one best response strategy, which means that the player is able to solve the corresponding optimization problem to global optimality. In \cref{sec:exp} we will see the instances of games for which this is possible.
+The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition \ref{prop:switch}. We assume that every player uses an oracle to recover at least one best response strategy, which means that the player is able to solve the corresponding optimization problem to global optimality. In \cref{sec:custom.oracles} we will see the instances of games for which this is possible.
 
 \begin{algorithm}
 	\caption{The Multiple Oracle algorithm}
@@ -61,7 +61,7 @@ We prove correctness of Algorithm \ref{lem:algstop} --- the eventual output $\bm
 
 If the set $\bX^j=X^j_1\times \dots \times X^j_n$ cannot be further inflated, Algorithm \ref{alg:do} terminates.
 \begin{lemma}\label{lemma:do_stop}
-	Assume that $\bX^j=\bX^{j+1}$ at step $j$ of Algorithm~\ref{alg:do}. Then 
+	Assume that $\bX^j=\bX^{j+1}$ at step $j$ of Algorithm~\ref{alg:do}. Then
 	\[
 		\bU(\bx^{j+1},\bmu^j)=\bU(\bmu^j).
 	\]
@@ -78,7 +78,7 @@ The original double oracle algorithm for two-player zero-sum finite games \cite{
 	If $\calG$ is a finite game and $\eps=0$, then Algorithm \ref{alg:do} recovers an equilibrium of $\calG$ in finitely-many steps.
 \end{proposition}
 \begin{proof}
-	Let $\calG$ be finite and $\eps=0$. Since each $X_i$ is finite, there exists an iteration $j$  in which $\bX^{j+1}=\bX^j$. Then the terminating condition of Algorithm \ref{alg:do} is satisfied with $\eps=0$ (Lemma \ref{lemma:do_stop}) and $\bmu^j$ is an equilibrium of $\calG$ (Lemma~\ref{lem:algstop}). 
+	Let $\calG$ be finite and $\eps=0$. Since each $X_i$ is finite, there exists an iteration $j$  in which $\bX^{j+1}=\bX^j$. Then the terminating condition of Algorithm \ref{alg:do} is satisfied with $\eps=0$ (Lemma \ref{lemma:do_stop}) and $\bmu^j$ is an equilibrium of $\calG$ (Lemma~\ref{lem:algstop}).
 \end{proof}
 
 Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergence theorem from \cite{Adam21} and provides an alternative proof of Glicksberg's theorem \cite{Glicksberg52} about existence of equilibria in continuous games. Indeed, the sequence $\bmu^1,\bmu^2,\dots$ has at least one accumulation point by Proposition \ref{prop:convergence}. Further, the consequence of Theorem \ref{thm:convergence2} is that a finitely-supported $\eps$-equilibrium of $\calG$ can always  be found in finitely-many steps, although game $\calG$ may have no finitely-supported equilibria.
@@ -140,7 +140,7 @@ Algorithm \ref{alg:do} generates the sequence of equilibria $\bmu^1,\bmu^2,\dots
 	As $j\to \infty$, the first summand goes to zero by \eqref{eq:limiting} and the second by the assumption. Hence the conclusion.
 \end{proof}
 
-In our numerical experiments (see \cref{sec:exp}), we compute the difference
+In our numerical experiments (see \cref{sec:custom.oracles}), we compute the difference
 \begin{equation}\label{crit1}
 	U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)
 \end{equation}
@@ -158,7 +158,7 @@ Algorithm \ref{alg:do} is a meta-algorithm, which is parameterized by
 	\item the algorithm for computing equilibria of subgames (the \emph{master problem}) and
 	\item the optimization method for computing the best response (the \emph{sub-problem}).
 \end{enumerate}
-We detail this setup for each example in the next section. 
+We detail this setup for each example in the next section.
 
 
 The choice of computational methods should reflect the properties of a~continuous game, since the efficiency of methods for solving the master problem and subproblem is the decisive factor for the overall performance and precision of Algorithm \ref{alg:do}. For example, polymatrix games are solvable in polynomial time \cite{Cai16}, whereas finding even an approximate Nash equilibrium of a finite general-sum game is a very hard problem \cite{Daskalakis09}. As for the solution of the subproblem, the best response computation can be based on global solvers for special classes of utility functions.

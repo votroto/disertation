@@ -1,6 +1,6 @@
-Assuming that problems can be modeled entirely using polynomials allows the application of a generically convergent technique \cite{Nie2014} that provides easily verifiable certificates of optimality. In this context, we will focus on models where the objective function is a polynomial and the compact feasible set is a finite intersection of polynomial superlevel sets, known as a basic semialgebraic set.
+The moment-sos hierarchies are a basis of methods for constrained polynomial optimization. More specifically, the methods will be able to find the certifiably global minimum of a polynomial over a compact set defined by polynomial inequalities, and in some instances they can even recover some minimizers. All that under the some mild assumptions on the form of the feasible set, for example, that we know a bound on the norm of the feasible elements. Under such constraints, each level of the hierarchy corresponds to a strongly-dual pair of semidefinie programs which provide a monotonically nondecreasing sequence of lower bounds that generically converge \cite{Nie2014} to the optimum. The current downsides of the hierarchies are that: the bounds on the convergence is not yet well understood; semidefinite solvers are not as well optimized for this task; and the recovery of minimizers of sufficient precission may be practically challenging.
 
-A basic semialgebraic set \( S(g_1, \dots, g_k) = \{\bx \in \R^n \mid g_i(\bx) \ge 0 \; \forall i=1,\dots,k\} \) is defined by polynomials \( g_i \) for some positive integers \( k \) and \( n \). We further assume that the set has the Archimedean property, meaning it is certifiably compact (e.g., one of the \( g_i(\bx) \) takes the form \( a - \|\bx\|^2 \) for some positive \( a \)).
+A basic semialgebraic set \( S(g_1, \dots, g_k) = \{\bx \in \R^n \mid g_i(\bx) \ge 0 \; \forall i=1,\dots,k\} \) is a finite intersection of superlevel sets defined by polynomials \( g_i \) for some positive integers \( k \) and \( n \). We further assume that the set has the Archimedean property, meaning it is certifiably compact (e.g., one of the \( g_i(\bx) \) takes the form \( a - \|\bx\|^2 \) for some positive \( a \)).
 
 Let $f$ be a polynomial and $Z$ be a basic semialgebraic set. We are interested in finding the global minimum of the following optimization problem:
 \[
@@ -22,9 +22,11 @@ The future outer-approximations will be found while attempting to minimize the L
         \min_{\mu\in \calP(Z)}\quad&\int_Z f \dif \mu.
     \end{aligned}
 \]
-where $\calP(Z)$ is the set of regular Borel probability measures on $Z$. The two presented programs are exact convex reformulations of the original. Their practical versions are semidefinite programs which are their strenghtenings and relaxations respectively.
+where $\calP(Z)$ is the set of regular Borel probability measures on $Z$. The two presented programs are convex reformulations of the original problem, and their optimal values agree exactly. It has been proven by Riesz \cite{Laurent2009} that a truncated sequence of $h$ moments represents integration with respect to a measure supported on a compact set $K$, exactly when it produces nonnegative values for every polynomial of degree at most $r$ which is nonnegative on $K$. The practical versions of these problems are semidefinite programs which are their strenghtenings and relaxations respectively.
 
 \subsection{Existence of Representing Measures}
+To manipulate measures algorithmically, we will represent them as linear functionals. Every linear functional $l$ can be encoded by a sequence of moments $y_\alpha = l(x^\alpha)$. The space of linear functionals is larger than the space of regular Borel measures, however, and we will need a systematic way to carve out just those linear functionals that represent integration with respect to a measure. This is known as the $K$-moment problem.
+
 The integral of a polynomial with respect to a measure can be written as a function on the moments of the measure. With a multi-index
 $\balpha=(\alpha_1,\dots,\alpha_{m})\in\N^{m}$ we use the standard notation $\bx^{\balpha}=x_1^{\alpha_1}\dotsb x_{m}^{\alpha_{m}}$ to define monomials. The $\balpha$-th \emph{moment} of a measure $\mu\in\calP(S)$ is the real number
 \[
@@ -34,43 +36,46 @@ The infinite sequence $\bmu'=(\mu'(\balpha))_{\balpha\in\N^{m}}$ is the \emph{mo
 
 For any $d\in \N$, we define the set of multi-indices truncated to degree $d$ as
 \[
-    \N^{m}_d=\{\balpha \in \N^{m} \mid |\balpha|\le d\},
-\] 
-where $\abs{\balpha}=\alpha_1+\dots + \alpha_{m}$. Let $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ be a real sequence and $d\in \N$, the \emph{moment matrix of order $d$} is the matrix $M_d(\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$ such that
+    \N^{m}_d=\{\balpha \in \N^{m} \mid \alpha_1+\dots + \alpha_{m} \le d\}.
+\]
+Let $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ be a real sequence and $d\in \N$, the \emph{moment matrix of order $d$} is the matrix $M_d(\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$ such that
 \[
 (M_d(\by))_{\balpha\bbeta}=y_{\balpha+\bbeta}.
 \]
-The polynomials $g_{i}$ defining the semialgebraic set $S(g_1,\dots,g_k)$ can be written as 
+The polynomials $g_{i}$ defining the semialgebraic set $S(g_1,\dots,g_k)$ can be written as
 \[
 g_{i}(\bx)=\sum_{\bgamma}c_{\bgamma}\bx^{\bgamma}
-\] 
+\]
 for some real coefficients $c_{\bgamma}$, where only finitely many of them are nonzero. Then, the~\emph{localizing matrix of order} $d$ is the matrix $M_d(g_{i},\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$, where
 \[
 (M_d(g_{i},\by))_{\balpha\bbeta}=\sum_{\bgamma}c_{\bgamma}y_{\balpha+\bbeta+\bgamma}.
 \]
 
-When a real symmetric matrix $A$ is positive semidefinite, we write $A\succeq 0$. Moment sequences are characterized by positive semidefinitness of moment and localizing matrices \cite[Theorem 2.44(b)]{Lasserre2015}. Specifically, a real sequence $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ with $y_\mathbf{0}=1$ is a moment sequence with a Borel representing measure supported in $S(g_i,\dots,g_k)$ if, and only if,
+When a real symmetric matrix $A$ is positive semidefinite, we write $A\succeq 0$. Moment sequences are characterized by positive semidefinitness of moment and localizing matrices \cite[Theorem 2.44(b)]{Lasserre2015}. Specifically, a real sequence $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ with $y_\mathbf{0}=1$ is a moment sequence with a Borel representing measure supported in $S(g_1,\dots,g_k)$ if, and only if,
 \begin{equation}\label{moment}
     \begin{aligned}
 M_d(\by) &\succeq 0 \quad \forall d \in \N\\
-M_d(g_{i}, \by) &\succeq 0 \quad \forall d \in \N,\,\forall k\in K.
+M_d(g_{k}, \by) &\succeq 0 \quad \forall d \in \N,\,\forall k\in K.
     \end{aligned}
 \end{equation}
 
 \subsection{Nonnegative Polynomials Using Sums of Squares}
-Our next goal is to establish a necessary condition for the nonnegativity of polynomials over a basic semialgebraic set that can be verified algorithmically. Observe that if a polynomial can be decomposed into a sum of squared terms (SOS), it is nonnegative. Further notice, that for any point \(\bx\) in \(S(g_1, \dots, g_k)\), the expression \(g_i(\bx) s(\bx)^2\) is also nonnegative for any polynomial \(s\) and for all \(i = 1, \dots, k\). Quadratic modules extend this concept by summing such expressions. Specifically, the \emph{quadratic module} \(Q(G)\) generated by the set \(G = \{g_1, \dots, g_k\}\) is defined as
-\begin{equation}\label{def:QM}
-    Q(G) = \left\{\, s_0^2 + \sum_{i\in K} g_is_i^2 \;\middle|\; \text{$s_0,s_i$ are polynomials} \; \forall i\in K=1,\dots,k \,\right\}.
-\end{equation}
+On the dual side, we represent polynomials by their coefficients. As before, we need sufficient conditions on the coefficients so that we can algorithmically decide the question of nonnegativity on a set. To do this, we will use preorders: just as ideals preserve the set of zeros, preorders preserve positivity on sets.
 
+Observe that if a polynomial can be decomposed into a sum of squares (SOS), it is necessarily nonnegative everywhere. Further notice that any sum or product of polynomials nonnegative on a subset is still nonnegative on that subset. Suppose, then, that we have a semialgebraic set $S(\mathbf{g})$ defined as the intersection of the superlevel sets of a tuple $\mathbf{g}$; the corresponding preorder $P(\mathbf{g})$ generated by the $g_i$ is the set of all sums of all combinations of the $g_i$ weighted by SOS polynomials. Schm\"udgen proved that polynomials strictly positive on $S(\mathbf{g})$ are members of $P(\mathbf{g})$. The Lasserre hierarchy additionally uses our initial assumption of the Archimedean property of $S(\mathbf{g})$, in which case Putinar's theorem applies, which says that the decomposition of a polynomial nonnegative on an Archimedean $S(\mathbf{g})$ will contain no cross terms of the $g_i$.
+
+The \emph{quadratic module} \(Q(\mathbf{g})\) generated by the tuple \(\mathbf{g}\) is exactly the preorder $P(\mathbf{g})$ where all the cross terms weighted by zero:
+\begin{equation}\label{def:QM}
+    Q(g) = \left\{\, s_0 + \sum_{i\in K} g_is_i \;\middle|\; \text{$s_0,s_i$ are SOS polynomials} \; \forall i\in K=1,\dots,k \,\right\}.
+\end{equation}
 \begin{theorem}[Putinar's Positivstellensatz \cite{Putinar93}]\label{thm:Putinar}
-    If a polynomial $p(\bx)$ is strictly positive for all $\bx \in \R^n$ in $S(g_1,\dots,g_k)$, then $p \in Q\left(\{g_1,\dots,g_k\}\right)$.
+    If a polynomial $p(\bx)$ is strictly positive for all $\bx \in \R^n$ in $S(g_1,\dots,g_k)$, then $p \in Q\left(g_1,\dots,g_k\right)$.
 \end{theorem}
 To formulate the sum of squares condition using semidefinite constraints, we define the basis of the linear space of polynomials with degree at most $d$ as
 \[
     [\bx]_d=(\bx^{\balpha})_{\balpha\in \N^{m}_d}.
 \]
-Any polynomial $p(\bx)$ with the coefficient vector $\mathbf{c}=(c_{\balpha})_{\balpha\in \N^{m}_d}$ can then be expressed as 
+Any polynomial $p(\bx)$ with the coefficient vector $\mathbf{c}=(c_{\balpha})_{\balpha\in \N^{m}_d}$ can then be expressed as
 \[
     p(\bx) = \sum_{|\balpha|\le d} c_{\balpha} \bx^{\balpha} = \mathbf{c}^\intercal[\bx]_{d}.
 \]
@@ -82,21 +87,29 @@ A polynomial $p(\bx)$ of degree at most $2d$ is SOS if, and only if, there exist
 G &\succeq 0.
     \end{aligned}
 \end{equation*}
-Membership of $p(\bx)$ in $Q(S)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem \ref{thm:Putinar} \cite[Chapter 2.4.2]{Lasserre2015}. 
+Membership of $p(\bx)$ in $Q(S)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem \ref{thm:Putinar} \cite[Chapter 2.4.2]{Lasserre2015}.
 
 
 \subsection{Hierarchy of Semidefinite Relaxations}
-The final step is to put bounds on the sizes of moment sequences and degrees of polynomials using the Lasserre's hierarchies \cite[Chapter 6]{Lasserre2015}. Each relaxations in the hierarchy is a convex semidefinite program that approximates the solution of the original program. 
+The final step is to put bounds on the sizes of moment sequences and degrees of polynomials using the Lasserre's hierarchies \cite[Chapter 6]{Lasserre2015}. Each relaxation in the hierarchy is a convex semidefinite program that approximates the solution of the original program.
 
 We consider the quadratic module $Q_h(G)$ truncated to a degree $h$:
 \[
-Q_h(G) = \left\{\, s_0 + \sum_{i\in K} g_is_i \;\middle|\; {}
+Q_h(\mathbf{g}) = \left\{\, s_0 + \sum_{i\in K} g_is_i \;\middle|\; {}
    \begin{aligned}[c]
     & s_0,s_i \; \text{\textsc{sos} polynomials}, \\
     & \deg(g_is_i)\le h, \forall i\in K, \\
-    & \deg(s_0)\le h 
+    & \deg(s_0)\le h
    \end{aligned}\,\right\}
 \]
-where $G = \{g_i \mid i \in K = 1,\dots,k\}$. Instead of testing polynomial positivity by checking its membership in $Q(S)$ the $h$th level of the hierarchy tests for membership in $Q_h(S)$. Similarly, instead of requiring that the constraints hold for all moments, the $h$-th program in a hierarchy only constrains the moment and localizing matrices of order $h$. Moreover, we consider only truncated moment sequences $\hat{\by}$, which are just finite-dimensional real vectors. 
+where $\mathbf{g} = \{g_i \mid i \in K = 1,\dots,k\}$. Instead of testing polynomial positivity by checking its membership in $Q(\mathbf{g})$ the $h$th level of the hierarchy tests for membership in $Q_h(\mathbf{g})$. Similarly, instead of requiring that the constraints hold for all moments, the $h$-th program in a hierarchy only constrains the moment and localizing matrices of order $h$. Moreover, we consider only truncated moment sequences $\hat{\by}$, which are just finite-dimensional real vectors. Under our initial Archimedean assumption, the optimization problems are mutually strongly-dual. Each level of the hierarchy is then a semidefinite program which under-estimates the optimum. By going to higher levels, the original problem can be approximated arbitrarily well.
 
-Each level of the hierarchy is then a semidefinite program and by going to higher levels, the original problem can be approximated arbitrarily well.
+\subsection{Recovery of Global Minimizers}
+It is possible to certify the convergence of the Moment hierarchy and to extract the minimizers in a robust way \cite{klep2018minimizer} appropriate for numerical computation. On the other hand, neither task is directly possible from the dual side of SOS polynomials, except via duality. The following three methods are commonly used:
+\begin{description}
+    \item[First-order moments] plug the first order moments in and check the feasiblity and the value
+    \item[Rank=1 check] if the moment matrix is rank 1, then we have a dirac measure
+    \item[Flat-extensions] another rank condition { show how to extract, copy it from masters thesis \color{red} \lipsum[1]}
+\end{description}
+
+The convergence rate of the hierarchy is not yet well understood, and it may not be practically feasible to reach a high-enough level of a hierarchy to certify convergence. In such cases, or when the set of minimizers is not zero-dimensional, it may still be possible to glean some insight into the set of minimizers through the Christoffel-Darboux polynomial \cite{lasserre22:christoffel}.

@@ -88,7 +88,7 @@ $x_1^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \fr
 in two iterations and $1.5\,s$.
 \end{description}
 
-The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its non-linear interface. Attempting to model the utility as $\frac{z}{sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} was failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
+The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its non-linear interface. Attempting to model the utility as $\frac{z}{\sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} was failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
 
 While our generic algorithm failed on all non-differentiable instances, specifying a custom oracle makes it possible to send more information about the utility to solvers. We investigated this approach in section \ref{sec:custom.oracles}.
 
