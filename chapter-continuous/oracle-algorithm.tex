@@ -9,15 +9,15 @@ The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition \ref{prop:switch}
 	\label{alg:do}
 	\begin{algorithmic}
 		\Function{iterate}{$\calG$, $\bX$}
-			\State find an equilibrium $\bmu$ of the subgame $\langle N,\bX,(u_i)_{i\in N}\rangle$
-			\State $\forall i \in N:\;$ pick best response $x_i\in \beta_i(\bmu_{-i})$
-			\State $\forall i \in N:\;$ extend strategy set $Y_i \gets X_i \cup \{x_i\}$
+			\State Find an equilibrium $\bmu$ of the subgame $\langle N,\bX,(u_i)_{i\in N}\rangle$
+			\State $\forall i \in N:\;$ Pick a best response $x_i\in \beta_i(\bmu_{-i})$
+			\State $\forall i \in N:\;$ Extend strategy set $Y_i \gets X_i \cup \{x_i\}$
 			\State \Return $\bY, \bx, \bmu$
 		\EndFunction
 		\Function{multiple-oracle}{$\calG$, $\bX$, $\eps$}
 			\Repeat
 				\State $\bX, \bx, \bmu \gets \text{iterate}(\calG, \bX)$
-			\Until{$\forall i\in N:\; U_i(x_i,\bmu_{-i})-U_i(\bmu) \leq \eps$}
+			\Until{$\bU(\bx,\bmu_{-i})-\bU(\bmu) \leq \beps$}
 			\State \Return $\bmu$
 		\EndFunction
 	\end{algorithmic}
@@ -87,7 +87,7 @@ Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergenc
 	Let $\calG$ be a continuous game and $\eps=0$. If Algorithm \ref{alg:do} stops at step $j$, then $\bmu^j$ is an~equilibrium of $\calG$. Otherwise, any accumulation point of $\bmu^1,\bmu^2,\dots$ is an equilibrium of $\calG$.
 \end{theorem}
 \begin{proof}
-	If Algorithm~\ref{alg:do} terminates at step $j$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an equilibrium of $\calG$. In the opposite case, the algorithm generates a sequence of mixed strategy profiles $\bmu^1, \bmu^2, \dots$ Consider any weakly convergent subsequence of this sequence --- at least one such subsequence exists by Proposition~\ref{prop:convergence}. Without loss of generality, such a subsequence will be denoted by the same indices as the original sequence. Therefore, for each player $i\in N$, there exists some $\mu^*_i\in M_i$, such that the sequence $\mu_i^1,\mu_i^2,\dots$ weakly converges to $\mu_i^*$. We need to show that  $\bmu^*=(\mu^*_1,\dots,\mu^*_n)\in \bM$ is an equilibrium of $\calG$.
+	If Algorithm~\ref{alg:do} terminates at step $j$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an equilibrium of $\calG$. In the opposite case, the algorithm generates a sequence of mixed strategy profiles $\bmu^1, \bmu^2, \dots$ Consider any weakly convergent subsequence of this sequence --- at least one such subsequence exists by Proposition~\ref{prop:convergence}. Without loss of generality, such a subsequence will be denoted by the same indices as the original sequence. Therefore, for each player $i\in N$, there exists some $\mu^\star_i\in M_i$, such that the sequence $\mu_i^1,\mu_i^2,\dots$ weakly converges to $\mu_i^\star$. We need to show that  $\bmu^\star=(\mu^\star_1,\dots,\mu^\star_n)\in \bM$ is an equilibrium of $\calG$.
 
 	For all $i\in N$, define
 	\[
@@ -95,21 +95,21 @@ Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergenc
 	\]
 	First, assume that $x\in Y_i$. Then there exists $j_0$ with $x\in X_i^j$ for each $j\ge j_0$. Hence the inequality $U_i(\bmu^j) \geq U_i(x,\bmu_{-i}^j)$, for each $j\ge j_0$, since $\bmu^j$ is an equilibrium of the corresponding finite subgame. Therefore,
 	\[
-		U_i(\bmu^*) = \lim_{j}U_i(\bmu^j) \geq \lim_{j} U_i(x,\bmu_{-i}^j) = U_i(x,\bmu_{-i}^*).
+		U_i(\bmu^\star) = \lim_{j}U_i(\bmu^j) \geq \lim_{j} U_i(x,\bmu_{-i}^j) = U_i(x,\bmu_{-i}^\star).
 	\]
 	Further, by continuity of $U_i$,
 	\begin{equation}\label{ineq:NExcl}
-		U_i(\bmu^*) \geq  U_i(x,\bmu_{-i}^*) \quad \text{for all } x\in\cl(Y_i).
+		U_i(\bmu^\star) \geq  U_i(x,\bmu_{-i}^\star) \quad \text{for all } x\in\cl(Y_i).
 	\end{equation}
 	Now, consider an arbitrary $x\in X_i\setminus \cl(Y_i)$. The definition of $x_{i}^{j+1}$ yields $U_i(x_{i}^{j+1},\bmu^j_{-i}) \geq U_i(x,\bmu^j_{-i})$ for each $j$. This implies, by continuity,
 	\begin{equation}\label{eq:conv_aux3}
-		\lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^*) \geq \lim_{j} U_i(x,\bmu^j_{-i}) =  U_i(x,\bmu_{-i}^*).
+		\lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^\star) \geq \lim_{j} U_i(x,\bmu^j_{-i}) =  U_i(x,\bmu_{-i}^\star).
 	\end{equation}
 	Since $x_{i}^{j+1}\in X_i^{j+1}$, compactness of $X_i$ provides a convergent subsequence (denoted by the same indices) such that $ x'= \lim\limits_j x_i^{j} \in \cl(Y_i)$. Then (\ref{ineq:NExcl}) gives
 	\begin{equation}\label{ineq:NEx}
-		U_i(\bmu^*)\ge U_i(x',\bmu_{-i}^*) =\lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^*).
+		U_i(\bmu^\star)\ge U_i(x',\bmu_{-i}^\star) =\lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^\star).
 	\end{equation}
-	Combining (\ref{eq:conv_aux3}) and (\ref{ineq:NEx}) shows that $U_i(\bmu^*) \geq  U_i(x,\bmu_{-i}^*)$.
+	Combining (\ref{eq:conv_aux3}) and (\ref{ineq:NEx}) shows that $U_i(\bmu^\star) \geq  U_i(x,\bmu_{-i}^\star)$.
 \end{proof}
 
 \begin{theorem}\label{thm:convergence2}
@@ -118,9 +118,9 @@ Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergenc
 \begin{proof}
 	If Algorithm~\ref{alg:do} terminates at step~$j$ with a positive $\eps$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an $\eps$-equilibrium of $\calG$. Otherwise Algorithm ~\ref{alg:do} produces a sequence $\bmu^1,\bmu^2,\dots$ and we can repeat the analysis as in Item 1 for  convergent subsequences of $(\bmu^j)$ and $(\bx^j)$, which are denoted by the same indices. Define $x'= \lim_j x_i^j.$ Then
 	\begin{equation}\label{ineq:aux1}
-	U_i(\bmu^*)\ge U_i(x',\bmu_{-i}^*)= \lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^j).
+	U_i(\bmu^\star)\ge U_i(x',\bmu_{-i}^\star)= \lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^j).
 	\end{equation}
-	At every step $j$ we have $U_i(x_i^{j+1},\bmu^j_{-i})\geq U_i(\bmu^j)$ for each $i\in N$ by \eqref{ineq:upper}. For this reason $\lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^j) \geq  U_i(\bmu^*).$ Putting together the last inequality with (\ref{ineq:aux1}), we get
+	At every step $j$ we have $U_i(x_i^{j+1},\bmu^j_{-i})\geq U_i(\bmu^j)$ for each $i\in N$ by \eqref{ineq:upper}. For this reason $\lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^j) \geq  U_i(\bmu^\star).$ Putting together the last inequality with (\ref{ineq:aux1}), we get
 	\begin{equation}\label{eq:limiting}
 	\lim_{j} (U_i(x_{i}^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)) = 0
 	\end{equation}
@@ -129,13 +129,13 @@ Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergenc
 
 Algorithm \ref{alg:do} generates the sequence of equilibria $\bmu^1,\bmu^2,\dots$ in increasingly larger subgames of $\calG$. The sequence itself may fail to converge weakly in $\bM$ even for a~two-player zero-sum continuous game; see Example 1 from \cite{Adam21}. In fact, Theorems \ref{thm:convergence1} and \ref{thm:convergence2} guarantee convergence only to an accumulation point. We recall that this is a~typical feature of some globally convergent methods not only in infinite-dimensional spaces \cite[Theorem 2.2]{Hinze08}, but also in Euclidean spaces. For example, a gradient method generates the sequence such that only its accumulation points are guaranteed to be stationary points \cite[Proposition 1.2.1]{Bertsekas16}. One necessary condition for the weak convergence of $\bmu^1,\bmu^2,\dots$ is easy to formulate using the stopping condition of Algorithm~\ref{alg:do}.
 \begin{proposition}
-  	If the sequence $\bmu^1,\bmu^2,\dots$ generated by Algorithm \ref{alg:do} converges weakly to an equilibrium $\bmu$, then $\lim_j \bigl(U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)\bigr)=0,$ for each $i\in N.$
+  	If the sequence $\bmu^1,\bmu^2,\dots$ generated by Algorithm \ref{alg:do} converges weakly to an equilibrium $\bmu^\star$, then $\lim_j \bigl(U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)\bigr)=0,$ for each $i\in N.$
 \end{proposition}
 \begin{proof}
 	Using \eqref{ineq:upper} and the triangle inequality,
 	\begin{align*}
-		&U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)=\abs{U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)} \\
-		&\leq \abs{U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu)} + \abs{U_i(\bmu)-U_i(\bmu^j)}.
+		U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)&=\abs{U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)} \\
+		&\leq \abs{U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^\star)} + \abs{U_i(\bmu^\star)-U_i(\bmu^j)}.
 	\end{align*}
 	As $j\to \infty$, the first summand goes to zero by \eqref{eq:limiting} and the second by the assumption. Hence the conclusion.
 \end{proof}
@@ -148,7 +148,7 @@ at each step $j$ and check if such differences are diminishing with $j$ increasi
 \begin{equation}\label{crit2}
 	d_W(\bmu^j,\bmu^{j+1}),
 \end{equation}
-which can be done with a linear program \eqref{def:LPobj}. If the sequence $\bmu^1,\bmu^2,\dots$ converges weakly, then $d_W(\bmu^j,\bmu^{j+1}) \to 0$. We include the values \eqref{crit2} in the results of some numerical experiments and observe that they are decreasing to zero quickly. Figure \ref{figure0} shows, that neither \eqref{crit1} nor \eqref{crit2} are monotone sequences.
+which can be done with a linear program \eqref{def:LPobj}. If the sequence $\bmu^1,\bmu^2,\dots$ converges weakly, then $d_W(\bmu^j,\bmu^{j+1}) \to 0$. We include the values \eqref{crit2} in the results of some numerical experiments and observe that they are decreasing to zero quickly. Figure \ref{fig:oracle.zerosum.polynomial} shows, that neither \eqref{crit1} nor \eqref{crit2} are monotone sequences.
 
 
 
@@ -156,15 +156,8 @@ which can be done with a linear program \eqref{def:LPobj}. If the sequence $\bmu
 Algorithm \ref{alg:do} is a meta-algorithm, which is parameterized by
 \begin{enumerate}
 	\item the algorithm for computing equilibria of subgames (the \emph{master problem}) and
-	\item the optimization method for computing the best response (the \emph{sub-problem}).
+	\item the optimization method for computing the best response (the \emph{oracles}).
 \end{enumerate}
 We detail this setup for each example in the next section.
 
-
-The choice of computational methods should reflect the properties of a~continuous game, since the efficiency of methods for solving the master problem and subproblem is the decisive factor for the overall performance and precision of Algorithm \ref{alg:do}. For example, polymatrix games are solvable in polynomial time \cite{Cai16}, whereas finding even an approximate Nash equilibrium of a finite general-sum game is a very hard problem \cite{Daskalakis09}. As for the solution of the subproblem, the best response computation can be based on global solvers for special classes of utility functions.
-
-
-Finding NE in zero-sum finite games reduces to either the classical linear program, or its aforementioned extension by \textcite{Cai16} in case of polymatrix games. The implementation of the master problem corresponding to general-sum matrix sub-games is more complex. Various methods exist to solve general-sum games, including the global Newton method, simplical subdivision, or even straightforward strategy enumeration. These methods, however, may have unpredictable runtimes and do not always guarantee convergence. We chose a version of the multilinear formulation of NE described by \textcite{sturmfels} and improved by \textcite{multilinear} to solve general-sum matrix games.
-\todo[inline]{update with new knowledge of gambit logit}
-
-We will compare the results obtained by specialized methods and detail the setup for each example in the upcoming section. Later we switch to a generic method for each subproblem and show the versitility of the Multiple Oracle method.
+The choice of computational methods should reflect the properties of a~continuous game, since the efficiency of methods for solving the master problem and subproblem is the decisive factor for the overall performance and precision of Algorithm \ref{alg:do}. For example, polymatrix games are solvable in polynomial time \cite{Cai16}, whereas finding even an approximate Nash equilibrium of a finite general-sum game is a very hard problem \cite{Daskalakis09}. As for the solution of the oracles, the best response computation can be based on global solvers for special classes of utility functions.

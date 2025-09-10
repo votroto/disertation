@@ -1,6 +1,6 @@
-Consider a game $\calG = \langle N,(Y_i)_{i\in N},(u_i)_{i\in N}\rangle$ and nonempty compact subsets $Y_i\subseteq X_i$ for each player $i$ from the player set $N$. When each $u_i$ is restricted to $Y_1\times\dots\times Y_n$, the continuous game $\langle N,(Y_i)_{i\in N},(u_i)_{i\in N}\rangle$ is called the \emph{subgame} of~$\calG$.
+Consider a game $\calG = \langle N,(X_i)_{i\in N},(u_i)_{i\in N}\rangle$ and nonempty compact subsets $Y_i\subseteq X_i$ for each player $i$ from the player set $N$. When each $u_i$ is restricted to $Y_1\times\dots\times Y_n$, the continuous game $\langle N,(Y_i)_{i\in N},(u_i)_{i\in N}\rangle$ is called the \emph{subgame} of~$\calG$.
 
-The \emph{support} of a mixed strategy $\mu$ is the compact set defined by 
+The \emph{support} of a mixed strategy $\mu$ is the compact set defined by
 \[
 	\spt \mu = \bigcap \{K\subseteq X\mid K \text{ compact},\, \mu(K)=1\}.
 \]
@@ -8,7 +8,7 @@ The \emph{support} of a mixed strategy $\mu$ is the compact set defined by
 In this section, we will construct mixed strategies with finite supports. The support of Dirac measure $\delta_x$ is the singleton $\spt \delta_x=\{x\}$, where $x\in X_i$. In~general, when the support $\spt \mu$ of a mixed strategy $\mu$ is finite, it means that $\mu(x)>0$ for all $x\in \spt \mu$ and $\sum_{x\in \spt \mu} \mu(x)=1$. For clarity, we emphasize that a finitely-supported mixed strategy $\mu_i$ of player $i$ should be interpreted as the function $\mu\colon X_i\to [0,1]$ vanishing outside $\spt \mu_i$, and not as a vector of probabilities with a fixed dimension. This is because only the former viewpoint enables us to consider the distance between \emph{any} pair of pure strategies in $X_i$, which makes it possible to compute a distance between mixed strategies with \emph{arbitrary} supports.
 
 \begin{proposition}\label{prop:switch}
-	For each player $i\in N$ and any mixed strategy profile $\bmu_{-i}\in \bM_{-i}$, there exists a pure strategy $x_i\in X_i$ such that 
+	For each player $i\in N$ and any mixed strategy profile $\bmu_{-i}\in \bM_{-i}$, there exists a pure strategy $x_i\in X_i$ such that
 	\[
 		\max_{p\in M_i} U_i(p,\bmu_{-i})=\max_{x\in X_i} U_i(x,\bmu_{-i})=U_i(x_i,\bmu_{i}).
 	\]
@@ -23,17 +23,17 @@ For any $\eps\geq 0$, an \textit{$\epsilon$-equilibrium} is a mixed strategy pro
 \[
 	U_i(x_i,\bmu_{-i}^*) - U_i(\bmu^*) \leq \eps, \qquad \text{for every $i\in N$ and $x_i\in X_i$.}
 \]
-This implies that for every $p_i\in M_i$, the inequality $U_i(p_i,\bmu_{-i}^*) - U_i(\bmu^*) \leq \eps$ also holds. 
+This implies that for every $p_i\in M_i$, the inequality $U_i(p_i,\bmu_{-i}^*) - U_i(\bmu^*) \leq \eps$ also holds.
 
-We introduce the vector notation 
+We introduce the vector notation
 \[
 	\bU(\bmu) = (U_1(\bmu), \dots, U_n(\bmu)).
 \]
-Furthermore, we define 
+Furthermore, we define
 \[
 	\bU(\bx,\bmu) = (U_1(x_1,\bmu_{-1}), \dots, U_n(x_n,\bmu_{-n})),
 \]
 for any $\bx\in\bX$ and $\bmu\in \bM$. Let $\beps$ be the vector $(\eps, \dots, \eps)$. Using this vector notation, a mixed strategy profile $\bmu^*\in \bM$ is an $\epsilon$-equilibrium if, and only if,
 \[
-	\bU(\bx,\bmu^*) - \bU(\bmu^*) \leq \beps, \qquad \text{for all $\bx\in\bX$}.
+	\bU(\bx,\bmu^*) - \bU(\bmu^*) \leq \beps, \qquad \forall \bx\in\bX.
 \]

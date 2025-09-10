@@ -7,6 +7,26 @@
 \todo[inline]{reformat experiments to make them shorter (unnecessary repetition)}
 \todo[inline]{include the results for discontinuous games}
 
+\iffalse
+So far we focused on cases where the oracles and the master-problem would be tailored to each game individually. While this worked well, it raises the question of how applicable our technique is. In this section we will show that the branch and bound reformulations that were described in \cref{sec:sbab} can be successfully applied to solve a wide range of games, without the need to develop a new oracle each time. Similarly, given a sufficiently fast solver for finite general-sum games, it may be unnecessary to select more specific methods for solving the master-problem depending on the class of game.
+
+A consistent use of one particular master-problem and oracle method also allows us to finally measure and report meaningful run-times of the Multiple Oracle algorithm. For this reason, we compiled a test set of continuous games appearing in the game-theoretic and optimization-focused literature. The full list is in \cref{appendix:games} and covers
+games with polynomial, rational-polynomial, as well as generic utility functions, that are played over compact sets including intervals and simplexes, and whose equilibria are known to be pure, mixed, and even infinitely supported.
+
+\fi
+
+\iffalse
+in some situations it is a great benefit to be able to directly provide an oracle
+specific to a given game, as in some games best responses can be computed in closed form.
+Still in other cases, players may need to solve common software-engineering problems such
+as computing the shortest path through a graph, in which case the oracles
+may be implemented in terms of existent highly optimized algorithms.
+
+It turns out however that for some games it is sufficient to
+lean on the tools of mathematical optimization with sufficiently generic global solvers.
+As our experiments show, a many continuous games from the literature can be solved in this way.
+\fi
+
 This section presents our experimental evaluation of our generic Double Oracle algorithm implementation over the dataset of games in Appendix \ref{appendix:games}.
 
 \iffalse
