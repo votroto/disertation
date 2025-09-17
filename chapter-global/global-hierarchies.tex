@@ -1,4 +1,4 @@
-The moment-SOS hierarchies are a basis of methods for constrained polynomial optimization. More specifically, the methods will be able to find the certifiably global minimum of a polynomial over a compact set defined by polynomial inequalities. In some instances, they can even recover some minimizers. All of this is achievable under some mild assumptions on the structure of the feasible set, such as having a bound on the norm of the feasible elements. Under such constraints, each level of the hierarchy corresponds to a strongly dual pair of semidefinite programs which provide a monotonically nondecreasing sequence of lower bounds that generically converge \cite{Nie2014} to the optimum. The current downsides of the hierarchies are that: the bounds on the convergence is not yet well understood; semidefinite solvers are not as well optimized for this task; and the recovery of minimizers of sufficient precission may be practically challenging.
+The moment-SOS hierarchies are a basis of methods for constrained polynomial optimisation. More specifically, the methods will be able to find the certifiably global minimum of a polynomial over a compact set defined by polynomial inequalities. In some instances, they can even recover some minimisers. All of this is achievable under some mild assumptions on the structure of the feasible set, such as having a bound on the norm of the feasible elements. Under such constraints, each level of the hierarchy corresponds to a dual\footnote{Strong duality holds if the original constraint set has an interior point, or if either program is strictly feasible.} pair of semidefinite programs which provide a monotonically nondecreasing sequence of lower bounds that generically converge \cite{Nie2014} to the optimum. The current downsides of the hierarchies are that: the bounds on the convergence are not yet well understood; semidefinite solvers are not as well optimised for this task; and the recovery of minimisers of sufficient precision may be practically challenging.
 
 A basic semialgebraic set \( S(g_1, \dots, g_k) = \{\bx \in \R^n \mid g_i(\bx) \ge 0 \; \forall i=1,\dots,k\} \) is a finite intersection of superlevel sets defined by polynomials \( g_i \) for some positive integers \( k \) and \( n \). We further assume that the set has the Archimedean property, meaning it is certifiably compact (e.g., one of the \( g_i(\bx) \) takes the form \( a - \|\bx\|^2 \) for some positive \( a \)).
 
@@ -105,11 +105,22 @@ Q_h(\mathbf{g}) = \left\{\, s_0 + \sum_{i\in K} g_is_i \;\middle|\; {}
 where $\mathbf{g} = \{g_i \mid i \in K = 1,\dots,k\}$. Instead of testing polynomial positivity by checking its membership in $Q(\mathbf{g})$ the $h$th level of the hierarchy tests for membership in $Q_h(\mathbf{g})$. Similarly, instead of requiring that the constraints hold for all moments, the $h$-th program in a hierarchy only constrains the moment and localizing matrices of order $h$. Moreover, we consider only truncated moment sequences $\hat{\by}$, which are just finite-dimensional real vectors. Under our initial Archimedean assumption, the optimization problems are mutually strongly-dual. Each level of the hierarchy is then a semidefinite program which under-estimates the optimum. By going to higher levels, the original problem can be approximated arbitrarily well.
 
 \subsection{Recovery of Global Minimizers}
-It is possible to certify the convergence of the Moment hierarchy and to extract the minimizers in a robust way \cite{klep2018minimizer} appropriate for numerical computation. On the other hand, neither task is directly possible from the dual side of SOS polynomials, except via duality. The following three methods are commonly used:
-\begin{description}
-    \item[First-order moments] plug the first order moments in and check the feasiblity and the value
-    \item[Rank=1 check] if the moment matrix is rank 1, then we have a dirac measure
-    \item[Flat-extensions] another rank condition { show how to extract, copy it from masters thesis \color{red} \lipsum[1]}
-\end{description}
+It is possible to certify the convergence of the Moment hierarchy and to extract the minimizers in a robust way \cite{klep2018minimizer}. On the other hand, neither task is directly possible from the side of SOS polynomials, except via duality.
 
-The convergence rate of the hierarchy is not yet well understood, and it may not be practically feasible to reach a high-enough level of a hierarchy to certify convergence. In such cases, or when the set of minimizers is not zero-dimensional, it may still be possible to glean some insight into the set of minimizers through the Christoffel-Darboux polynomial \cite{lasserre22:christoffel}.
+\begin{theorem}[{\textcite[Consequence of Theorem 1.6]{Curto00:kmoment}}]
+The sequence $\by$ of $2t$ moments has a representing measure $\mu$ on a semialgebraic set $\mathcal{S}(\mathbf{g})$, if and only if \cite{Lasserre15:book}:
+\[\begin{aligned}
+    M_t(\by) &\succeq 0,\\
+    M_{t-v}(g_i\by) &\succeq 0 \quad \forall g_i\in \mathbf{g},\\
+    \rank M_{t}(\by) &= \rank M_{t-v}(\by),
+\end{aligned}
+\]
+where $v = \left\lceil \frac{1}{2} \deg(\mathbf{g}) \right\rceil$. Furthermore $\mu$ is $r$-atomic, with $r=\rank M_d(\by)$.
+\end{theorem}
+
+\textcite[Section 6.7]{Laurent2009} explains how software such as \emph{GloptiPoly} and \emph{SumOfSquares} extract solutions from a truncated sequence of moments.
+{ show how to extract, copy it from masters thesis \color{red} \lipsum[1-3]}
+
+The convergence rate of the hierarchy is not yet well understood, and it may not be practically possible to reach levels high enough to certify convergence. Regardless of whether a truncated sequence describes a measure or a generic linear functional, we may try the first-order moments as candidate minimizers. The hierarchies yield a nondecreasing sequence of lower bounds on the optimal value of the original problem, while any feasible evaluation of the original problem provides an upper bound. If the first-order moments are feasible and the evaluation of the original problem equals the value of the relaxation, then we have a lower bound equal to the upper bound and therefore a proof of optimality.
+
+In other cases, it may still be possible to glean some insight into the set of minimizers through sublevel sets of the Christoffel-Darboux polynomial \cite{lasserre22:christoffel}.

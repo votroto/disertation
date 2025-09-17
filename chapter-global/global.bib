@@ -12,6 +12,14 @@
   abstract = {This paper presents an algorithm for the solution of nonconvex mixed integer nonlinear programming (MINLP) problems involving general constraints and objective functions. The algorithm employs a symbolic reformulation step that brings the original MINLP problem to an equivalent standard form for which a convex relaxation can be constructed. The reformulated problem is then solved using a spatial branch-and-bound algorithm which branches on both integer and continuous variables. Issues relating to the efficient implementation of this algorithm and its parallelisation are also discussed. The algorithm has been incorporated within the gPROMS process modelling environment and tested on several MINLP problems arising from process engineering applications.}
 }
 
+@misc{henrion23:moments,
+  author       = {Didier Henrion},
+  title        = {Moments for polynomial optimization - An illustrated tutorial},
+  howpublished = {Lecture notes of a course given for the programme Recent Trends in Computer Algebra, Institut Henri Poincar\'{e}, Paris},
+  month        = oct,
+  year         = {2023}
+}
+
 @article{Nie2014,
   author   = {Nie, Jiawang},
   title    = {Optimality conditions and finite convergence of Lasserre's hierarchy},
@@ -110,3 +118,42 @@
   url       = {https://doi.org/10.1007/978-0-387-09686-5_7}
 }
 
+@article{Curto00:kmoment,
+  author    = {Curto, Raúl E. and Fialkow, Lawrence A.},
+  title     = {The Truncated Complex K-Moment Problem},
+  journal   = {Transactions of the American Mathematical Society},
+  year      = {2000},
+  publisher = {American Mathematical Society},
+  volume    = {352},
+  number    = {6},
+  pages     = {2825-2855},
+  note      = {Full publication date: Jun., 2000},
+  issn      = {00029947},
+  url       = {http://www.jstor.org/stable/118234}
+}
+
+@book{Lasserre15:book,
+  place      = {Cambridge},
+  series     = {Cambridge Texts in Applied Mathematics},
+  title      = {An Introduction to Polynomial and Semi-Algebraic Optimization},
+  publisher  = {Cambridge University Press},
+  author     = {Lasserre, Jean Bernard},
+  year       = {2015},
+  collection = {Cambridge Texts in Applied Mathematics}
+}
+
+@inbook{Laurent2009,
+  author    = {Laurent, Monique},
+  editor    = {Putinar, Mihai
+               and Sullivant, Seth},
+  title     = {Sums of Squares, Moment Matrices and Optimization Over Polynomials},
+  booktitle = {Emerging Applications of Algebraic Geometry},
+  year      = {2009},
+  publisher = {Springer New York},
+  address   = {New York, NY},
+  pages     = {157--270},
+  abstract  = {We consider the problem of minimizing a polynomial over a semialgebraic set defined by polynomial equations and inequalities, which is NP-hard in general. Hierarchies of semidefinite relaxations have been proposed in the literature, involving positive semidefinite moment matrices and the dual theory of sums of squares of polynomials. We present these hierarchies of approximations and their main properties: asymptotic/finite convergence, optimality certificate, and extraction of global optimum solutions. We review the mathematical tools underlying these properties, in particular, some sums of squares representation results for positive polynomials, some results about moment matrices (in particular, of Curto and Fialkow), and the algebraic eigenvalue method for solving zero-dimensional systems of polynomial equations. We try whenever possible to provide detailed proofs and background.},
+  isbn      = {978-0-387-09686-5},
+  doi       = {10.1007/978-0-387-09686-5_7},
+  url       = {https://doi.org/10.1007/978-0-387-09686-5_7}
+}
