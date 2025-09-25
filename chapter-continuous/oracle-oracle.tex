@@ -1,17 +1,39 @@
-
+\iffalse
 In games with polynomial utility functions, the best response oracles can employ both methods of the methods of global optimization described in Chapter \ref{ch:global}. In the rest of the games we use the spatial Branch and Bound approach as the best response oracle. From our experience, local solvers can work sufficiently well as oracles in some games, although no convergence guarantees then apply. \todo[inline]{this belongs elsewhere (to the "this is a metaalgorithm parametrized by master and oracle...".... ok now it's here)}
 
 blah...The examples in our collections have utilities specified in terms of sums and products of functions such as logarithms and square roots. All such functions should be accepted either directly by global solvers or through external modeling libraries such as \textsc{ampl}.
 \todo[inline]{merge this properly}
+\fi
 
-We show a comparison of Oracle implementations based on non-linear solvers.
-While we have succesfully used local-solvers as oracles, it is important to remember that convergence to equilibria is no longer guaranteed.
-Regardless, we compare their performance in some of the following experiments.
+We show a comparison of oracle implementations. The following table shows the runtime attributable to the oracle computation for various examples and solvers including: \emph{Couenne}, \emph{Gurobi}, \emph{Gurobi} with \emph{GRBaddgenconstrPoly} applicable to univariate polynomials, the Sum-of-squares hierarchy using \emph{Mosek}, \emph{SCIP}, and the \emph{PolyJuMP} KKT optimizer using \emph{HomotopyContinuations}. The examples are split into groups of polynomial games over intervals, polynomial games over semialgebraic sets, and games with general utilities based on standard optimization test functions.
 
-The experiments are split into three groups, random polynomials, non-polynomial test functions, and a practical experiment
-where we solve a where we run a fixed number of iterations of Double Oracle on the Colonel Blotto game.
+All solvers were executed sequentially in each iteration of DO, using the value returned by \emph{Gurobi} as the reference solution, allowing us to verify that all global solvers agree on the best-response values. The oracle problem was passed via \emph{AMPL} to all global solvers with the exception of \emph{Gurobi}, which accepts nonlinear input from \emph{JuMP} natively. The following tests were executed on \emph{AMD Ryzen 5 4600G} and the listed times for each example are the sums of runtimes reported by the solvers in milliseconds.
+\begin{center}
+    \begin{tabular}{l||rrrrrrr}
+        Example & Couenne & \multicolumn{2}{c}{Gurobi (Poly)} & Ipopt & SOS & SCIP & KKT \\
+        \hline
+        \ref{ex.parrilo06.2.1}     &  409.5 &  1.4 & 11.4 & 146.5 &   6.2 &  67.0 &   24.4 \\
+        \ref{ex.parrilo06.3.1}     &  587.2 &  2.1 & 15.7 & 205.7 &   5.4 & 114.1 &   28.0 \\
+        \ref{ex.parrilo06.3.2}     &  819.5 &  4.1 & 26.6 & 287.4 &   9.6 & 152.1 &   39.4 \\
+        \ref{ex.stein07.4.3.1}     &  404.3 &  1.3 &  8.2 & 142.0 &   3.6 &  71.9 &   19.7 \\
+        \ref{ex.stein08.2.3}       & 1211.6 & 72.0 & 14.9 & 260.3 &   9.5 & 177.7 &   43.3 \\
+        \ref{ex.stein08.3.10}      &  473.5 &  1.9 &  8.1 & 175.6 &   2.5 &  80.4 &   16.0 \\
+        \hline
+        \ref{ex.nie21.6.3.i}       &  347.4 & 24.4 &      & 122.7 &  26.3 &  65.8 &  635.3 \\
+        \ref{ex.nie21.6.3.ii}      &  487.6 &  2.0 &      & 178.3 &  12.4 &  79.9 & 1707.5 \\
+        \ref{ex.nie21.6.5}         &   84.6 &  7.4 &      &  28.5 &       &  15.0 &        \\
+        \hline
+        \ref{ex.surjanovic.ackley} &        & 22.5 &      &       &       & 199.4 &        \\
+        \ref{ex.surjanovic.boha1}  &  273.3 & 10.1 &      &       &       &  45.5 &        \\
+        \ref{ex.surjanovic.branin} &        & 90.5 &      &       &       & 319.6 &        \\
+    \end{tabular}
+\end{center}
 
+The results of this brief test supports our choice to use \emph{Gurobi} as the default oracle. The hierarchies are competitive on polynomial problems, while the FOSS solver \emph{SCIP} is the only other solver robust and generic enough to solve all the listed examples. This result is consitent with our experience. \emph{Ipopt} retuned values deviating by a norm of less than $1e^{-5}$ across all iterations on three univariate polynomial examples, one multivariate example, but none of the test functions. While we have succesfully used local-solvers as oracles, it is important to remember that convergence to equilibria is no longer guaranteed.
 
+The runtime of DO may be improved by adding multiple best responses in each iteration. In the case of the SOS hierarchies, solvers tend to find high-rank interior solutions and computing multiple solutions may be essentially free.
+
+\iffalse
 \paragraph{polynomials}
 blah
 
@@ -20,6 +42,8 @@ blah
 
 The next experiment is a measurement of the runtime of different solvers in practice over a course of ten iterations of double oracle in a game of General Blotto. The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts.
 We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$ with a non-differentiable weighing function $f(z) = \operatorname{sgn}(z)\,|z|^{0.5}$. This game exhibits very slow convergence with the Double Oracle algorithm.
+\fi
+
 \iffalse
 Multilinear terms, square roots and sums can be formulated directly via the generic modelling languages \emph{JuMP}, and \emph{AMPL}; however the sign function and absolute value are more challenging. Due to a lack of support and differentiability, all of the solvers: \emph{Ipopt}, \emph{Bonmin}, \emph{Couenne}, \emph{SCIP}, and \emph{Gurobi} were unable to solve a direct formulation of the oracle problem. Instead, we reformulated the weighing function $f$ using a binary variable as $f(x) = (2b-1)z$, subject to the constraints:
 \[
