@@ -42,7 +42,7 @@ x_i \in \Delta^{3} \quad \forall i \in \{1,2\}.
 \]
 The nonconcave-nonconvex utility function \cite[Example 6.1 (iii)]{nie.yang.ea:saddle} is
 \begin{align*}
-u_{1}\left( x_{1}, x_{2} \right) &= \sum_{i=1}^{4} \sum_{\substack{j=1 \\ i \ne j}}^{4} (x_{1i} x_{1j} + x_{2i} x_{2j})  - \sum_{i=1}^{4} x_{1i}^2 x_{2i}^2 
+u_{1}\left( x_{1}, x_{2} \right) &= \sum_{i=1}^{4} \sum_{\substack{j=1 \\ i \ne j}}^{4} (x_{1i} x_{1j} + x_{2i} x_{2j})  - \sum_{i=1}^{4} x_{1i}^2 x_{2i}^2
 \end{align*}
 This game has 4 pure NE involving each one-hot vector $e_i$
 \begin{align*}
@@ -121,7 +121,7 @@ x_i \in [-1,1]^3 \quad \forall i \in \{1,2\}
 \]
 with the nonconcave-nonconvex utility function \cite[Example 6.3 (ii)]{nie.yang.ea:saddle}
 \[
-u_1(x_1, x_2) = -\sum_{i=1}^{3} x_{2i}^2 + \sum_{i=1}^{3} x_{1i}^2 - \sum_{\substack{i=1 \\ i < j}}^{3} \sum_{j=1}^{3} (x_{1i}x_{2j} - x_{1j}x_{2i})
+u_1(x_1, x_2) = -\sum_{i=1}^{3} x_{2i}^2 + \sum_{i=1}^{3} x_{1i}^2 - \sum_{i=1}^{3} \sum_{\substack{j=1 \\ i < j}}^{3} (x_{1i}x_{2j} - x_{1j}x_{2i})
 \]
 This game has the following pure Nash equilibrium:
 \begin{align*}

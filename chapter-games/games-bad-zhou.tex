@@ -1,6 +1,6 @@
 
 
-The following games were created from the saddle point problems of rational polynomials studied by \textcite{zhou.wang.ea:saddle}. The utility functions are not continuous on the whole strategy set as the divisor often vanishes on the boundary. 
+The following games were created from the saddle point problems of rational polynomials studied by \textcite{zhou.wang.ea:saddle}. The utility functions are not continuous on the whole strategy set as the divisor often vanishes on the boundary.
 
 \begin{example}\label{ex.zhou19.5.1}
 
@@ -12,7 +12,7 @@ The rational utility function \cite[Example 5.1]{zhou.wang.ea:saddle} is given b
 \[
 u_1(x_1, x_2) =
 \frac{
-- \sum_{i=1}^{3} \sum_{j=1}^{3} x_{1i}^2 x_{2j}^2 + \sum_{\substack{i=1 \\ i \ne j}}^{3} \sum_{j=1}^{3} (x_{1i} x_{1j} + x_{2i} x_{2j}) 
+- \sum_{i=1}^{3} \sum_{j=1}^{3} x_{1i}^2 x_{2j}^2 + \sum_{i=1}^{3} \sum_{\substack{j=1 \\ i \ne j}}^{3} (x_{1i} x_{1j} + x_{2i} x_{2j})
 }{
 x_{11} + x_{12} + x_{22} + x_{23}
 }
@@ -20,7 +20,7 @@ x_{11} + x_{12} + x_{22} + x_{23}
 This game has two pure Nash equilibria:
 \begin{align*}
 \text{NE}_1: &x_1^\star \approx (0.3165, 0.3165, 0.3670),\,x_2^\star = (0, 1, 0),\\
-\text{NE}_2: &x_1^\star \approx (0.3165, 0.3165, 0.3670),\,x_2^\star = (0, 0, 1).    
+\text{NE}_2: &x_1^\star \approx (0.3165, 0.3165, 0.3670),\,x_2^\star = (0, 0, 1).
 \end{align*}
 \end{example}
 
@@ -44,6 +44,26 @@ x_1^\star = (0, 0, 0),\, x_2^\star = (0, 0, 0).
 \end{align*}
 \end{example}
 
+\begin{example}\label{ex.zhou19.5.4.i}
+A zero-sum 2-player game in $3 \times 3$ variables on the nonnegative orthant
+\[
+x_i \in \mathbb{R}^3_+ \quad \forall i \in \{1,2\}
+\]
+with the utility function \cite[Example 5.4 (i)]{zhou.wang.ea:saddle}
+\[
+u_1(x_1, x_2) =
+\frac{
+- x_{11}^4 - x_{12}^4 - x_{13}^4 + x_{21}^4 + x_{22}^4 + x_{23}^4
+}{
+x_{11} + x_{21} + 1
+}
+\]
+The game has a pure Nash equilibrium:
+\begin{align*}
+x_1^\star \approx (0.0015, 0.0015, 0.0015), \\
+x_2^\star \approx (0.0015, 0.0015, 0.0015).
+\end{align*}
+\end{example}
 
 
 \begin{example}\label{ex.zhou19.5.5.i}
@@ -129,7 +149,7 @@ x_1^\star \approx (0.4082, 0.4082, 0.8165),\, x_2^\star \approx (−0.4082, −0
 A two-player zero-sum game in $3 \times 2$ variables on the intersection of the nonnegative orthant and the n-sphere
 \begin{align*}
 x_1 &\in \left\{ z \in \mathbb{R}^3_+ \,\middle|\, \norm{z} = 1  \right\} \\
-x_2 &\in \left\{ z \in \mathbb{R}^2_+ \,\middle|\, \norm{z} = 1  \right\} 
+x_2 &\in \left\{ z \in \mathbb{R}^2_+ \,\middle|\, \norm{z} = 1  \right\}
 \end{align*}
 The rational utility function is
 \[
@@ -144,10 +164,10 @@ The utility has a discontinuity at the boundary of $x_1$ when $x_{21} = 1$. \tex
 \begin{align*}
 x_1^\star \approx (0.4351314094, 0.6366555805, 0.6366555805),\, x_2^\star \approx (0.5255286571, 0.8507758992).
 \end{align*}
-We also show this game reprojected in polar coordinates in \cref{ex:zhou.5.7.polar}, where we recover the same solution.
+We also show this game reprojected in polar coordinates in \cref{ex.zhou19.5.7.i.polar}, where we recover the same solution.
 \end{example}
 
-\begin{example}\label{ex:zhou.5.7.polar}
+\begin{example}\label{ex.zhou19.5.7.i.polar}
 A two-player zero-sum game in $3 \times 2$ variables on the intersection of the nonnegative orthant and the n-sphere in polar coordinates
 \begin{align*}
 x_1 &\in \left[0,\frac{\pi}{2} \right]^2 \\
@@ -201,7 +221,7 @@ x_2^\star &\approx 1.0175.
     color=black,
     mark size=3,
 ]
-coordinates {(0.8812945920343842, 0.9716157415160604, 0.36372376459410616)}; 
+coordinates {(0.8812945920343842, 0.9716157415160604, 0.36372376459410616)};
 \end{axis}
 \end{tikzpicture}
 \end{minipage}%
@@ -228,11 +248,11 @@ coordinates {(0.8812945920343842, 0.9716157415160604, 0.36372376459410616)};
     color=black,
     mark size=3,
 ]
-coordinates {(1.0174554472964583, -0.36372376459410616)}; 
+coordinates {(1.0174554472964583, -0.36372376459410616)};
 \end{axis}
 \end{tikzpicture}
 \end{minipage}
-\caption{The best-response curves of both players at the $\epsilon$-NE of \cref{ex:zhou.5.7.polar}.}
+\caption{The best-response curves of both players at the $\epsilon$-NE of \cref{ex:zhou.5.7.1.polar}.}
 \label{fig:ex.polar.br}
 \end{figure}
 

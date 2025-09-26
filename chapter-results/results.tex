@@ -1,39 +1,14 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+In the main chapters, we focused on cases where the oracles and the master-problem would be tailored to each game. While the ability to leverage the problem structure by providing custom oracles based on closed‑form best responses or reductions to classic combinatorial problems may be powerful, it naturally puts into question the applicability of our method.
+
+It is certainly not possible to develop an oracle generic enough to handle all games, as this reduces to global optimization over arbitrary functions. Nevertheless, we will show that an off-the-shelf global optimization solver is sufficient to solve a surprisingly wide variety of continuous games automatically. To this end, we use the suite of continuous games compiled from the game‑theoretic and optimisation literature presented in Appendix \ref{appendix:games}. The collection spans multi-player polynomial, rational‑polynomial, and more generic games, with action spaces that include n-spheres and simplexes.
+
+A consistent implementation also enables us to report meaningful and comparable runtimes across games. Our experiments show that a generic algorithm can solve many continuous games efficiently. Notably, our implementation locates the pure‑strategy Nash equilibrium of Example \ref{ex.zhou19.5.1} within a distance of less than $3\times 10^{-4}$ in 0.086 seconds compared to the 184.5 seconds reported originally.
 
 \section{Experimental Evaluation}
-\todo[inline]{rerun experiments including warmstart}
-\todo[inline]{reformat experiments to make them shorter (unnecessary repetition)}
-\todo[inline]{include the results for discontinuous games}
-
-\iffalse
-So far we focused on cases where the oracles and the master-problem would be tailored to each game individually. While this worked well, it raises the question of how applicable our technique is. In this section we will show that the branch and bound reformulations that were described in \cref{sec:sbab} can be successfully applied to solve a wide range of games, without the need to develop a new oracle each time. Similarly, given a sufficiently fast solver for finite general-sum games, it may be unnecessary to select more specific methods for solving the master-problem depending on the class of game.
-
-A consistent use of one particular master-problem and oracle method also allows us to finally measure and report meaningful run-times of the Multiple Oracle algorithm. For this reason, we compiled a test set of continuous games appearing in the game-theoretic and optimization-focused literature. The full list is in \cref{appendix:games} and covers
-games with polynomial, rational-polynomial, as well as generic utility functions, that are played over compact sets including intervals and simplexes, and whose equilibria are known to be pure, mixed, and even infinitely supported.
-
-\fi
-
-\iffalse
-in some situations it is a great benefit to be able to directly provide an oracle
-specific to a given game, as in some games best responses can be computed in closed form.
-Still in other cases, players may need to solve common software-engineering problems such
-as computing the shortest path through a graph, in which case the oracles
-may be implemented in terms of existent highly optimized algorithms.
-
-It turns out however that for some games it is sufficient to
-lean on the tools of mathematical optimization with sufficiently generic global solvers.
-As our experiments show, a many continuous games from the literature can be solved in this way.
-\fi
-
-This section presents our experimental evaluation of our generic Double Oracle algorithm implementation over the dataset of games in Appendix \ref{appendix:games}.
-
-\iffalse
-The experimental results reveal significant computational improvements over state-of-the-art methods. To illustrate the performance gains, we highlight Example \ref{ex.zhou19.5.1}, where our algorithm identifies the pure strategy Nash equilibrium in 0.086 seconds, representing a speedup of over three orders of magnitude compared to the 184.5 seconds reported in the original work. This substantial improvement is achieved despite our implementation being a general-purpose proof-of-concept, suggesting that further optimizations could yield even greater performance gains.
-
-The consistent performance improvements observed across our benchmark collection indicate that the Double Oracle framework provides a robust and efficient foundation for solving a broad class of game-theoretic problems, offering significant advantages over specialized algorithms in terms of both computational efficiency and generality.
-\fi
+We show the performance of \ref{alg:do} implemented in \emph{Julia 1.11} using \emph{Gurobi 12} as the oracle, and \emph{gambit-logit} as the master-problem solver. Experiments were performed on a desktop PC with \emph{AMD Ryzen 5 4600G} running \emph{Linux}. The reported solve times include the complete run of the algorithm after a warm-start to force compilation. The stopping criterion was uniformly set to $\epsilon=0.001$, i.e., no player should be able to deviate by more than $\epsilon$ utility units.
 
 \subsection{Experiments on General Blotto}
 The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts. The family of weighing functions described by \textcite{Golman2009} is \(f(z) = \operatorname{sgn}(z)\,|z|^p\), parametrized by $p$ which is strictly positive for continuous games. The margins of victory are differences of products of the allocations to each front.
@@ -76,7 +51,7 @@ While products, exponents, sums and differences should be available through most
 
 For each Example \ref{ex.golman09.isolated}--\ref{ex.golman09.sets}, we computed equilibria in a game with 5 fronts for each of the values $p\in\{0.5, 1, 2\}$ as representative cases of each behavior as shown in \cref{fig:blotto.weighing.functions}. The weighing functions for simplify to: $z\,\sqrt{z^2}$, for $p=2$; and $z$ for $p=1$.
 
-In the smooth case of $p=2$, \emph{Double Oracle} was able to recover a pure equilibrium for the game with  isolated fronts, and mixed equilibria in the other two games where pure equilibria do not exist.
+In the smooth case of $p=2$, \emph{Double Oracle} was able to recover a pure equilibrium for the game with isolated fronts, and mixed equilibria in the other two games where pure equilibria do not exist. The finding an initial feasible solution approximately 2 milliseconds for each example. Initializing with a best response solution did not consistently improve the runtimes.
 \begin{description}
 \item[Result of Example \ref{ex.golman09.isolated}] In the case of 5 isolated fronts with $p=2$, we computed the pure equilibrium $x_1^\star = (1.0, 0.0, 0.0, 0.0, 0.0)$, $x_2^\star = (1.0, 0.0, 0.0, 0.0, 0.0)$
 in a single iteration, with a total runtime of $0.4\,s$.
@@ -108,61 +83,32 @@ $x_1^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \fr
 in two iterations and $1.5\,s$.
 \end{description}
 
-The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its non-linear interface. Attempting to model the utility as $\frac{z}{\sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} was failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
+The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its non-linear interface. Attempting to model the utility as $\sfrac{z}{\sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
 
 While our generic algorithm failed on all non-differentiable instances, specifying a custom oracle makes it possible to send more information about the utility to solvers. We investigated this approach in section \ref{sec:custom.oracles}.
 
-To illustrate the complexity of the utility functions in \cref{ex.golman09.sets} where all sets of fronts are equally important, we write it out explicitly (we break our rule of consistent notation due to a lack of space, and denote the variables of player 1 as $x_1,\dots,x_5$, and player 2 as $y_1,\dots,y_5$.):
-{\tiny
+To illustrate the complexity of the utility functions in \cref{ex.golman09.sets} where all sets of five fronts are equally important, we write it out partially below:
+{
 \begin{align*}
-u_1(x,y)
-    &= \operatorname{sgn}(x_1x_3x_4 - y_1y_3y_4)\abs{x_1x_3x_4 - y_1y_3y_4}^p
-    + \operatorname{sgn}(x_1x_2x_5 - y_1y_2y_5)\abs{x_1x_2x_5 - y_1y_2y_5}^p
-    + \operatorname{sgn}(x_3x_4x_5 - y_3y_4y_5)\abs{x_3x_4x_5 - y_3y_4y_5}^p\\
-    &+ \operatorname{sgn}(x_1x_2x_3x_5 - y_1y_2y_3y_5)\abs{x_1x_2x_3x_5 - y_1y_2y_3y_5}^p
-    + \operatorname{sgn}(x_1x_3x_4x_5 - y_1y_3y_4y_5)\abs{x_1x_3x_4x_5 - y_1y_3y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_1x_2x_4x_5 - y_1y_2y_4y_5)\abs{x_1x_2x_4x_5 - y_1y_2y_4y_5}^p
-    + \operatorname{sgn}(x_2x_3x_4 - y_2y_3y_4)\abs{x_2x_3x_4 - y_2y_3y_4}^p
-    + \operatorname{sgn}(x_5 - y_5)\abs{x_5 - y_5}^p \\
-    &+ \operatorname{sgn}(x_4 - y_4)\abs{x_4 - y_4}^p
-    + \operatorname{sgn}(x_2x_4 - y_2y_4)\abs{x_2x_4 - y_2y_4}^p
-    + \operatorname{sgn}(x_1 - y_1)\abs{x_1 - y_1}^p
-    + \operatorname{sgn}(x_2x_3 - y_2y_3)\abs{x_2x_3 - y_2y_3}^p \\
-    &+ \operatorname{sgn}(x_2x_4x_5 - y_2y_4y_5)\abs{x_2x_4x_5 - y_2y_4y_5}^p
-    + \operatorname{sgn}(x_3x_5 - y_3y_5)\abs{x_3x_5 - y_3y_5}^p
-    + \operatorname{sgn}(x_1x_2x_4 - y_1y_2y_4)\abs{x_1x_2x_4 - y_1y_2y_4}^p \\
-    &+ \operatorname{sgn}(x_1x_5 - y_1y_5)\abs{x_1x_5 - y_1y_5}^p
-    + \operatorname{sgn}(x_3 - y_3)\abs{x_3 - y_3}^p
-    + \operatorname{sgn}(x_1x_2x_3 - y_1y_2y_3)\abs{x_1x_2x_3 - y_1y_2y_3}^p \\
-    &+ \operatorname{sgn}(x_3x_4 - y_3y_4)\abs{x_3x_4 - y_3y_4}^p
-    + \operatorname{sgn}(x_1x_3 - y_1y_3)\abs{x_1x_3 - y_1y_3}^p
-    + \operatorname{sgn}(x_1x_2x_3x_4x_5 - y_1y_2y_3y_4y_5)\abs{x_1x_2x_3x_4x_5 - y_1y_2y_3y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_4x_5 - y_4y_5)\abs{x_4x_5 - y_4y_5}^p
-    + \operatorname{sgn}(x_2x_3x_5 - y_2y_3y_5)\abs{x_2x_3x_5 - y_2y_3y_5}^p
-    + \operatorname{sgn}(x_2x_3x_4x_5 - y_2y_3y_4y_5)\abs{x_2x_3x_4x_5 - y_2y_3y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_1x_4 - y_1y_4)\abs{x_1x_4 - y_1y_4}^p
-    + \operatorname{sgn}(x_2x_5 - y_2y_5)\abs{x_2x_5 - y_2y_5}^p
-    + \operatorname{sgn}(x_1x_4x_5 - y_1y_4y_5)\abs{x_1x_4x_5 - y_1y_4y_5}^p \\
-    &+ \operatorname{sgn}(x_1x_3x_5 - y_1y_3y_5)\abs{x_1x_3x_5 - y_1y_3y_5}^p
-    + \operatorname{sgn}(x_2 - y_2)\abs{x_2 - y_2}^p
-    + \operatorname{sgn}(x_1x_2x_3x_4 - y_1y_2y_3y_4)\abs{x_1x_2x_3x_4 - y_1y_2y_3y_4}^p \\
-    &+ \operatorname{sgn}(x_1x_2 - y_1y_2)\abs{x_1x_2 - y_1y_2}^p.
+u_1(x_1,x_2)
+    &= \operatorname{sgn}(x_{11}x_{13}x_{14} - x_{21}x_{23}x_{24})\abs{x_{11}x_{13}x_{14} - x_{21}x_{23}x_{24}}^p\\
+    &+ \operatorname{sgn}(x_{11}x_{12}x_{15} - x_{21}x_{22}x_{25})\abs{x_{11}x_{12}x_{15} - x_{21}x_{22}x_{25}}^p\\
+    &+ \operatorname{sgn}(x_{13}x_{14}x_{15} - x_{23}x_{24}x_{25})\abs{x_{13}x_{14}x_{15} - x_{23}x_{24}x_{25}}^p\\
+    &+ \operatorname{sgn}(x_{11}x_{12}x_{13}x_{15} - x_{21}x_{22}x_{23}x_{25})\abs{x_{11}x_{12}x_{13}x_{15} - x_{21}x_{22}x_{23}x_{25}}^p\\
+    &+ \operatorname{sgn}(x_{11}x_{13}x_{14}x_{15} - x_{21}x_{23}x_{24}x_{25})\abs{x_{11}x_{13}x_{14}x_{15} - x_{21}x_{23}x_{24}x_{25}}^p \\
+    &+ \dots \text{26 more terms}.
 \end{align*}
 }
 The Double Oracle algorithm still successfully converges for a game with $p=2$ and $40$ isolated fronts in $11$ seconds; with $20$ fronts when all pairs are important in $12.7$ seconds; and for a game with $7$ fronts, of which all sets are important in $23.6$ seconds, at which point the utility function contains the weighing function $127$ times.
 
-\iffalse
 \subsection{Experiments on Games by Parillo, Stein and Ozdaglar}
-The following examples are games where the strategy spaces for each player are intervals. The games were originally solved using Lasserre hierarchies, discretization techniques, or were used to demonstrate methods for obtaining bounds on the size of support of equilibria.
-
 \begin{description}
 \item[Result of Example \ref{ex.parrilo06.2.1}] DO converges to the $\epsilon$-NE:
 \begin{align*}
 \mu_1^\star &\approx 0.5\delta_{ -1.0 } + 0.5\delta_{ 1.0 },\\
 \mu_2^\star &\approx 1.0\delta_{ 0.0 }.
 \end{align*}
-in $4$ iterations, and a time of $0.016\,s$. Despite the simplicity of this \emph{guessing game}, it is interesting for the \emph{DO} algorithm. The \emph{avoiding} player quickly finds both $1$ and $-1$ as best responses, after which the pure strategy of the \emph{chasing} player oscillates to find the center of mass of the \emph{avoiding} player. The \emph{chasing} player will never reach the point $0$, and so will never play a pure strategy, except when initialized at that point.
-\todo[inline]{check and add supporting statements with lots of maths :) }
+in $4$ iterations, and a time of $0.016\,s$.
 \item[Result of Example \ref{ex.parrilo06.3.1}] After $0.036$ seconds and 6 iterations we get the pure equilibrium:
 \[x_1^\star \approx 0.39, \; x_2^\star \approx 0.63.\]
 \item[Result of Example \ref{ex.parrilo06.3.2}] After $0.073\,s$, and 9 iterations, DO converges to the $\epsilon$-NE:
@@ -193,8 +139,6 @@ x_3^\star \approx -0.5 .
 
 
 \subsection{Experiments on Games with Interesting Weaker Solution Concepts}
-The following examples are from papers that study algorithms recovering weaker solution concepts, such as min-max critical points, due to the potential non-existence and the complexity of computing Nash Equilibria. Examples ... were used to demonstrate the failure of convergence of gradient-based algorithms.
-
 \begin{description}
 \item[Result of Example \ref{ex.daskalakis.d}] DO converges in $0.015\,s$ and 1 iteration to the pure equilibrium:
 \begin{align*}
@@ -251,7 +195,6 @@ After 5 iterations and $0.13\,s$, DO converges to the $\epsilon$-NE:
 \mu_2^\star &\approx 0.33\delta_{ -1.31 } + 0.67\delta_{ 1.31 }.
 \end{align*}
 \end{description}
-\fi
 
 \subsection{Experiments on Two-Player Zero-Sum Polynomial Games}
 The following examples are two-player zero-sum polynomial games, that originally served as experiments for the algorithm developed by \textcite{nie.yang.ea:saddle}. Their algorithm can prove the existence of (global) saddle points, i.e. pure Nash Equilibria.
@@ -341,17 +284,9 @@ After $0.017\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 
 
 \subsection{Experiments on Two-Player Zero-Sum Rational Games}
-The following examples are two-player zero-sum rational games, that originally served as experiments for the algorithm developed by \textcite{zhou.wang.ea:saddle}. Their algorithm can prove the existence of (global) saddle points, i.e. pure Nash Equilibria.
-
 Double Oracle recovered pure strategies in the games where they exist, except for \cref{ex.zhou19.5.5.ii,ex.zhou19.5.6.ii}. Tightening the $\epsilon$ in those cases did not produce simpler equilibria.
 
 \begin{description}
-\item[Result of Example \ref{ex.zhou19.5.1}]
-After $0.086\,s$ and $4$ iterations, DO converged to the $\epsilon$-NE:
-\begin{align*}
-x_{1}^\star \approx  (0.32, 0.32, 0.37) ,\;
-x_{2}^\star \approx  (0, 1, 0) .
-\end{align*}
 \item[Result of Example \ref{ex.zhou19.5.3.i}]
 After $0.0061\,s$ and $1$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
@@ -364,41 +299,9 @@ After $0.16\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
 \mu_1^\star &\approx 0.149\delta_{ (0, 0, 0) } + 0.425\delta_{ (0, 0, 1) } + 0.425\delta_{ (0, 0, 1) },\\
 \mu_2^\star &\approx 0.46\delta_{ (0.7, 0.24, 1) } + 0.54\delta_{ (0.58, 0.24, 0) }.
 \end{align*}
-\item[Result of Example \ref{ex.zhou19.5.5.i}]
-After $0.17\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
-\begin{align*}
-\mu_1^\star &\approx 0.283\delta_{ (-0.71, -0.71) } + 0.29\delta_{ (-0.71, -0.71) } + 0.427\delta_{ (0.71, 0.71) },\\
-\mu_2^\star &\approx \delta_{ (0, 0) }.
-\end{align*}
-\item[Result of Example \ref{ex.zhou19.5.5.ii}]
-After $0.34\,s$ and iterations: $10$ DO converged to the $\epsilon$-NE:
-\begin{align*}
-\mu_1^\star &\approx 0.456\delta_{ (0.49, 0.43, 0.35) } + 0.544\delta_{ (0.46, 0.47, 0.34) },\\
-\mu_2^\star &\approx 0.365\delta_{ (0.64, 0.59, 0.49) } + 0.635\delta_{ (0.67, 0.54, 0.5) }.
-\end{align*}
-\item[Result of Example \ref{ex.zhou19.5.6.ii}]
-After $0.072\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
-\begin{align*}
-\mu_1^\star &\approx \delta_{ (0.41, 0.41, 0.82) },\\
-\mu_2^\star &\approx 0.006\delta_{ (-0.38, -0.84, -0.38) } + 0.994\delta_{ (-0.39, -0.84, -0.39) }.
-\end{align*}
-\item[Result of Example \ref{ex.zhou19.5.7.i}]
-After $0.047\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
-\begin{align*}
-x_{1}^\star \approx  (0.41, 0.64, 0.64) ,\;
-x_{2}^\star \approx  (0.54, 0.84) .
-\end{align*}
-\item[Result of Example \ref{ex.zhou19.5.7.ii}]
-After $0.052\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
-\begin{align*}
-x_{1}^\star \approx  (0.95, 0.22, 0.22) ,\;
-x_{2}^\star \approx  (1, 0, 0) .
-\end{align*}
 \end{description}
 
 \subsection{Games from Classical Literature}
-The following games appear in books from the $1950$s and $60$s, where they were used as demonstrations that the solutions of continuous games may be supported on anything from singleton sets to Cantor sets and whole intervals.
-
 \begin{description}
 \item[Result of Example \ref{ex.dresher61.pg110}]
 After $0.018\,s$ and $4$ iterations, DO converged to the $\epsilon$-NE:
@@ -406,7 +309,11 @@ After $0.018\,s$ and $4$ iterations, DO converged to the $\epsilon$-NE:
 \mu_1^\star &\approx 0.5\delta_{ 0 } + 0.5\delta_{ 1 },\\
 \mu_2^\star &\approx \delta_{ 0.5 }.
 \end{align*}
-\item[Result of Example \ref{ex.dresher61.pg111}] did not finish. Root relaxation failed.
+\item[Result of Example \ref{ex.dresher61.pg111}] Converged in $0.14\,s$ and $8$ iterations to:
+\begin{align*}
+\mu_1^\star &\approx 0.523\delta_{ 1 } + 0.477\delta_{ 0 },\\
+\mu_2^\star &\approx 0.919\delta_{ 0.5 } + 0.081\delta_{ 0.53 }.
+\end{align*}
 \item[Result of Example \ref{ex.gross58.poly}]
 After $0.042\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
@@ -441,8 +348,6 @@ After $0.12\,s$ and $6$ iterations, DO converged to the $\epsilon$-NE:
 \end{description}
 
 \subsection{Experiments on Applied Games and Others}
-The following games are a mix from game theory applied to communication networks and security games, as well as others that did not fit elsewhere.
-
 \begin{description}
 \item[Result of Example \ref{ex.chasnov20.5.2}]
 After $0.037\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
@@ -450,7 +355,7 @@ After $0.037\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
 \mu_1^\star &\approx \delta_{ -1.08 },\\
 \mu_2^\star &\approx 0.5\delta_{ 0.98 } + 0.5\delta_{ 0.98 }.
 \end{align*}
-\item[Result of Example \ref{ex.chasnov20.B.1}]
+\item[Result of Example \ref{ex.chasnov20.b.1}]
 After $0.034\,s$ and $3$ iterations, DO converged to the $\epsilon$-NE:
 \begin{align*}
 \mu_1^\star &\approx 0.5\delta_{ 0.0 } + 0.5\delta_{ 1.0 },\\
@@ -499,6 +404,7 @@ x_{1}^\star \approx (0.33, 0.34, 0.34, 0.23, 0.23, 0.24).
 
 
 \subsection{Experiments on Optimization Test Functions}
+As we searched for an $\epsilon$-NE with $\epsilon=0.001$ consistently across all games, two of the following examples had to be rescaled. Example \ref{ex.surjanovic.boha1} was scaled by $10^{-2}$, and Example \ref{ex.surjanovic.rosen} by $10^{-3}$ as its utility reaches over $10^6$ making the stopping criterion impractically strict.
 \begin{description}
 \item[Example \ref{ex.surjanovic.ackley}]
 In $2$ iterations and $0.023\,s$, DO converged to the equilibrium:
@@ -538,5 +444,61 @@ x_{2} \approx { 10 }.
 \end{align*}
 \end{description}
 
+\subsection{Results on Discontinuous Games}
+Our DO algorithm is not guaranteed to converge on discontinuous games; However, as long as the discontinuities can be avoided, the algorithm often recovers a solution.
+The following games by \textcite{zhou.wang.ea:saddle} contain discontinuities, but converge without any reformulation or modification to the algorithm.
+
+\begin{description}
+\item[Example \ref{ex.zhou19.5.1}]
+Converged in $0.1\;(+0.002)\,s$ and $4$ iterations to:
+\begin{align*}
+x_1^\star \approx (0.32, 0.32, 0.37),\;
+x_2^\star \approx (0, 0, 1).
+\end{align*}
+\item[Example \ref{ex.zhou19.5.5.i}]
+Converged in $0.22\;(+0.002)\,s$ and $6$ iterations to:
+\begin{align*}
+\mu_1^\star &\approx 0.424\delta_{ (0.71, 0.71) } + 0.307\delta_{ (-0.71, -0.71) } + 0.269\delta_{ (-0.71, -0.71) },\\
+\mu_2^\star &\approx 1.0\delta_{ (0, 0) }.
+\end{align*}
+\item[Example \ref{ex.zhou19.5.5.ii}]
+Converged in $0.38\;(+0.002)\,s$ and $10$ iterations to:
+\begin{align*}
+\mu_1^\star &\approx 0.548\delta_{ (0.46, 0.47, 0.34) } + 0.452\delta_{ (0.49, 0.43, 0.35) },\\
+\mu_2^\star &\approx 0.641\delta_{ (0.67, 0.54, 0.5) } + 0.359\delta_{ (0.64, 0.59, 0.49) }.
+\end{align*}
+\item[Example \ref{ex.zhou19.5.6.ii}]
+Converged in $0.062\;(+0.006)\,s$ and $3$ iterations to:
+\begin{align*}
+x_1^\star \approx (0.41, 0.41, 0.81),\;
+x_2^\star \approx (-0.39, -0.84, -0.39).
+\end{align*}
+\item[Example \ref{ex.zhou19.5.7.i}]
+Converged in $0.035\;(+0.004)\,s$ and $2$ iterations to:
+\begin{align*}
+x_1^\star \approx (0.42, 0.64, 0.64),\;
+x_2^\star \approx (0.54, 0.84).
+\end{align*}
+\end{description}
+
+DO initially failed to solve Examples \ref{ex.zhou19.5.2.ii} and \ref{ex.zhou19.5.7.i.polar} as it attempted to initialize at the discontinuity. Both examples were solved by initializing in the interior of the sets.
+\begin{description}
+\item[Example \ref{ex.zhou19.5.2.ii}]
+Converged in $0.0086\;(+0.002)\,s$ and $1$ iterations to:
+\begin{align*}
+x_1^\star \approx (0, 0, 0),\;
+x_2^\star \approx (0, 0, 0).
+\end{align*}
+\item[Example \ref{ex.zhou19.5.7.i.polar}]
+Converged in $0.056\;(+0.002)\,s$ and $2$ iterations to:
+\begin{align*}
+x_1^\star \approx (0.87, 1),\;
+x_2^\star \approx 1.
+\end{align*}
+\end{description}
+
+Our implementation can not be directly applied to search for solutions in Games with unbounded strategy spaces. We know of no global solver powerful enough to automatically infer bounds on the location of best responses in general games.
+
 
 \end{document}
+
