@@ -1,10 +1,7 @@
 
-We will compare the results obtained by specialized methods and detail the setup for each example in the upcoming section. Later we switch to a generic method for each subproblem and show the versitility of the Multiple Oracle method.
-\todo[inline]{moved here, just check and inline properly}
+We show the performance that can be expected from Multiple Oracle on various important examples from the literature. We focus on examples which demonstrate interesting behaviors, as well as special classes of games for which efficient oracles and master-problems exist. We will detail the setup individually for each example. In appendix \ref{appendix:do.results}, we follow with a more comprehensive evaluation of a general implementation of the algorithm based on nonlinear solvers and finite general-sum games.
 
-We show the performance that can be expected from Multiple Oracle on various important examples from the literature. In this section we present only the examples which we thought demonstrate interesting behaviors, and also special classes of games for which efficient oracles and master-problems exist. In appendix \ref{appendix:do.results}, we follow with a more comprehensive evaluation of a general implementation of the algorithm based on nonlinear solvers and finite general-sum games.
-
-We initialize the algorithm by first selecting a feasible point\footnote{We did not see a consistent difference in runtime when selecting a point in the interior of the players' strategy spaces, compared to choosing an arbitrary point found heuristically by solvers.} and then allowing each player to select a best response to the feasible point. The algorithm then continues with standard Multiple Oracle iterations: by computing an equilibrium of the finite subgame and selecting additional best responses.
+The algorithm is initialized by selecting an arbitrary point found heuristically by solvers. \footnote{We experimented with initialization with interior points of players' strategy spaces and with best responses to such points, but did not observe a consistently faster runtime.} The algorithm then continues with standard Multiple Oracle iterations: by computing an equilibrium of the finite subgame and selecting best responses.
 
 We plot the progress of the largest possible gain from a profitable deviation (\ref{crit1}, $\epsilon$) at each iterations, along with the Wasserstein distance \eqref{crit2} between mixed strategies from consecutive iterations.
 
@@ -160,22 +157,136 @@ We plot the progress of the largest possible gain from a profitable deviation (\
 \end{example}
 
 \begin{example}[Separable Network Games]
-Thanks to the generality of the Multiple Oracle algorithm, we can also solve the polynomial network games \ref{ex.kroupa21.5} and \ref{ex.kroupa21.6}, which were analyzed with the tools of polynomial optimization earlier in \cref{sec:separable.experiments}. We show their convergence in \cref{fig:oracle.small.separable,fig:oracle.large.separable}. The master problem was solved using the LP technique by \textcite[Linear Program 1]{Cai16}, while the oracles were implemented using Lasserre hierarchies.
-\todo[inline]{rerun small network game and add runtime as a comparison for the generic algorithm}
-\todo[inline]{run large security game example as a comparison for the generic algorithm}
+We can also solve the polynomial network games \ref{ex.kroupa21.5} and \ref{ex.kroupa21.6}, which were analyzed with the tools of polynomial optimization earlier in \cref{sec:separable.experiments}. We show their convergence in \cref{fig:oracle.small.separable,fig:oracle.large.separable}. The master problem was solved using the LP technique by \textcite[Linear Program 1]{Cai16} with \emph{Mosek}, while the oracles were implemented using spatial branch and bound using \emph{Gurobi}.
+
+The experimental run over 10 iterations of \cref{ex.kroupa21.5} is shown in figure \ref{fig:oracle.small.separable}. The algorithm converged in $0.15$ seconds and $8$ iterations to the $\epsilon$-NE:
+\begin{align*}
+\mu_1^\star &\approx \delta_{ -0.06 },\\
+\mu_2^\star &\approx 0.573\delta_{ 0.34 } + 0.427\delta_{ 0.37 },\\
+\mu_3^\star &\approx 0.722\delta_{ 1 } + 0.278\delta_{ -1 }.
+\end{align*}
+We also experimented with oracles based on the SOS hierarchy, which resulted in a slightly slower runtime of $0.29$ seconds.
 
 \begin{figure}
-  \centering
-  \includegraphics{do7.pdf}
-  \caption{Convergence of Example \ref{ex.kroupa21.5}. The Multiple Oracle algorithm finds a solution in mixed strategies where $x_1 \approx -0.06$, $x_2$ is $0.35$ with probability $0.708$ and $0.36$ with probability $0.292\%$, $x_3$ is $1.0$ with probability $0.7211$ and $-1.0$ with probability $0.2789$; with the corresponding payoffs \((-1.23, 0.26, 0.97)\).}
-  \label{fig:oracle.small.separable}
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+
+\pgfplotstableread{
+0.0 0.125 2.0
+1.03 1.12 0.0
+0.00347 0.281 2.67
+0.0431 0.0703 0.0
+0.00668 0.0176 0.0
+0.00256 0.00465 0.0
+0.000491 0.00116 0.0
+6.36e-5 0.000291 0.0
+7.75e-7 7.26e-5 0.0
+1.22e-5 1.82e-5 2.0e-16
+}\exploitdata
+\pgfplotstableread{
+NaN NaN NaN
+0.0 0.25 1.0
+0.0 0.417 0.5
+0.0 0.267 0.5
+0.0 0.15 0.075
+0.0578 0.0838 0.00225
+0.0 0.01 0.0198
+0.0 0.01 0.00992
+0.0 0.01 0.00496
+0.000623 0.00222 0.00203
+}\wassersteindata
+
+\pgfplotstablegetcolsof{\exploitdata}
+\pgfmathtruncatemacro{\numcols}{\pgfplotsretval}
+
+\nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
+\pgfplotsinvokeforeach{0,...,\numcols-1}{
+    \addplot table[x expr=\coordindex+1, y index=#1] {\exploitdata};
+}
+
+\pgfplotsinvokeforeach{1,...,\numcols}{
+  \addlegendentry{Player #1}
+}
+\nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
+\pgfplotsinvokeforeach{0,...,\numcols-1}{
+    \addplot table[x expr=\coordindex+1, y index=#1] {\wassersteindata};
+}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Convergence of Example \ref{ex.kroupa21.5} showing the largest possible deviation by each player, as well as the wasserstein distance between strategies from successive iterations.}
+\label{fig:oracle.small.separable}
 \end{figure}
 
+The experiment on \cref{ex.kroupa21.6} is shown in figure \ref{fig:oracle.large.separable}. The algorithm converged already after $0.5\,s$ and $12$ iterations to:
+\begin{align*}
+\mu_1^\star &\approx \delta_{ (0.29, 0, 0, 0.21) },\\
+\mu_2^\star &\approx 0.494\delta_{ (0.34, 0.22, 0, 0.24) } + 0.303\delta_{ (0.35, 0, 0.2, 0.25) } + 0.204\delta_{ (0.43, 0.06, 0, 0.3) },\\
+\mu_3^\star &\approx 0.69\delta_{ (0, 1) } + 0.31\delta_{ (1, 0) },\\
+\mu_4^\star &\approx 0.758\delta_{ (1, 0) } + 0.242\delta_{ (0, 1) }.
+\end{align*}
+Using oracles based on the SOS hierarchy, we found the same equilibrium in $1.2$ seconds.
+
+
 \begin{figure}
-  \centering
-  \includegraphics{do7.pdf}
-  \caption{Convergence of Example \ref{ex.kroupa21.6}. {\color{red} TODO}.}
-  \label{fig:oracle.large.separable}
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=16, ymode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+
+\pgfplotstableread{
+0.0 0.0 0.623 0.0
+0.175 0.448 0.0 0.0
+0.105 0.269 0.0 0.0
+1.0e-16 0.0 0.0 1.54
+0.105 0.269 1.0e-16 0.0
+0.0525 0.134 0.0 0.0
+0.00208 0.0175 0.0 0.0
+3.22e-5 0.0168 0.0 1.0e-16
+2.23e-6 0.00574 0.0 0.0
+7.5e-7 0.00175 1.0e-16 0.0
+5.88e-7 0.0019 0.0 1.0e-16
+7.87e-8 0.000395 0.0 1.0e-16
+1.54e-8 0.000104 1.0e-16 0.0
+2.51e-9 8.98e-5 1.0e-16 0.0
+2.67e-9 2.36e-5 1.0e-16 0.0
+}\exploitdata
+\pgfplotstableread{
+NaN NaN NaN NaN
+0.0 0.0 1.41 0.0
+0.0 0.629 0.566 0.0
+0.707 1.13 0.849 0.0
+0.707 1.13 0.849 1.41
+0.0 0.0 0.0 0.66
+0.354 0.652 0.162 0.44
+0.0589 0.146 0.00711 0.0387
+0.0 0.159 0.0492 0.00504
+0.00196 0.1 0.0174 0.0139
+0.0 0.0838 0.0105 4.7e-5
+0.0 0.075 0.000993 0.00751
+0.000368 0.0409 0.00448 0.0039
+0.0 0.025 0.0024 0.0012
+0.000163 0.0219 0.00246 0.00168
+}\wassersteindata
+
+\pgfplotstablegetcolsof{\exploitdata}
+\pgfmathtruncatemacro{\numcols}{\pgfplotsretval}
+
+\nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
+\pgfplotsinvokeforeach{0,...,\numcols-1}{
+    \addplot table[x expr=\coordindex+1, y index=#1] {\exploitdata};
+}
+
+\pgfplotsinvokeforeach{1,...,\numcols}{
+  \addlegendentry{Player #1}
+}
+\nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
+\pgfplotsinvokeforeach{0,...,\numcols-1}{
+    \addplot table[x expr=\coordindex+1, y index=#1] {\wassersteindata};
+}
+\end{groupplot}
+\end{tikzpicture}
+\caption{Convergence of Example \ref{ex.kroupa21.6} over 15 iterations.}
+\label{fig:oracle.large.separable}
 \end{figure}
 \end{example}
 
