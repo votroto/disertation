@@ -3,7 +3,7 @@ We show the performance that can be expected from Multiple Oracle on various imp
 
 The algorithm is initialized by selecting an arbitrary point found heuristically by solvers. \footnote{We experimented with initialization with interior points of players' strategy spaces and with best responses to such points, but did not observe a consistently faster runtime.} The algorithm then continues with standard Multiple Oracle iterations: by computing an equilibrium of the finite subgame and selecting best responses.
 
-We plot the progress of the largest possible gain from a profitable deviation (\ref{crit1}, $\epsilon$) at each iterations, along with the Wasserstein distance \eqref{crit2} between mixed strategies from consecutive iterations.
+We plot the progress of the largest possible gain from a profitable deviation (\ref{crit1}, $\epsilon$) for each player at each iteration, along with the Wasserstein distance \eqref{crit2} between mixed strategies from consecutive iterations. Neither sequence is monotonic, and both often attain zero, for example, when only some of players profit from switching strategies.
 
 \begin{example}[General Blotto]\label{ex:do.slow.blotto}
   The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts. We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$, with the weighing function $f(z) = \operatorname{sgn}(z)\,|z|^p$. When $p=0.5$, the utility function is non-differentiable and the game converges very slowly as shown in \cref{fig:ex.blotto.slow}. Large gains are possible by winning a front by a small margin as the slope of the utility function around zero approaches infinity. After 140 iterations, the algorithm recovers the $\epsilon$-NE with $\epsilon=0.006$ shown in figure \ref{fig:ex.blotto.slow.simplex}.
@@ -27,7 +27,7 @@ We plot the progress of the largest possible gain from a profitable deviation (\
   \begin{figure}
   \centering
   \begin{tikzpicture}
-  \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=141, ymode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+  \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=141, ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
   \pgfplotstableread{chapter-continuous/img/blotto.slow.epsilon.dat}\exploitdata
   \pgfplotstableread{chapter-continuous/img/blotto.slow.wasserstein.dat}\wassersteindata
@@ -37,11 +37,11 @@ We plot the progress of the largest possible gain from a profitable deviation (\
 
   \nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
   \pgfplotsinvokeforeach{0,...,\numcols-1}{
-      \addplot table[x expr=\coordindex+1, y index=#1] {\exploitdata};
+      \addplot table[only marks , x expr=\coordindex+1, y index=#1] {\exploitdata};
   }
   \nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
   \pgfplotsinvokeforeach{0,...,\numcols-1}{
-      \addplot table[x expr=\coordindex+1, y index=#1] {\wassersteindata};
+      \addplot table[only marks , x expr=\coordindex+1, y index=#1] {\wassersteindata};
   }
   \end{groupplot}
   \end{tikzpicture}
@@ -76,6 +76,133 @@ We plot the progress of the largest possible gain from a profitable deviation (\
   \end{figure}
 \end{example}
 
+
+
+\begin{example}[Tangent Ridge Game]\label{ex.tan.ridge}
+Consider a two-player general-sum game on $[0,1]$, with utility functions illustrated in Fig. \ref{fig:tan.ridge.utility}:
+\[\begin{aligned}
+u_1(x_1,x_2)&=-\sqrt{|x_1-x_2|} \\
+u_2(x_1,x_2)&=-\sqrt{|x_1-\tan(x_2)|}
+\end{aligned}\]
+
+Let $X_1,X_2\subset[0,1]$, and $x^\star_1,x^\star_2 = \min X_1, \min X_2$. Every finite subgame with strategy sets $X_1$ and $X_2$, has the pure NE $(x^\star_1, x^\star_2)$ if $\tan(x^\star_2) \ge  x^\star_1 \ge x^\star_2$.
+\begin{proof}
+\begin{enumerate}
+    \item For all $x_1\in X_1$ we have $x_1\ge x^\star_1$, hence
+    \[
+    |x_1-x^\star_2|=x_1-x^\star_2\ge x^\star_1-x^\star_2=|x^\star_1-x^\star_2|.
+    \]
+    \item The function $\tan$ is strictly increasing on $[0,1]$, and $\tan(x^\star_2)\ge x^\star_1$ by assumption. Hence, for all $x_2 \in X_2$ we get $\tan(x_2)\ge\tan(x^\star_2)\ge x^\star_1$ and
+    \[
+    |x^\star_1-\tan(x_2)|=-x^\star_1+\tan(x_2) \ge -x^\star_1 + \tan(x^\star_2)=|x^\star_1-\tan(x^\star_2)|.
+    \]
+\end{enumerate}
+
+In the utilities, the distances are mapped through the decreasing function $-\sqrt{\cdot}$ which inverts the relations. Therefore, $u_1(x_1,x^\star_2) \le u_1(x^\star_1,x^\star_2)$ for all $x_1\in X_1$; and $u_2(x^\star_1,x_2) \le u_2(x^\star_1,x^\star_2)$ for all $x_2\in X_2$.
+\end{proof}
+
+It follows that if DO is initialized with a single action for both players, all generated subgames will have pure equilibria. The master-problem can be implemented by placing all weight on the minimal actions, while the oracles are given in closed form by $\beta_1(x_2) = x_2$ and $\beta_2(x_1)=\arctan(x_1)$.
+
+Suppose the algorithm is started with a point outside $x_1 > x_2 > \arctan(x_1)$, e.g. $(1,1)$. Then the pure equilibria of the generated subgames fall alternately on one of the best response curves. The players take turns expanding their supports with successive iterates of $\arctan^{(i)}(1)$, which converges to the unique pure NE at the origin along a trajectory of slope approximately one. As a result, progress slows significantly in later iterations, mirroring the behavior observed in the \emph{General Blotto} game. The Double Oracle algorithm takes 14424 iterations to reach an $\epsilon=10^{-3}$ NE, when started from the point $(1,1)$ as shown in Fig \ref{fig:tan.ridge.convergence}.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=1.5cm }, width=5cm, xlabel={$x_1$}, ylabel={$x_2$}, colormap/viridis,cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist },ztick={-1,0}]
+\nextgroupplot[view={-40}{40}, title={$u_1(x_1,x_2) = -\sqrt{\lvert x_1-x_2\rvert}$}]
+        \addplot3[surf,shader=interp,samples=40,domain=0:1] ({x},{y},{-sqrt(abs(x-y))});
+
+        \addplot3[surf,shader=interp, domain=0:1,domain y=-0.07:0, samples y=2] ({x},{x},{y});
+        \addplot3[domain=0:1,thick, samples y=0] ({x},{x},{0});
+        \addplot3[domain=0:pi/4,thick,dashed, samples y=0] ({tan(deg(x))},{x},{-sqrt(abs(x-tan(deg(x))))});
+\nextgroupplot[view={-50}{40},title={$u_2(x_1,x_2) = -\sqrt{\lvert x_1-\operatorname{tan}(x_2)\rvert}$}]
+        \addplot3[surf,shader=interp,samples=40,domain=0:1] ({x},{rad(atan(y))},{-sqrt(abs(x-y))});
+        \addplot3[surf,shader=interp,samples=40,samples y=20,domain=0:1,domain y=1:rad(atan(deg(1)))] ({x},{rad(atan(y))},{-sqrt(abs(x-y))});
+        \addplot3[surf,shader=interp, domain=0:pi/4,domain y=-0.07:0, samples y=2] ({tan(deg(x))},{x},{y});
+        \addplot3[domain=0:pi/4,thick, samples y=0] ({tan(deg(x))},{x},{0});
+        \addplot3[domain=0:1,thick, dashed, samples y=0] ({x},{x},{-sqrt(abs(x-tan(deg(x))))});
+
+    \end{groupplot}
+\end{tikzpicture}
+\caption{Utility functions of both players in Example \ref{ex.tan.ridge}. The projected best response curves $\beta_1(x_2)=x_2$ and $\beta_2(x_1)=\arctan(x_1)$ show similar behavior near the origin, where they intersect, resulting in a unique pure NE.}
+\label{fig:tan.ridge.utility}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, ymin=1e-6,  ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+
+\pgfplotstableread{
+iter y1 y2
+1 2.2250738585072014e-308 0.7465974209180861
+6 0.2799813821004752 2.2250738585072014e-308
+11 2.2250738585072014e-308 0.20707769651796148
+16 0.1527463538550664 2.2250738585072014e-308
+21 2.2250738585072014e-308 0.13131683922344348
+26 0.10947364260211453 2.2250738585072014e-308
+31 2.2250738585072014e-308 0.09897614068926378
+36 0.08693070542602532 2.2250738585072014e-308
+41 2.2250738585072014e-308 0.08060251441888269
+46 0.07287110466515057 2.2250738585072014e-308
+51 2.2250738585072014e-308 0.06859724728636728
+56 0.06316855908823332 2.2250738585072014e-308
+61 2.2250738585072014e-308 0.06006705794250409
+66 0.056021716885879355 2.2250738585072014e-308
+71 2.2250738585072014e-308 0.05365654603142897
+76 0.05051176457864798 2.2250738585072014e-308
+81 2.2250738585072014e-308 0.04864143816663585
+86 0.04611810974898059 2.2250738585072014e-308
+91 2.2250738585072014e-308 0.044597521221867574
+96 0.042522453362578545 2.2250738585072014e-308
+}\exploitdata
+\pgfplotstableread{
+iter y1 y2
+1 NaN NaN
+6 2.2250738585072014e-308 0.07838957432289229
+11 0.04288117239518496 2.2250738585072014e-308
+16 2.2250738585072014e-308 0.02333144861601716
+21 0.017244112263635702 2.2250738585072014e-308
+26 2.2250738585072014e-308 0.011984478424575506
+31 0.009796276425740935 2.2250738585072014e-308
+36 2.2250738585072014e-308 0.007556947545866388
+41 0.0064967653306461925 2.2250738585072014e-308
+46 2.2250738585072014e-308 0.0053101978951193285
+51 0.004705582335267022 2.2250738585072014e-308
+56 2.2250738585072014e-308 0.003990266857283625
+61 0.0036080514498681437 2.2250738585072014e-308
+66 2.2250738585072014e-308 0.0031384327628416198
+71 0.0028790249320228556 2.2250738585072014e-308
+76 2.2250738585072014e-308 0.0025514383608487567
+81 0.0023659895069186587 2.2250738585072014e-308
+86 2.2250738585072014e-308 0.0021268800468190185
+91 0.001988938899134929 2.2250738585072014e-308
+96 2.2250738585072014e-308 0.0018081590399726677
+}\wassersteindata
+
+\nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
+\addplot table[only marks,x=iter,y=y1] {\exploitdata};
+\addplot table[only marks,x=iter,y=y2] {\exploitdata};
+\addlegendentry{Player 1}
+\addlegendentry{Player 2}
+
+\addplot[domain=10:14422,dashed] {3^(1/4) * sqrt(2 / ( sqrt(x^2 - 1) * ( sqrt(x+1) + sqrt(x-1) ) ))};
+
+\nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
+\addplot table[only marks,x=iter,y=y1] {\wassersteindata};
+\addplot table[only marks,x=iter,y=y2] {\wassersteindata};
+
+\addplot[domain=10:14422,dashed] {2*sqrt(3) / ( sqrt((x+1)*(x+3)) * ( sqrt(x+3) + sqrt(x+1) ))};
+
+\end{groupplot}
+\end{tikzpicture}
+\caption{A log-log plot of the sublinear $O(x^{-3/2})$ convergence of Example~\ref{ex.tan.ridge} in both the largest possible deviation by each player, as well as the Wasserstein distance between strategies from successive iterations.}
+\label{fig:tan.ridge.convergence}
+\end{figure}
+\end{example}
+
+
+
 \begin{example*}[Example \ref{ex.parrilo06.3.1}]
     Consider a two-player zero-sum game with strategy sets $[-1,1]$ and a utility function of the first player
     \[
@@ -84,12 +211,55 @@ We plot the progress of the largest possible gain from a profitable deviation (\
 
     As the generated subgames are all finite two-player zero-sum games, we can use linear programming to find their equilibria. The best response oracles were implemented using Lasserre hierarchies.
 
-    This example shows that neither the sequence of $\eps$ nor the Wasserstein distances are monotone.
     \begin{figure}
-      \centering
-      \label{fig:oracle.zerosum.polynomial}
-      \includegraphics{do2.pdf}
-      \caption{Convergence in Example \ref{ex.parrilo06.3.1}. After 10 iterations, our method finds pure strategies $x \approx 0.4$ and $y \approx 0.63$, resulting in payoffs \((-0.47, 0.47)\). }
+    \centering
+    \begin{tikzpicture}
+    \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+
+    \pgfplotstableread{
+    4.0 2.0
+    0.0 1.12
+    0.879 0.0
+    0.22 0.112
+    0.0198 0.0253
+    0.0 0.000176
+    0.00036 0.0
+    9.0e-5 4.45e-5
+    2.25e-5 1.12e-5
+    5.63e-6 2.79e-6
+    }\exploitdata
+    \pgfplotstableread{
+    NaN NaN
+    2.0 2.0
+    0.0 0.75
+    0.6 0.375
+    0.469 0.375
+    0.141 0.0
+    0.0 0.015
+    0.00463 0.0075
+    0.00699 0.00377
+    0.00368 0.00189
+    }\wassersteindata
+
+    \pgfplotstablegetcolsof{\exploitdata}
+    \pgfmathtruncatemacro{\numcols}{\pgfplotsretval}
+
+    \nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
+    \pgfplotsinvokeforeach{0,...,\numcols-1}{
+        \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\exploitdata};
+    }
+
+    \pgfplotsinvokeforeach{1,...,\numcols}{
+      \addlegendentry{Player #1}
+    }
+    \nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
+    \pgfplotsinvokeforeach{0,...,\numcols-1}{
+        \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\wassersteindata};
+    }
+    \end{groupplot}
+    \end{tikzpicture}
+    \caption{Convergence in Example \ref{ex.parrilo06.3.1}. After 10 iterations, our method finds pure strategies $x \approx 0.4$ and $y \approx 0.63$, resulting in payoffs \((-0.47, 0.47)\). }
+    \label{fig:oracle.zerosum.polynomial}
     \end{figure}
 \end{example*}
 
@@ -103,11 +273,55 @@ We plot the progress of the largest possible gain from a profitable deviation (\
 
   We computed equilibria in the general-sum matrix subgames using the multilinear program \ref{eq:sturmfels}. The best response oracles were implemented using Lasserre hierarchies.
 
-  \begin{figure}
+   \begin{figure}
     \centering
-    \includegraphics{do3.pdf}
-    \caption{Convergence in Example \ref{ex.stein08.2.3}. Our method finds mixed strategies where $x\approx0.11$ with probability $44.19\%$ and $x\approx-1$ with probability $55.81\%$ and $y\approx0.72$ resulting in payoffs \((1.13, 1.81)\).}
-  \end{figure}
+    \begin{tikzpicture}
+    \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log, xmode=log,legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+
+    \pgfplotstableread{
+    6.78e-8 2.24
+    0.797 0.0
+    0.0 0.504
+    0.00123 0.117
+    3.39e-5 0.0285
+    2.75e-6 0.00724
+    2.31e-6 0.00182
+    2.27e-6 0.000457
+    2.28e-6 0.000115
+    2.26e-6 2.85e-5
+    }\exploitdata
+    \pgfplotstableread{
+    NaN NaN
+    2.92e-8 1.83
+    1.13 1.97e-8
+    0.603 0.124
+    0.28 0.121
+    0.133 0.00463
+    0.0672 0.00473
+    0.034 0.00478
+    0.0171 0.00481
+    0.00853 0.00301
+    }\wassersteindata
+
+    \pgfplotstablegetcolsof{\exploitdata}
+    \pgfmathtruncatemacro{\numcols}{\pgfplotsretval}
+
+    \nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
+    \pgfplotsinvokeforeach{0,...,\numcols-1}{
+        \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\exploitdata};
+    }
+
+    \pgfplotsinvokeforeach{1,...,\numcols}{
+      \addlegendentry{Player #1}
+    }
+    \nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
+    \pgfplotsinvokeforeach{0,...,\numcols-1}{
+        \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\wassersteindata};
+    }
+    \end{groupplot}
+    \end{tikzpicture}
+     \caption{Convergence in Example \ref{ex.stein08.2.3}. Our method finds mixed strategies where $x\approx0.11$ with probability $44.19\%$ and $x\approx-1$ with probability $55.81\%$ and $y\approx0.72$ resulting in payoffs \((1.13, 1.81)\).}
+    \end{figure}
 \end{example*}
 
 \iffalse
@@ -170,7 +384,7 @@ We also experimented with oracles based on the SOS hierarchy, which resulted in 
 \begin{figure}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
 \pgfplotstableread{
 0.0 0.125 2.0
@@ -202,7 +416,7 @@ NaN NaN NaN
 
 \nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
 \pgfplotsinvokeforeach{0,...,\numcols-1}{
-    \addplot table[x expr=\coordindex+1, y index=#1] {\exploitdata};
+    \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\exploitdata};
 }
 
 \pgfplotsinvokeforeach{1,...,\numcols}{
@@ -210,7 +424,7 @@ NaN NaN NaN
 }
 \nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
 \pgfplotsinvokeforeach{0,...,\numcols-1}{
-    \addplot table[x expr=\coordindex+1, y index=#1] {\wassersteindata};
+    \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\wassersteindata};
 }
 \end{groupplot}
 \end{tikzpicture}
@@ -231,7 +445,7 @@ Using oracles based on the SOS hierarchy, we found the same equilibrium in $1.2$
 \begin{figure}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=16, ymode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=16, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
 \pgfplotstableread{
 0.0 0.0 0.623 0.0
@@ -273,7 +487,7 @@ NaN NaN NaN NaN
 
 \nextgroupplot[ylabel=$\epsilon$, xlabel=Iteration, xlabel style={at=(ticklabel cs:1.05)}]
 \pgfplotsinvokeforeach{0,...,\numcols-1}{
-    \addplot table[x expr=\coordindex+1, y index=#1] {\exploitdata};
+    \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\exploitdata};
 }
 
 \pgfplotsinvokeforeach{1,...,\numcols}{
@@ -281,7 +495,7 @@ NaN NaN NaN NaN
 }
 \nextgroupplot[ylabel=Wasserstein, ylabel near ticks, yticklabel pos=right]
 \pgfplotsinvokeforeach{0,...,\numcols-1}{
-    \addplot table[x expr=\coordindex+1, y index=#1] {\wassersteindata};
+    \addplot table[only marks,x expr=\coordindex+1, y index=#1] {\wassersteindata};
 }
 \end{groupplot}
 \end{tikzpicture}
