@@ -1,75 +1,42 @@
 The moment-SOS hierarchies are a basis of methods for constrained polynomial optimisation. More specifically, the methods will be able to find the certifiably global minimum of a polynomial over a compact set defined by polynomial inequalities. In some instances, they can even recover some minimisers. All of this is achievable under some mild assumptions on the structure of the feasible set, such as having a bound on the norm of the feasible elements. Under such constraints, each level of the hierarchy corresponds to a dual\footnote{Strong duality holds if the original constraint set has an interior point, or if either program is strictly feasible.} pair of semidefinite programs which provide a monotonically nondecreasing sequence of lower bounds that generically converge \cite{Nie2014} to the optimum. The current downsides of the hierarchies are that: the bounds on the convergence are not yet well understood; semidefinite solvers are not as well optimised for this task; and the recovery of minimisers of sufficient precision may be practically challenging.
 
-A basic semialgebraic set \( S(g_1, \dots, g_k) = \{\bx \in \R^n \mid g_i(\bx) \ge 0 \; \forall i=1,\dots,k\} \) is a finite intersection of superlevel sets defined by polynomials \( g_i \) for some positive integers \( k \) and \( n \). We further assume that the set has the Archimedean property, meaning it is certifiably compact (e.g., one of the \( g_i(\bx) \) takes the form \( a - \|\bx\|^2 \) for some positive \( a \)).
+Let $\mathbf{g} = (g_1,\dots,g_k)$ be a tuple of polynomials. A \emph{basic semialgebraic set} \( \mathcal{S}(\bg) = \{\bx \in \R^n \mid \bg(\bx) \ge 0\} \) is a finite intersection of superlevel sets defined by $\mathbf{g}$. Let $f$ be a polynomial and $Z$ be a basic semialgebraic set. We are interested in finding the global minimum of the following optimization problem:
+\begin{equation}\label{eq:pop.original}
+    \min_{\bx \in Z} \quad f(\bx).
+\end{equation}
 
-Let $f$ be a polynomial and $Z$ be a basic semialgebraic set. We are interested in finding the global minimum of the following optimization problem:
-\[
-    \begin{aligned}
-        \min_{\bx \in Z} \quad & f(\bx).
-    \end{aligned}
-\]
-
-Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre2015}. The first approach, which will later form the inner-approximation, is to maximize a lower-bound $\alpha$ on the condition that $f-\alpha$ is non-negative on a semialgebraic set $Z$:
-\[
+Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre2015}. The first approach is to maximize a lower-bound $\alpha$ on the condition that $f-\alpha$ is non-negative on a semialgebraic set $Z$:
+\begin{equation}\label{eq:sos.basis}
     \begin{aligned}
         \max_{\alpha \in \R}\quad&\alpha\\
-        \text{\normalfont s.t.}\quad&f(x) - \alpha \ge 0 \quad \forall x \in Z.
-    \end{aligned}
-\]
-The future outer-approximations will be found while attempting to minimize the Lebesgue integral of $f$:
-\[
-    \begin{aligned}
-        \min_{\mu\in \calP(Z)}\quad&\int_Z f \dif \mu.
-    \end{aligned}
-\]
-where $\calP(Z)$ is the set of regular Borel probability measures on $Z$. The two presented programs are convex reformulations of the original problem, and their optimal values agree exactly. It has been proven by Riesz \cite{Laurent2009} that a truncated sequence of $h$ moments represents integration with respect to a measure supported on a compact set $K$, exactly when it produces nonnegative values for every polynomial of degree at most $r$ which is nonnegative on $K$. The practical versions of these problems are semidefinite programs which are their strenghtenings and relaxations respectively.
-
-\subsection{Existence of Representing Measures}
-To manipulate measures algorithmically, we will represent them as linear functionals. Every linear functional $l$ can be encoded by a sequence of moments $y_\alpha = l(x^\alpha)$. The space of linear functionals is larger than the space of regular Borel measures; however, we will need a systematic way to carve out just those linear functionals that represent integration with respect to a measure. This is known as the $K$-moment problem.
-
-The integral of a polynomial with respect to a measure can be written as a function on the moments of the measure. With a multi-index
-$\balpha=(\alpha_1,\dots,\alpha_{m})\in\N^{m}$ we use the standard notation $\bx^{\balpha}=x_1^{\alpha_1}\dotsb x_{m}^{\alpha_{m}}$ to define monomials. The $\balpha$-th \emph{moment} of a measure $\mu\in\calP(S)$ is the real number
-\[
-\mu'(\balpha)=\int_{S} \bx^{\balpha} \dif \mu.
-\]
-The infinite sequence $\bmu'=(\mu'(\balpha))_{\balpha\in\N^{m}}$ is the \emph{moment sequence} and $\mu$ is called a \emph{representing measure}. The moment problem is the characterization of those real sequences $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ which are moment sequences, that is, $\by=\bmu'$ for some $\mu$. This problem can be decided by checking the positivity of moment expressions via \emph{moment} and \emph{localizing} matrices.
-
-For any $d\in \N$, we define the set of multi-indices truncated to degree $d$ as
-\[
-    \N^{m}_d=\{\balpha \in \N^{m} \mid \alpha_1+\dots + \alpha_{m} \le d\}.
-\]
-Let $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ be a real sequence and $d\in \N$, the \emph{moment matrix of order $d$} is the matrix $M_d(\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$ such that
-\[
-(M_d(\by))_{\balpha\bbeta}=y_{\balpha+\bbeta}.
-\]
-The polynomials $g_{i}$ defining the semialgebraic set $S(g_1,\dots,g_k)$ can be written as
-\[
-g_{i}(\bx)=\sum_{\bgamma}c_{\bgamma}\bx^{\bgamma}
-\]
-for some real coefficients $c_{\bgamma}$, where only finitely many of them are nonzero. Then, the~\emph{localizing matrix of order} $d$ is the matrix $M_d(g_{i},\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$, where
-\[
-(M_d(g_{i},\by))_{\balpha\bbeta}=\sum_{\bgamma}c_{\bgamma}y_{\balpha+\bbeta+\bgamma}.
-\]
-
-When a real symmetric matrix $A$ is positive semidefinite, we write $A\succeq 0$. Moment sequences are characterized by positive semidefinitness of moment and localizing matrices \cite[Theorem 2.44(b)]{Lasserre2015}. Specifically, a real sequence $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ with $y_\mathbf{0}=1$ is a moment sequence with a Borel representing measure supported in $S(g_1,\dots,g_k)$ if, and only if,
-\begin{equation}\label{moment}
-    \begin{aligned}
-M_d(\by) &\succeq 0 \quad \forall d \in \N\\
-M_d(g_{k}, \by) &\succeq 0 \quad \forall d \in \N,\,\forall k\in K.
+        \text{\normalfont s.t.}\quad&f(\mathbf{x}) - \alpha \ge 0 \quad \forall \mathbf{x} \in Z.
     \end{aligned}
 \end{equation}
+The second is a problem of finding a measure which minimizes the Lebesgue integral of $f$:
+\begin{equation}\label{eq:mom.basis}
+    \begin{aligned}
+        \min_{\mu\in \calM(Z)}\quad&\int_Z f \dif \mu.
+    \end{aligned}
+\end{equation}
+where $\calM(Z)$ is the set of regular Borel probability measures on $Z$. Problems \ref{eq:sos.basis} and \ref{eq:mom.basis} are convex reformulations of problem \ref{eq:pop.original}, and their optimal values agree exactly. The practical versions of these problems are semidefinite programs which are their strenghtenings and relaxations respectively.
 
 \subsection{Nonnegative Polynomials Using Sums of Squares}
-On the dual side, we represent polynomials by their coefficients. As before, we need sufficient conditions on the coefficients so that we can algorithmically decide the question of nonnegativity on a set. To do this, we will use preorders: just as ideals preserve the set of zeros, preorders preserve positivity on sets.
+As we represent polynomials by their coefficients, we need sufficient conditions on the coefficients so that we can algorithmically decide the question of nonnegativity on a set. To do this, we will use preorders: just as ideals preserve the set of zeros, preorders preserve positivity on sets.
 
-Observe that if a polynomial can be decomposed into a sum of squares (SOS), it is necessarily nonnegative everywhere. Further notice that any sum or product of polynomials nonnegative on a subset is still nonnegative on that subset. Suppose, then, that we have a semialgebraic set $S(\mathbf{g})$ defined as the intersection of the superlevel sets of a tuple $\mathbf{g}$; the corresponding preorder $P(\mathbf{g})$ generated by the $g_i$ is the set of all sums of all combinations of the $g_i$ weighted by SOS polynomials. Schm\"udgen proved that polynomials strictly positive on $S(\mathbf{g})$ are members of $P(\mathbf{g})$. The Lasserre hierarchy additionally uses our initial assumption of the Archimedean property of $S(\mathbf{g})$, in which case Putinar's theorem applies, which says that the decomposition of a polynomial nonnegative on an Archimedean $S(\mathbf{g})$ will contain no cross terms of the $g_i$.
+Observe that if a polynomial can be expressed as a sum of squares (SOS), it is necessarily nonnegative everywhere. Further notice that any sum or product of polynomials nonnegative on a subset is still nonnegative on that subset. A \emph{preorder} $\calP(\mathbf{g})$ generated by a polynomial tuple $\mathbf{g}$ is the set of all sums of all combinations of the $g_i$ weighted by SOS polynomials. Schm\"udgen proved that polynomials strictly positive on $\calS(\mathbf{g})$ are members of $\calP(\mathbf{g})$. Putinar's refinement of the theorem states, that for $\calS(\bg)$ with an algebraic certificate of compactness, the cross terms in $\calP$ can be ignored.
 
-The \emph{quadratic module} \(Q(\mathbf{g})\) generated by the tuple \(\mathbf{g}\) is exactly the preorder $P(\mathbf{g})$ where all the cross terms weighted by zero:
+The \emph{quadratic module} \(\calQ(\bg)\) generated by $\bg$ is exactly the preorder $\calP(\bg)$ where all the cross terms are weighted by zero:
 \begin{equation}\label{def:QM}
-    Q(g) = \left\{\, s_0 + \sum_{i\in K} g_is_i \;\middle|\; \text{$s_0,s_i$ are SOS polynomials} \; \forall i\in K=1,\dots,k \,\right\}.
+    \calQ(\bg) = \left\{\, s_0 + \sum_{i=1}^k g_is_i \;\middle|\; s_0,s_1,\dots,s_k\;\text{are SOS polynomials} \,\right\}.
 \end{equation}
+
+\begin{definition}\label{def:archimedean}
+We say that \(\calQ(\bg)\) generated by $\bg$ is \emph{Archimedean}, if the superlevel set of one of the \( g_i(\bx) \) is compact, or if there exists $a\in\mathbb{N}$ such that \( a - \|\bx\|^2 \in \calQ(\bg)\).
+\end{definition}
+
+
 \begin{theorem}[Putinar's Positivstellensatz \cite{Putinar93}]\label{thm:Putinar}
-    If a polynomial $p(\bx)$ is strictly positive for all $\bx \in \R^n$ in $S(g_1,\dots,g_k)$, then $p \in Q\left(g_1,\dots,g_k\right)$.
+    Let $\calQ\left(\bg\right)$ be Archimedean. If a polynomial $p$ satisfies $p(\bx) > 0\;\forall \bx \in \calS(\bg) \subseteq \R^n$, then $p \in \calQ\left(\bg\right)$.
 \end{theorem}
 To formulate the sum of squares condition using semidefinite constraints, we define the basis of the linear space of polynomials with degree at most $d$ as
 \[
@@ -89,6 +56,48 @@ G &\succeq 0.
 \end{equation*}
 Membership of $p(\bx)$ in $Q(S)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem \ref{thm:Putinar} \cite[Chapter 2.4.2]{Lasserre2015}.
 
+\subsection{Existence of Representing Measures}
+To manipulate measures algorithmically, we will represent them as linear functionals $\mathbb{R}[\bx] \rightarrow \mathbb{R}$. Every linear functional $l$ can be encoded by a sequence of moments $\mathbf{y} = (l(x^\alpha))_{\alpha\in \mathbb{N}}$. However, regular Borel measures are a subset of the space of linear functionals. As before, we need a systematic way to carve out just those linear functionals that represent integration with respect to a measure over a semialgebraic set $K$. This is a version of the \emph{$K$-moment problem}.
+
+The integral of a polynomial with respect to a measure can be written as a function on the moments of the measure. With a multi-index
+$\balpha=(\alpha_1,\dots,\alpha_{m})\in\N^{m}$ we use the standard notation $\bx^{\balpha}=x_1^{\alpha_1}\dotsb x_{m}^{\alpha_{m}}$ to define monomials. The $\balpha$-th \emph{moment} of a measure $\mu\in\calM(K)$ is the real number
+\[
+\mu'(\balpha)=\int_{K} \bx^{\balpha} \dif \mu.
+\]
+The infinite sequence $\bmu'=(\mu'(\balpha))_{\balpha\in\N^{m}}$ is the \emph{moment sequence} and $\mu$ is called a \emph{representing measure}. The moment problem is the characterization of those real sequences $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ which are moment sequences, that is, $\by=\bmu'$ for some $\mu$.
+
+
+For any $d\in \N$, we define the set of multi-indices truncated to degree $d$ as
+\[
+    \N^{m}_d=\{\balpha \in \N^{m} \mid \alpha_1+\dots + \alpha_{m} \le d\}.
+\]
+
+\begin{theorem}[\textcite{Laurent2009}]
+    If $\calS(\bg)$ is compact, then the linear functional $l_{\by}$ defined by the sequence $\by$ of moments up to degree $d$ has a representing measure on $\calS(\bg)$ if and only if for every polynomial $p$ up to degree $d$ nonnegative on $\calS(\bg)$, its evaluation $l_{\by}(p)$ is nonnegative.
+\end{theorem}
+
+This problem can be decided by checking the positivity of moment expressions via \emph{moment} and \emph{localizing} matrices.
+
+Let $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ be a real sequence and $d\in \N$. The \emph{moment matrix of order $d$} is the matrix $M_d(\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$ such that
+\[
+(M_d(\by))_{\balpha\bbeta}=y_{\balpha+\bbeta}.
+\]
+Each polynomial $g_i$ defining the semialgebraic set $\mathcal{S}(\mathbf{g})$ can be written as
+\[
+g_{i}(\bx)=\sum_{\bgamma}c_{\bgamma}\bx^{\bgamma}
+\]
+for some real coefficients $(c_{\bgamma})_{\bgamma\in\N^{m}}$, of which only finitely many are nonzero. Then, the~\emph{localizing matrix of order} $d$ is the matrix $M_d(g_{i},\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$, where
+\[
+(M_d(g_{i},\by))_{\balpha\bbeta}=\sum_{\bgamma}c_{\bgamma}y_{\balpha+\bbeta+\bgamma}.
+\]
+
+When a real symmetric matrix $A$ is positive semidefinite, we write $A\succeq 0$. Moment sequences are characterized by positive semidefinitness of moment and localizing matrices \cite[Theorem 2.44(b)]{Lasserre2015}. Specifically, let $\calS(\bg)$ be a semialgebraic set with an associated Archimedean quadratic module, and $\by=(y_{\balpha})_{\balpha\in\N^{m}}$ be a real sequence with $y_\mathbf{0}=1$. $\by$ is a moment sequence with a representing Borel measure supported in $\calS(\bg)$ if, and only if,
+\begin{equation}\label{moment}
+    \begin{aligned}
+M_d(\by) &\succeq 0 \quad \forall d \in \N,\\
+M_d(g_{i}, \by) &\succeq 0 \quad \forall d \in \N,\,\forall i\in \{1,\dots,k\}.
+    \end{aligned}
+\end{equation}
 
 \subsection{Hierarchy of Semidefinite Relaxations}
 The final step is to put bounds on the sizes of moment sequences and degrees of polynomials using the Lasserre's hierarchies \cite[Chapter 6]{Lasserre2015}. Each relaxation in the hierarchy is a convex semidefinite program that approximates the solution of the original program.
