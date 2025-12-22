@@ -6,17 +6,13 @@ We will always assume that the functions $u_{ij}$ and $u_{ji}$ are at least inte
 \begin{equation}\label{def:pi}
     u_i(\bx) = \sum_{\substack{j\in N \\ \{i,j\}\in E}} u_{ij}(x_i,x_j), \qquad \bx\in\bX.
 \end{equation}
-The resulting $n$-person game
-\begin{equation} \label{def:game}
-    \calG=\langle N,(X_i)_{i\in N},(u_i)_{i\in N} \rangle
-\end{equation}
-is called a \emph{separable network game with compact strategy sets}. Throughout the paper we refer to game (\ref{def:game}) as a ``network game'' for short. We say that $\calG$ is
+The resulting $n$-person game with compact strategy sets is called a \emph{separable network game}, or ``network game'' for short. We say that $\calG$ is
 \begin{itemize}
     \item a \emph{polymatrix game} when all strategy sets~$X_i$ are finite;
     \item \emph{zero-sum} if  $\sum_{i\in N} u_i(\bx)=0$ for all $\bx\in\bX$;
     \item \emph{continuous} if each utility function $u_i$ is continuous.
 \end{itemize}
-The class of network games most studied in the literature is the class of zero-sum polymatrix games. The ``global'' zero-sum assumption and finite strategy sets make such games computationally tractable \cite{Cai16,FPNet,Bailey19,Rubinstein,CaiDaskalkis}.
+A class of network games often studied in the literature is the class of zero-sum polymatrix games. The ``global'' zero-sum assumption and finite strategy sets make such games computationally tractable \cite{Cai16,FPNet,Bailey19,Rubinstein,CaiDaskalkis}.
 
 \begin{example}
 Let $N=\{1,2,3,4\}$ and the graph $(N,E)$ be the cycle on Figure \ref{fig:4}. This is the smallest example of a network game such that each player interacts only with a strict subset of other players. For example, the utility function of player $3$ is $u_3(x_1,x_2,x_3,x_4)=u_{31}(x_3,x_1)+u_{34}(x_3,x_4)$. The zero-sum condition for this game can be formulated as $u_3=-u_1-u_2-u_4$.
@@ -41,7 +37,7 @@ Let $N=\{1,2,3,4\}$ and the graph $(N,E)$ be the cycle on Figure \ref{fig:4}. Th
     \label{fig:4}
 \end{figure}
 
-As a direct consequence of Glicksberg's theorem, every continuous network game $\calG$ has a NE $\bmu^\star \in \bM$ in mixed strategies. We will show that the NE in a zero-sum continuous network game can be characterized using an optimization-based approach. Specifically, we consider the following infinite-dimensional linear optimization problem, which generalizes \emph{Linear Program 1} of \textcite{Cai16}:
+As a direct consequence of Glicksberg's theorem \ref{thm:Glick}, every continuous network game $\calG$ has a NE $\bmu^\star \in \bM$ in mixed strategies. We will show that the NE in a zero-sum continuous network game can be characterized using an optimization-based approach. Specifically, we consider the following infinite-dimensional linear optimization problem, which generalizes \emph{Linear Program 1} of \textcite{Cai16}:
 \begin{mini!}{\bmu,\bw}{\sum_{i\in N} w_i} {\label{P}}{}
     \addConstraint{w_i}{\geq U_i(x_i,\bmu_{-i})\qquad \forall i\in N\enskip \forall x_i\in X_i} \label{P:ineq}
     \addConstraint{\bmu}{=(\mu_1,\dots,\mu_n) \in\bM}

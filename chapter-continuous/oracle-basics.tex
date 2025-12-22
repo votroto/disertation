@@ -10,7 +10,7 @@ In this section, we will construct mixed strategies with finite supports. The su
 \begin{proposition}\label{prop:switch}
 	For each player $i\in N$ and any mixed strategy profile $\bmu_{-i}\in \bM_{-i}$, there exists a pure strategy $x_i\in X_i$ such that
 	\[
-		\max_{p\in M_i} U_i(p,\bmu_{-i})=\max_{x\in X_i} U_i(x,\bmu_{-i})=U_i(x_i,\bmu_{i}).
+		\max_{\nu\in \calM(X_i)} U_i(\nu,\bmu_{-i})=\max_{x\in X_i} U_i(x,\bmu_{-i})=U_i(x_i,\bmu_{i}).
 	\]
 \end{proposition}
 
@@ -23,7 +23,7 @@ For any $\eps\geq 0$, an \textit{$\epsilon$-equilibrium} is a mixed strategy pro
 \[
 	U_i(x_i,\bmu_{-i}^*) - U_i(\bmu^*) \leq \eps, \qquad \text{for every $i\in N$ and $x_i\in X_i$.}
 \]
-This implies that for every $p_i\in M_i$, the inequality $U_i(p_i,\bmu_{-i}^*) - U_i(\bmu^*) \leq \eps$ also holds.
+This implies that for every $p_i\in \calM(X_i)$, the inequality $U_i(p_i,\bmu_{-i}^*) - U_i(\bmu^*) \leq \eps$ also holds.
 
 We introduce the vector notation
 \[

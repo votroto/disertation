@@ -1,14 +1,10 @@
 In this section, we make the following assumptions about the strategy spaces and the utility functions of a network game $\calG$ defined by \eqref{def:game}.
 \begin{enumerate}
-    \item Every compact strategy space $X_i\subseteq \R^{m_i}$ is a \emph{basic semi-algebraic set}; that is,
-    \begin{equation}\label{semi}
-        X_i = \{\bx\in \R^{m_i} \mid g_{ik}(\bx)\geq 0, \; k\in K_i \},
-    \end{equation}
-    where each $g_{ik}$ is a real polynomial in $m_i$ variables and $K_i\neq\emptyset$ is a finite index set. We also assume the standard archimedean certificate on compactness on the sets; e.g., that one of the constraints has the form $g_{ik}(\bx)=a-\norm{\bx}^2$ for some $k\in K_i$ and some positive $a$. 
+    \item Every compact strategy space $X_i\subseteq \R^{m_i}$ is a \emph{basic semi-algebraic set} $\calS(\bg_i)$ where each $g_{ik}$ is a real polynomial in $m_i$ variables and $K_i\neq\emptyset$ is a finite index set. We also assume the standard archimedean certificate on compactness \ref{def:archimedean} on the sets.
     \item In every two-player game involving players $i,j\in N$, the utility functions $u_{ij}$ and $u_{ji}$ of player $i$ and $j$, respectively, are real polynomials in $m_i+m_j$ indeterminates.  Therefore, each utility function $u_i$ given by (\ref{def:pi}) is a real polynomial in $m_1+\dots + m_n$ indeterminates.
     \item The game $\calG$ is zero-sum.
 \end{enumerate}
-These three assumptions define a \emph{polynomial zero-sum network game} $\calG$. We remark that the first assumption is very mild --- many sets important for applications are in fact the solution sets of finitely many polynomial inequalities. In particular, a compact semi-algebraic set is not necessarily convex or connected. Moreover, Glicksberg's theorem (\ref{thm:Glick}) can be significantly strengthened for polynomial games --- each polynomial game has NE in which every player mixes only among finitely many pure strategies \cite{DresherKarlinShapley50,SteinOzdaglarParrilo08}.
+These three assumptions define a \emph{polynomial zero-sum network game} $\calG$. Glicksberg's theorem (\ref{thm:Glick}) can be significantly strengthened for polynomial games --- each polynomial game has NE in which every player mixes only among finitely many pure strategies \cite{DresherKarlinShapley50,SteinOzdaglarParrilo08}.
 
 The solutions for polynomial zero-sum network games can be solved using Lasserre's hierarchies as described in \cref{sec:momsos}. Specifically, we relax the constraints on measures and polynomial inequalities of Program \ref{P}. Instead of requiring that the mixed strategies of players lie in the cone of probability measures, we apply constraints on truncated sequences of moments. Similarly, we replace the inequalities \eqref{P:ineq} with the constraint that $w_i - U_i(\cdot, \bmu_{-i})$ lies in the truncated quadratic module.
 

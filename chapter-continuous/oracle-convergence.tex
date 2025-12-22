@@ -1,10 +1,10 @@
-We consider an arbitrary metric~$\rho_i$ on the compact strategy space $X_i\subseteq \R^{m_i}$ of each player $i\in N$. This enables us to quantify a~distance between pure strategies $x,y \in X_i$ by the number $\rho_i(x,y)\ge 0$. Consequently, we can define the Wasserstein distance $d_W$ on $M_i$, which is compatible with the metric of the underlying strategy space $X_i$ in the sense that
+We consider an arbitrary metric~$\rho_i$ on the compact strategy space $X_i\subseteq \R^{m_i}$ of each player $i\in N$. This enables us to quantify a~distance between pure strategies $x,y \in X_i$ by the number $\rho_i(x,y)\ge 0$. Consequently, we can define the Wasserstein distance $d_W$ on $\calM(X_i)$, which is compatible with the metric of the underlying strategy space $X_i$ in the sense that
 \[
 	d_W(\delta_x,\delta_y)=\rho_i(x,y),\qquad \forall x,y \in X_i.
 \]
- The preservation of distance from $X_i$ to $M_i$ is a very natural property, since the space of pure strategies $X_i$ is embedded in $M_i$ via the correspondence $x\mapsto \delta_x$ mapping the pure strategy $x$ to the Dirac measure $\delta_x$.
+ The preservation of distance from $X_i$ to $\calM(X_i)$ is a very natural property, since the space of pure strategies $X_i$ is embedded in $\calM(X_i)$ via the correspondence $x\mapsto \delta_x$ mapping the pure strategy $x$ to the Dirac measure $\delta_x$.
 
-The Wasserstein distance originated from optimal transport theory. It is nowadays highly instrumental in solving many problems of computer science. Specifically, the \emph{Wasserstein distance} of mixed strategies $p,q\in M_i$ is
+The Wasserstein distance originated from optimal transport theory. It is nowadays highly instrumental in solving many problems of computer science. Specifically, the \emph{Wasserstein distance} of mixed strategies $p,q\in \calM(X_i)$ is
 \[
 	d_W(p,q) = \inf_{\mu} \int_{X_i^2} \rho_i(x,y) \dif\mu(x,y),
 \]
@@ -15,9 +15,9 @@ where the infimum is over all Borel probability measures $\mu$ on $X_i^2$ whose 
 \end{align*}
 for all Borel subsets $A\subseteq X_i$.
 
-The dependence of $d_W$ on the metric $\rho_i$ is understood. The function $d_W$ is a metric on $M_i$. Since $X_i$ is compact, it has necessarily bounded diameter. This implies that the convergence in $(M_i,d_W)$ coincides with the weak convergence \cite[Corollary 2.2.2]{Panaretos20}. Specifically, the following two assertions are equivalent for any sequence $(p^j)$ in $M_i$:
+The dependence of $d_W$ on the metric $\rho_i$ is understood. The function $d_W$ is a metric on $\calM(X_i)$. Since $X_i$ is compact, it has necessarily bounded diameter. This implies that the convergence in $(\calM(X_i),d_W)$ coincides with the weak convergence \cite[Corollary 2.2.2]{Panaretos20}. Specifically, the following two assertions are equivalent for any sequence $(p^j)$ in $\calM(X_i)$:
 \begin{enumerate}
-  \item $(p^j)$ converges to $p$ in $(M_i,d_W)$.
+  \item $(p^j)$ converges to $p$ in $(\calM(X_i),d_W)$.
   \item $(p^j)$ \emph{weakly converges} to $p$, which means by the definition that
 \[
 	\lim_{j} \int\nolimits_{X_i}f \dif p^j =  \int\nolimits_{X_i}f \dif p,
@@ -25,19 +25,19 @@ The dependence of $d_W$ on the metric $\rho_i$ is understood. The function $d_W$
 for every continuous function $f\colon X_i\to \R$.
 \end{enumerate}
 
-The metric space $(M_i,d_W)$ is compact by \cite[Proposition 2.2.3]{Panaretos20}. Consequently, the joint strategy space $\bM$ is compact in a product metric as well, and any sequence $(\bmu^j)$ in $\bM$ has an accumulation point. Equivalently, the previous assertion can be formulated as follows.
+The metric space $(\calM(X_i),d_W)$ is compact by \cite[Proposition 2.2.3]{Panaretos20}. Consequently, the joint strategy space $\bM$ is compact in a product metric as well, and any sequence $(\bmu^j)$ in $\bM$ has an accumulation point. Equivalently, the previous assertion can be formulated as follows.
 \begin{proposition}\label{prop:convergence}
 	Any sequence of mixed strategy profiles $(\bmu^j)$ in $\bM$ contains a~weakly convergent subsequence.
 \end{proposition}
 
 The function $U_i$ is continuous on $\bM$ by the definition of weak convergence. This implies that if $(\bmu^j)$ weakly converges to $\bmu$ in $\bM$, then the corresponding values of expected utility goes to $U_i(\bmu)$, that is, $\lim_j U_i(\bmu^j) = U_i(\bmu)$.
-By compactness of~$M_i$ and continuity of $U_i$, all maxima and maximizers appearing in the paper exist. This implies that the optimal value of utility function in response to the mixed strategies of other players is attained for some pure strategy. Proposition~\ref{prop:switch} is the precise formulation of this useful fact.
+By compactness of~$\calM(X_i)$ and continuity of $U_i$, all maxima and maximizers appearing in the paper exist. This implies that the optimal value of utility function in response to the mixed strategies of other players is attained for some pure strategy. Proposition~\ref{prop:switch} is the precise formulation of this useful fact.
 
-In the rest of this section, we will discuss the problem of computing and approximating the Wasserstein distance $d_W(p,q)$ of any pair of mixed strategies $p,q\in M_i$ for player $i$. In general, this is a difficult infinite-dimensional optimization problem \cite{Peyre19}. In our setting it suffices to evaluate $d_W(p,q)$ only for mixed strategies with finite supports. In particular, it follows immediately from the definition of $d_W$ that
+In the rest of this section, we will discuss the problem of computing and approximating the Wasserstein distance $d_W(p,q)$ of any pair of mixed strategies $p,q\in \calM(X_i)$ for player $i$. In general, this is a difficult infinite-dimensional optimization problem \cite{Peyre19}. In our setting it suffices to evaluate $d_W(p,q)$ only for mixed strategies with finite supports. In particular, it follows immediately from the definition of $d_W$ that
 \[
 	d_W(p,\delta_y)=\sum_{x\in \spt p}\rho_i(x,y)p(x),
 \]
-for every finitely-supported mixed strategy $p\in M_i$ and any $y \in X_i$. If mixed strategies $p$ and $q$ have finite supports, then computing~$d_W(p,q)$ becomes the linear programming problem
+for every finitely-supported mixed strategy $p\in \calM(X_i)$ and any $y \in X_i$. If mixed strategies $p$ and $q$ have finite supports, then computing~$d_W(p,q)$ becomes the linear programming problem
 \begin{equation}
 	\label{def:LPobj}
 	\begin{aligned}

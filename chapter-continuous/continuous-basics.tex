@@ -1,19 +1,19 @@
 The player set is denoted by $N=\{1,\dots,n\}$. Each player $i\in N$ selects a pure strategy $x_i$ from a nonempty compact set $X_i\subseteq \R^{d_i}$, where $d_i$ is a positive integer. A~pure strategy profile is the $n$-tuple $\bx=(x_1,\dots,x_n)\in \bX$, where $\bX=X_1\times\dots\times X_n$. We assume that each utility function $u_i\colon \bX\to \R$ is continuous. A \emph{continuous game} is the tuple
-\[
+\begin{equation}\label{def:game}
 	\calG=\langle N,(X_i)_{i\in N},(u_i)_{i\in N}\rangle.
-\]
+\end{equation}
 
-A mixed strategy of player $i$ can be an arbitrary Borel probability measure $\mu_i$ over $X_i$. Note that this general framework allows us to consider mixed strategies whose support is uncountably infinite, which is inevitable for the coherent treatment of games over compact strategy sets.
+A mixed strategy of player $i$ can be an arbitrary Borel probability measure $\mu_i \in \calM(X_i)$. Note that this general framework allows us to consider mixed strategies whose support is uncountably infinite, which is inevitable for the coherent treatment of games over compact strategy sets.
 
-By $M_i$ we denote the space of all mixed strategies of player $i\in N$. Let $\bM=M_1\times \dots \times M_n$ and let $\bmu=(\mu_1,\dots,\mu_n) \in \bM$ be a profile of mixed strategies. For the sake of brevity, we use $\bmu$ in place of the corresponding product probability measure $\mu_1\times\dots\times \mu_n$ in the definitions below involving integrals. The expected utility of player $i\in N$ is the function $U_i\colon \bM\to \R$
+Let $\bM=\calM(X_1)\times \dots \times \calM(X_n)$ and let $\bmu=(\mu_1,\dots,\mu_n) \in \bM$ be a profile of mixed strategies. For the sake of brevity, we use $\bmu$ in place of the corresponding product probability measure $\mu_1\times\dots\times \mu_n$ in the definitions below involving integrals. The expected utility of player $i\in N$ is the function $U_i\colon \bM\to \R$
 \[
     U_i(\bmu) =  \int_{\bX} u_i \dif\bmu
 \]
-This definition yields a function $U_i\colon \bM\to \R,$ which can be effectively evaluated only in special cases, such as when the support of each $\mu_i$ is finite.
+This definition yields a function which can be effectively evaluated only in special cases, such as when the support of each $\mu_i$ is finite.
 
-We define the sets which exclude one player as
+We define the index notation $\cdot_{-i}$ to be the tuple of all players but $i$, such that
 \[
-\bX_{-i}=\bigtimes_{\substack{j\in N \\ j\neq i}} X_j \quad \text{and} \quad \bM_{-i}=\bigtimes_{\substack{j\in N \\ j\neq i}}M_j.
+\bX_{-i}=\bigtimes_{\substack{j\in N \\ j\neq i}} X_j \quad \text{and} \quad \bM_{-i}=\bigtimes_{\substack{j\in N \\ j\neq i}}\calM(X_j).
 \]
 For every $\bmu\in \bM$ and each player $i\in N$, by $\bmu_{-i}$ we denote the restriction of $\bmu$ onto $\bM_{-i}$.  The value of expected utility of player $i$ in a strategy profile $(x_i,\bmu_{-i})\in X_i\times \bM_{-i}$ is denoted by
 \begin{equation}\label{def:EU}
