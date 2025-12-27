@@ -8,7 +8,7 @@ It is certainly not possible to develop an oracle generic enough to handle all g
 A consistent implementation also enables us to report meaningful and comparable runtimes across games. Our experiments show that a generic algorithm can solve many continuous games efficiently. Notably, our implementation locates the pure‑strategy Nash equilibrium of Example \ref{ex.zhou19.5.1} within a distance of less than $3\times 10^{-4}$ in 0.086 seconds compared to the 184.5 seconds reported originally.
 
 \section{Experimental Evaluation}
-We show the performance of \ref{alg:do} implemented in \emph{Julia 1.11} using \emph{Gurobi 12} as the oracle, and \emph{gambit-logit} as the master-problem solver. Experiments were performed on a desktop PC with \emph{AMD Ryzen 5 4600G} running \emph{Linux}. The reported solve times include the complete run of the algorithm after a warm-start to force compilation. The stopping criterion was uniformly set to $\epsilon=0.001$, i.e., no player should be able to deviate by more than $\epsilon$ utility units.
+We show the performance of \cref{alg:mo} implemented in \emph{Julia 1.11} using \emph{Gurobi 12} as the oracle, and \emph{gambit-logit} as the master-problem solver. Experiments were performed on a desktop PC with \emph{AMD Ryzen 5 4600G} running \emph{Linux}. The reported solve times include the complete run of the algorithm after a warm-start to force compilation. The stopping criterion was uniformly set to $\epsilon=0.001$, i.e., no player should be able to deviate by more than $\epsilon$ utility units.
 
 \subsection{Experiments on General Blotto}
 The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts. The family of weighing functions described by \textcite{Golman2009} is \(f(z) = \operatorname{sgn}(z)\,|z|^p\), parametrized by $p$ which is strictly positive for continuous games. The margins of victory are differences of products of the allocations to each front.
@@ -51,7 +51,7 @@ While products, exponents, sums and differences should be available through most
 
 For each Example \ref{ex.golman09.isolated}--\ref{ex.golman09.sets}, we computed equilibria in a game with 5 fronts for each of the values $p\in\{0.5, 1, 2\}$ as representative cases of each behavior as shown in \cref{fig:blotto.weighing.functions}. The weighing functions for simplify to: $z\,\sqrt{z^2}$, for $p=2$; and $z$ for $p=1$.
 
-In the smooth case of $p=2$, \emph{Double Oracle} was able to recover a pure equilibrium for the game with isolated fronts, and mixed equilibria in the other two games where pure equilibria do not exist. The finding an initial feasible solution approximately 2 milliseconds for each example. Initializing with a best response solution did not consistently improve the runtimes.
+In the smooth case of $p=2$, \cref{alg:mo} was able to recover a pure equilibrium for the game with isolated fronts, and mixed equilibria in the other two games where pure equilibria do not exist. The finding an initial feasible solution approximately 2 milliseconds for each example. Initializing with a best response solution did not consistently improve the runtimes.
 \begin{description}
 \item[Result of Example \ref{ex.golman09.isolated}] In the case of 5 isolated fronts with $p=2$, we computed the pure equilibrium $x_1^\star = (1.0, 0.0, 0.0, 0.0, 0.0)$, $x_2^\star = (1.0, 0.0, 0.0, 0.0, 0.0)$
 in a single iteration, with a total runtime of $0.4\,s$.
@@ -70,7 +70,7 @@ Equilibrium:
 in 5 iterations and a time of $2.2\,s$.
 \end{description}
 
-\emph{Double Oracle} was also able to successfully converge to pure equilibria in all the \emph{General Blotto} games with $p=1$:
+\cref{alg:mo} was also able to successfully converge to pure equilibria in all the \emph{General Blotto} games with $p=1$:
 \begin{description}
 \item[Result of Example \ref{ex.golman09.isolated}] For isolated fronts, DO computed $\epsilon$-NE:
 $x_1^\star \approx (1, 0, 0, 0, 0)$, $x_2^\star \approx (1, 0, 0, 0, 0)$
@@ -98,7 +98,7 @@ u_1(x_1,x_2)
     &+ \dots \text{26 more terms}.
 \end{align*}
 }
-The Double Oracle algorithm still successfully converges for a game with $p=2$ and $40$ isolated fronts in $11$ seconds; with $20$ fronts when all pairs are important in $12.7$ seconds; and for a game with $7$ fronts, of which all sets are important in $23.6$ seconds, at which point the utility function contains the weighing function $127$ times.
+\cref{alg:mo} still successfully converges for a game with $p=2$ and $40$ isolated fronts in $11$ seconds; with $20$ fronts when all pairs are important in $12.7$ seconds; and for a game with $7$ fronts, of which all sets are important in $23.6$ seconds, at which point the utility function contains the weighing function $127$ times.
 
 \subsection{Experiments on Games by Parillo, Stein and Ozdaglar}
 \begin{description}
@@ -198,7 +198,7 @@ After 5 iterations and $0.13\,s$, DO converges to the $\epsilon$-NE:
 \subsection{Experiments on Two-Player Zero-Sum Polynomial Games}
 The following examples are two-player zero-sum polynomial games, that originally served as experiments for the algorithm developed by \textcite{nie.yang.ea:saddle}. Their algorithm can prove the existence of (global) saddle points, i.e. pure Nash Equilibria.
 
-Double Oracle usually converged to mixed strategies, even in the examples where pure equilibria exist. Tightening the $\epsilon$ did not result in simpler soultions.
+\cref{alg:mo} usually converged to mixed strategies, even in the examples where pure equilibria exist. Tightening the $\epsilon$ did not result in simpler soultions.
 
 \begin{description}
 \item[Result of Example \ref{ex.nie21.6.1.i}]
@@ -283,7 +283,7 @@ After $0.017\,s$ and $2$ iterations, DO converged to the $\epsilon$-NE:
 
 
 \subsection{Experiments on Two-Player Zero-Sum Rational Games}
-Double Oracle recovered pure strategies in the games where they exist, except for \cref{ex.zhou19.5.5.ii,ex.zhou19.5.6.ii}. Tightening the $\epsilon$ in those cases did not produce simpler equilibria.
+\cref{alg:mo} recovered pure strategies in the games where they exist, except for \cref{ex.zhou19.5.5.ii,ex.zhou19.5.6.ii}. Tightening the $\epsilon$ in those cases did not produce simpler equilibria.
 
 \begin{description}
 \item[Result of Example \ref{ex.zhou19.5.3.i}]

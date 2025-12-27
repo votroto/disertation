@@ -8,4 +8,14 @@ In practice, the inherent complexity of game-theoretical concepts often necessit
 In this thesis, we explore methods capable of providing guarantees or certificates on the quality of their solutions across a broad range of games. Additionally, we explore methods for global optimization, which appears as a very common sub-task in game theory. The ability to check global optimality is, for example, useful in answering whether an agent in an interaction is behaving rationally.
 
 Finding global optima of functions over a set in the absence of any assumptions is a hard problem; even approximating such solutions is hard. Nevertheless, there exist classes of problems where global optimization is feasible. We demonstrate how Lasserre's hierarchies and the Spatial Branch and Bound method can be effectively applied to solve tasks in game theory and robotics. Our research indicates that the practicality of global methods remains largely unexplored despite the potential.
+
+\newpage
+
+\section{Contributions and Thesis Structure}
+\begin{description}
+    \item[Nash Equilibria in Separable Network Games] We provide an infinite-dimensional LP and Moment–SOS hierarchy for Nash equilibria in polynomial separable network games, generalizing [relevant references]. See Section 3.2, Theorem 5, and examples 49–50.
+    \item[Epsilon Equilibria in Generic Games] We extend the Double Oracle algorithm to multi-player general-sum continuous games, prove convergence to ϵ-equilibria in the Wasserstein metric under exact best-response oracles, and empirically evaluate it on a wide library of continuous games. See Section 3.3 and Appendix B. Relevant Julia source code is published at \url{https://github.com/votroto/Quack.jl}.
+    \item[Optimal Inverse Kinematics] We develop a QCQP lifting scheme for polynomial IK problems, enabling fast global solutions for generic manipulators up to 10 DOF and for manipulator design problems, substantially improving on the SOS-based method of Trutman et al. [87]. See Chapter 4. Relevant Julia source code is published at \url{https://github.com/votroto/IK.jl}.
+    \item[List of Games] We curate and standardize a library of continuous-game benchmarks (Appendix A).
+\end{description}
 \end{document}

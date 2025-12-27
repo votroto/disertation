@@ -40,8 +40,8 @@ blah
 \paragraph{non-polynomial test functions}
 blah
 
-The next experiment is a measurement of the runtime of different solvers in practice over a course of ten iterations of double oracle in a game of General Blotto. The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts.
-We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$ with a non-differentiable weighing function $f(z) = \operatorname{sgn}(z)\,|z|^{0.5}$. This game exhibits very slow convergence with the Double Oracle algorithm.
+The next experiment is a measurement of the runtime of different solvers in practice over a course of ten iterations of \cref{alg:mo} in a game of General Blotto. The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts.
+We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$ with a non-differentiable weighing function $f(z) = \operatorname{sgn}(z)\,|z|^{0.5}$. This game exhibits very slow convergence with \cref{alg:mo}.
 \fi
 
 \iffalse

@@ -124,3 +124,13 @@
 \newcommand{\eps}{\epsilon}
 \newcommand{\br}{\textrm{br}}
 \newcommand{\cl}{\operatorname{cl}}
+
+%%%%%%%%%%%%%%%%%%%%
+
+% Empty name; formatting does the work
+\crefname{mo}{}{}
+\Crefname{mo}{}{}
+
+% Print exactly one hyperlinked "MO"
+\crefformat{mo}{#2MO#3}
+\Crefformat{mo}{#2MO#3}

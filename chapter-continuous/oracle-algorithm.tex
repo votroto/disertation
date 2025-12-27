@@ -1,12 +1,13 @@
-We propose Algorithm \ref{alg:do} as an iterative strategy-generation technique for (approximately) solving any continuous game~$\calG=\langle N,(X_i)_{i\in N},(u_i)_{i\in N}\rangle$. We recall that the~\emph{best response set} of player $i\in N$ with respect to a mixed strategy profile $\bmu_{-i}\in \bM_{-i}$ is
+We propose the Multiple Oracle algorithm (\ref{alg:mo}) as an iterative strategy-generation technique for (approximately) solving any continuous game~$\calG=\langle N,(X_i)_{i\in N},(u_i)_{i\in N}\rangle$. We recall that the~\emph{best response set} of player $i\in N$ with respect to a mixed strategy profile $\bmu_{-i}\in \bM_{-i}$ is
 \[
 \beta_i(\bmu_{-i}) =  \argmax_{x\in X_i} U_i(x,\bmu_{-i}).
 \]
 The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition \ref{prop:switch}. We assume that every player uses an oracle to recover at least one best response strategy, which means that the player is able to solve the corresponding optimization problem to global optimality. In \cref{sec:custom.oracles} we will see the instances of games for which this is possible.
 
 \begin{algorithm}
+	\renewcommand{\thealgorithm}{MO}
 	\caption{The Multiple Oracle algorithm}
-	\label{alg:do}
+	\label[mo]{alg:mo}
 	\begin{algorithmic}
 		\Function{iterate}{$\calG$, $\bX$}
 			\State Find an equilibrium $\bmu$ of the subgame $\langle N,\bX,(u_i)_{i\in N}\rangle$
@@ -23,7 +24,7 @@ The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition \ref{prop:switch}
 	\end{algorithmic}
 \end{algorithm}
 
-Algorithm \ref{alg:do} proceeds as follows: In every iteration $j$, finite strategy sets $X_i^j$ are constructed for each player $i\in N$ and the corresponding finite subgame of $\calG$ is solved. Let $\bmu^j$ be its equilibrium. Then, an arbitrary best response strategy $x_i^{j+1}$ with respect to $\bmu_{-i}^{j}$ is added to each strategy set~$X_i^j$. Those steps are repeated until
+\cref{alg:mo} proceeds as follows: In every iteration $j$, finite strategy sets $X_i^j$ are constructed for each player $i\in N$ and the corresponding finite subgame of $\calG$ is solved. Let $\bmu^j$ be its equilibrium. Then, an arbitrary best response strategy $x_i^{j+1}$ with respect to $\bmu_{-i}^{j}$ is added to each strategy set~$X_i^j$. Those steps are repeated until
 \begin{equation}\label{def:diff}
 	U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)\leq \eps \qquad \forall i\in N.
 \end{equation}
@@ -37,15 +38,15 @@ Indeed, for each player $i\in N$, we get
 	U_i(x_i^{j+1},\bmu_{-i}^j) = \max_{x \in X_i} U_i(x,\bmu^j_{-i}) \ge \max_{x \in X_i^j} U_i(x,\bmu^j_{-i}) = U_i(\bmu^j).
 \]
 
-We note that the stopping condition of the double oracle algorithm for two-player zero-sum continuous games \cite{Adam21} is necessarily different from \eqref{def:diff}. Namely the~former condition, which is tailored to the zero-sum games, is
+We note that \eqref{def:diff} is necessarily different from the stopping condition of DO. Namely, the~latter condition \cite{McMahan03}, tailored to two-player zero-sum games, is
 \begin{equation} \label{stoppingDO}
 	U_1(x_1^{j+1},\mu_2^j) - U_1(x_2^{j+1},\mu_1^j) \le \eps.
 \end{equation}
 When $\calG$ is a two-player zero-sum continuous game, it follows immediately from \eqref{ineq:upper} that \eqref{stoppingDO} implies \eqref{def:diff}.
 
-We prove correctness of Algorithm \ref{lem:algstop} --- the eventual output $\bmu^j$ is an $\eps$-equilibrium of the original game $\calG$.
+We prove correctness of \cref{alg:mo} --- the eventual output $\bmu^j$ is an $\eps$-equilibrium of the original game $\calG$.
 \begin{lemma}\label{lem:algstop}
-	The strategy profile $\bmu^j$ is an $\eps$-equilibrium of $\calG$, whenever Algorithm~\ref{alg:do} terminates at step $j$.
+	The strategy profile $\bmu^j$ is an $\eps$-equilibrium of $\calG$, whenever \cref{alg:mo} terminates at step $j$.
 \end{lemma}
 \begin{proof}
 	Let $\bx\in \bX$. We get
@@ -59,9 +60,9 @@ We prove correctness of Algorithm \ref{lem:algstop} --- the eventual output $\bm
 	where the last inequality is just the terminating condition \eqref{def:diff}. Therefore, $\bmu^j$ is an $\eps$-equilibrium of  $\calG$.
 \end{proof}
 
-If the set $\bX^j=X^j_1\times \dots \times X^j_n$ cannot be further inflated, Algorithm \ref{alg:do} terminates.
+If the set $\bX^j=X^j_1\times \dots \times X^j_n$ cannot be further inflated, \cref{alg:mo} terminates.
 \begin{lemma}\label{lemma:do_stop}
-	Assume that $\bX^j=\bX^{j+1}$ at step $j$ of Algorithm~\ref{alg:do}. Then
+	Assume that $\bX^j=\bX^{j+1}$ at step $j$ of \cref{alg:mo}. Then
 	\[
 		\bU(\bx^{j+1},\bmu^j)=\bU(\bmu^j).
 	\]
@@ -73,21 +74,21 @@ If the set $\bX^j=X^j_1\times \dots \times X^j_n$ cannot be further inflated, Al
 	\]
 \end{proof}
 
-The original double oracle algorithm for two-player zero-sum finite games \cite{McMahan03} makes it possible to find exact equilibria. The following proposition generalizes this result to the setting of multiplayer general-sum finite games.
+The original Double Oracle algorithm for two-player zero-sum finite games \cite{McMahan03} makes it possible to find exact equilibria. The following proposition generalizes this result to the setting of multiplayer general-sum finite games.
 \begin{proposition}\label{pro:Mahan}
-	If $\calG$ is a finite game and $\eps=0$, then Algorithm \ref{alg:do} recovers an equilibrium of $\calG$ in finitely-many steps.
+	If $\calG$ is a finite game and $\eps=0$, then \cref{alg:mo} recovers an equilibrium of $\calG$ in finitely-many steps.
 \end{proposition}
 \begin{proof}
-	Let $\calG$ be finite and $\eps=0$. Since each $X_i$ is finite, there exists an iteration $j$  in which $\bX^{j+1}=\bX^j$. Then the terminating condition of Algorithm \ref{alg:do} is satisfied with $\eps=0$ (Lemma \ref{lemma:do_stop}) and $\bmu^j$ is an equilibrium of $\calG$ (Lemma~\ref{lem:algstop}).
+	Let $\calG$ be finite and $\eps=0$. Since each $X_i$ is finite, there exists an iteration $j$  in which $\bX^{j+1}=\bX^j$. Then the terminating condition of \cref{alg:mo} is satisfied with $\eps=0$ (Lemma \ref{lemma:do_stop}) and $\bmu^j$ is an equilibrium of $\calG$ (Lemma~\ref{lem:algstop}).
 \end{proof}
 
 Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergence theorem from \cite{Adam21} and provides an alternative proof of Glicksberg's theorem \cite{Glicksberg52} about existence of equilibria in continuous games. Indeed, the sequence $\bmu^1,\bmu^2,\dots$ has at least one accumulation point by Proposition \ref{prop:convergence}. Further, the consequence of Theorem \ref{thm:convergence2} is that a finitely-supported $\eps$-equilibrium of $\calG$ can always  be found in finitely-many steps, although game $\calG$ may have no finitely-supported equilibria.
 
 \begin{theorem}\label{thm:convergence1}
-	Let $\calG$ be a continuous game and $\eps=0$. If Algorithm \ref{alg:do} stops at step $j$, then $\bmu^j$ is an~equilibrium of $\calG$. Otherwise, any accumulation point of $\bmu^1,\bmu^2,\dots$ is an equilibrium of $\calG$.
+	Let $\calG$ be a continuous game and $\eps=0$. If \cref{alg:mo} stops at step $j$, then $\bmu^j$ is an~equilibrium of $\calG$. Otherwise, any accumulation point of $\bmu^1,\bmu^2,\dots$ is an equilibrium of $\calG$.
 \end{theorem}
 \begin{proof}
-	If Algorithm~\ref{alg:do} terminates at step $j$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an equilibrium of $\calG$. In the opposite case, the algorithm generates a sequence of mixed strategy profiles $\bmu^1, \bmu^2, \dots$ Consider any weakly convergent subsequence of this sequence --- at least one such subsequence exists by Proposition~\ref{prop:convergence}. Without loss of generality, such a subsequence will be denoted by the same indices as the original sequence. Therefore, for each player $i\in N$, there exists some $\mu^\star_i\in \calM(X_i)$, such that the sequence $\mu_i^1,\mu_i^2,\dots$ weakly converges to $\mu_i^\star$. We need to show that  $\bmu^\star=(\mu^\star_1,\dots,\mu^\star_n)\in \bM$ is an equilibrium of $\calG$.
+	If \cref{alg:mo} terminates at step $j$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an equilibrium of $\calG$. In the opposite case, the algorithm generates a sequence of mixed strategy profiles $\bmu^1, \bmu^2, \dots$ Consider any weakly convergent subsequence of this sequence --- at least one such subsequence exists by Proposition~\ref{prop:convergence}. Without loss of generality, such a subsequence will be denoted by the same indices as the original sequence. Therefore, for each player $i\in N$, there exists some $\mu^\star_i\in \calM(X_i)$, such that the sequence $\mu_i^1,\mu_i^2,\dots$ weakly converges to $\mu_i^\star$. We need to show that  $\bmu^\star=(\mu^\star_1,\dots,\mu^\star_n)\in \bM$ is an equilibrium of $\calG$.
 
 	For all $i\in N$, define
 	\[
@@ -113,10 +114,10 @@ Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergenc
 \end{proof}
 
 \begin{theorem}\label{thm:convergence2}
-	Let $\calG$ be a continuous game and $\eps>0$. Then Algorithm \ref{alg:do} terminates at some step $j$ and $\bmu^j$ is an $\eps$-equilibrium of~$\calG$.
+	Let $\calG$ be a continuous game and $\eps>0$. Then \cref{alg:mo} terminates at some step $j$ and $\bmu^j$ is an $\eps$-equilibrium of~$\calG$.
 \end{theorem}
 \begin{proof}
-	If Algorithm~\ref{alg:do} terminates at step~$j$ with a positive $\eps$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an $\eps$-equilibrium of $\calG$. Otherwise Algorithm ~\ref{alg:do} produces a sequence $\bmu^1,\bmu^2,\dots$ and we can repeat the analysis as in Item 1 for  convergent subsequences of $(\bmu^j)$ and $(\bx^j)$, which are denoted by the same indices. Define $x'= \lim_j x_i^j.$ Then
+	If \cref{alg:mo} terminates at step~$j$ with a positive $\eps$, then Lemma \ref{lem:algstop} implies that $\bmu^j$ is an $\eps$-equilibrium of $\calG$. Otherwise \cref{alg:mo} produces a sequence $\bmu^1,\bmu^2,\dots$ and we can repeat the analysis as in Item 1 for  convergent subsequences of $(\bmu^j)$ and $(\bx^j)$, which are denoted by the same indices. Define $x'= \lim_j x_i^j.$ Then
 	\begin{equation}\label{ineq:aux1}
 	U_i(\bmu^\star)\ge U_i(x',\bmu_{-i}^\star)= \lim_{j} U_i(x_{i}^{j+1},\bmu_{-i}^j).
 	\end{equation}
@@ -124,12 +125,12 @@ Theorems \ref{thm:convergence1} and \ref{thm:convergence2} extend the convergenc
 	\begin{equation}\label{eq:limiting}
 	\lim_{j} (U_i(x_{i}^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)) = 0
 	\end{equation}
-	for each $i\in N$. This equality means that Algorithm \ref{alg:do} stops at some step $j$ and $\bmu^j$ is an $\eps$-equilibrium by Lemma \ref{lem:algstop}.
+	for each $i\in N$. This equality means that \cref{alg:mo} stops at some step $j$ and $\bmu^j$ is an $\eps$-equilibrium by Lemma \ref{lem:algstop}.
 \end{proof}
 
-Algorithm \ref{alg:do} generates the sequence of equilibria $\bmu^1,\bmu^2,\dots$ in increasingly larger subgames of $\calG$. The sequence itself may fail to converge weakly in $\bM$ even for a~two-player zero-sum continuous game; see Example 1 from \cite{Adam21}. In fact, Theorems \ref{thm:convergence1} and \ref{thm:convergence2} guarantee convergence only to an accumulation point. We recall that this is a~typical feature of some globally convergent methods not only in infinite-dimensional spaces \cite[Theorem 2.2]{Hinze08}, but also in Euclidean spaces. For example, a gradient method generates the sequence such that only its accumulation points are guaranteed to be stationary points \cite[Proposition 1.2.1]{Bertsekas16}. One necessary condition for the weak convergence of $\bmu^1,\bmu^2,\dots$ is easy to formulate using the stopping condition of Algorithm~\ref{alg:do}.
+\cref{alg:mo} generates the sequence of equilibria $\bmu^1,\bmu^2,\dots$ in increasingly larger subgames of $\calG$. The sequence itself may fail to converge weakly in $\bM$ even for a~two-player zero-sum continuous game; see Example 1 from \cite{Adam21}. In fact, Theorems \ref{thm:convergence1} and \ref{thm:convergence2} guarantee convergence only to an accumulation point. We recall that this is a~typical feature of some globally convergent methods not only in infinite-dimensional spaces \cite[Theorem 2.2]{Hinze08}, but also in Euclidean spaces. For example, a gradient method generates the sequence such that only its accumulation points are guaranteed to be stationary points \cite[Proposition 1.2.1]{Bertsekas16}. One necessary condition for the weak convergence of $\bmu^1,\bmu^2,\dots$ is easy to formulate using the stopping condition of \cref{alg:mo}.
 \begin{proposition}
-  	If the sequence $\bmu^1,\bmu^2,\dots$ generated by Algorithm \ref{alg:do} converges weakly to an equilibrium $\bmu^\star$, then $\lim_j \bigl(U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)\bigr)=0,$ for each $i\in N.$
+  	If the sequence $\bmu^1,\bmu^2,\dots$ generated by \cref{alg:mo} converges weakly to an equilibrium $\bmu^\star$, then $\lim_j \bigl(U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)\bigr)=0,$ for each $i\in N.$
 \end{proposition}
 \begin{proof}
 	Using \eqref{ineq:upper} and the triangle inequality,
@@ -153,11 +154,11 @@ which can be done with a linear program \eqref{def:LPobj}. If the sequence $\bmu
 
 
 
-Algorithm \ref{alg:do} is a meta-algorithm, which is parameterized by
+\cref{alg:mo} is a meta-algorithm parameterized by
 \begin{enumerate}
 	\item the algorithm for computing equilibria of subgames (the \emph{master problem}) and
 	\item the optimization method for computing the best response (the \emph{oracles}).
 \end{enumerate}
 We detail this setup for each example in the next section.
 
-The choice of computational methods should reflect the properties of a~continuous game, since the efficiency of methods for solving the master problem and subproblem is the decisive factor for the overall performance and precision of Algorithm \ref{alg:do}. For example, polymatrix games are solvable in polynomial time \cite{Cai16}, whereas finding even an approximate Nash equilibrium of a finite general-sum game is a very hard problem \cite{Daskalakis09}. As for the solution of the oracles, the best response computation can be based on global solvers for special classes of utility functions.
+The choice of computational methods should reflect the properties of a~continuous game, since the efficiency of methods for solving the master problem and subproblem is the decisive factor for the overall performance and precision of \cref{alg:mo}. For example, polymatrix games are solvable in polynomial time \cite{Cai16}, whereas finding even an approximate Nash equilibrium of a finite general-sum game is a very hard problem \cite{Daskalakis09}. As for the solution of the oracles, the best response computation can be based on global solvers for special classes of utility functions.
