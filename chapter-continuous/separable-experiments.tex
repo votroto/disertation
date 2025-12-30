@@ -1,6 +1,6 @@
 In the remaining part of this paper we show several examples of polynomial games and recovered their equilibria by the method explained in the \cref{sec:poly}. We implemented the hierarchy of programs \eqref{momsdp} in Julia using \href{https://jump.dev/}{JuMP} \cite{JuMP} and the \href{https://jump.dev/SumOfSquares.jl/stable/}{SumOfSquares.jl} package \cite{PolyJuMP}. We solved the semidefinite programs using \href{https://www.mosek.com/}{Mosek} on a laptop with a 3.1GHz dual-core CPU. Our code is available \href{https://github.com/votroto/PolyNets.jl}{online}.
 
-\begin{example*}[Example \ref{ex.parrilo06.3.1}]
+\begin{example}[\cref{ex.parrilo06.3.1}]
     Consider a two-player zero-sum polynomial game played on the $[-1,1]$ interval. The utility functions are
     \[
         u_{1}(x_{1},x_{2}) = 2x_{1}x_{2}^2 - x_{1}^2 - x_{2} = -u_{2}(x_{1},x_{2}).
@@ -8,9 +8,9 @@ In the remaining part of this paper we show several examples of polynomial games
     Since polynomial network games are a generalization of polynomial games, we can use the same framework to solve them. A pure NE is achieved when Player 1 plays $x_{1} \approx 0.4$ and Player~2 plays $x_{2} \approx 0.63$. The optimal payoffs to each player are $\bw \approx (-0.47, 0.47)$. This problem was solved at order 4 of the hierarchy. Due to the low number of variables the problem required only 44 constraints and it was solved within 10\,ms.
 
     \textcite{parrilo:polynomial} demonstrated that the hierarchy is not necessary for two-player zero-sum games with interval strategy sets. In this case, Lukács' theorem \cite[1.21.1]{szego75orthogonal} states that there exists a Putinar decomposition in terms of rank-1 multipliers such that the term degrees do not exceed that of the input polynomial. The $z\in[-1,1]$ strategy set would be encoded as $1+z \geq 0 \land 1-z \geq 0$ for inputs with odd degrees and $1-z^2 \geq 0$ for even degrees. Both encodings satisfy the Archimedean property as the product of the defining polynomials is positive on a compact set. However, semidefinite solvers usually cannot guarantee rank-1 solutions.
-\end{example*}
+\end{example}
 
-\begin{example*}[Example \ref{ex.kroupa21.5}]\label{ex:separable.network}
+\begin{example}[\cref{ex.kroupa21.5}]\label{ex:separable.network}
     \iffalse
      There are 3 players. All pairs of players are involved in bilateral general-sum games and each player uses the same strategy across all such games. The pairwise utility functions are:
   \begin{equation*}
@@ -39,9 +39,9 @@ In the remaining part of this paper we show several examples of polynomial games
     \end{aligned}
     \]
     The corresponding utilities are $\bw \approx (-1.22, 0.26, 0.97)$. This problem converged in around $10\,\text{ms}$ at order 4, resulting in 96 constraints.
-\end{example*}
+\end{example}
 
-\begin{example*}[Example \ref{ex.kroupa21.6}]\label{ex:separable.security}
+\begin{example}[\cref{ex.kroupa21.6}]\label{ex:separable.security}
     We consider a polynomial security game with attackers $N_A=\{1,2\}$, defenders $N_D=\{3,4\}$. Player 3 protects targets $t_1$ and $t_2$, while player 4 defends $t_3,t_4$. The capacities of attackers are $a_1=0.5$, $a_2=0.8$, and the defenders' capacities are $d_3=d_4=1$. The efficiency functions are:
     \begin{equation*}\begin{aligned}
         e_{1}(x,y) &= 0.7x^2(1-y^2)\\
@@ -62,4 +62,4 @@ In the remaining part of this paper we show several examples of polynomial games
     \end{aligned}
     \]
     The payoffs to each player are $\bw \approx (0.1, 0.3, -0.17, -0.23)$. While the payoffs converged at order 4 already and took only 3 seconds to solve, the corresponding strategies could not be extracted until order 6, which took 6 minutes to solve. Due to the high dimensionality of the utility functions and the fast growth of the hierarchy, the resulting SDP contained over 25 thousand constraints.
-\end{example*}
+\end{example}

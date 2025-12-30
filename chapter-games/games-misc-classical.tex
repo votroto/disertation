@@ -1,6 +1,6 @@
 The following games appear in books from the $1950$s and $60$s, where they were used as demonstrations that the solutions of continuous games may be supported on anything from singleton sets to Cantor sets and whole intervals.
 
-\begin{example}\label{ex.dresher61.pg110}
+\begin{game}\label{ex.dresher61.pg110}
 A two-player zero-sum game in $1 \times 1$ variables on the interval
 $$x_{i1} \in [0,1] \quad \forall i \in \{1, 2\},$$
 with the utility function \cite[pg. 110]{Dresher2007-ez}
@@ -8,11 +8,11 @@ with the utility function \cite[pg. 110]{Dresher2007-ez}
 u_{1}\left( x_{1}, x_{2} \right) = \left( x_{11} - x_{21} \right)^{2}
 \end{equation*}
 The Nash equilibrium is $\mu_1^\star = \mathcal{U}\{0,1\}$; $\mu_2^\star = \delta_{0.5}$ and the value is $\frac{1}{4}$.
-\end{example}
+\end{game}
 
 \noindent
 \begin{minipage}[c]{0.6\textwidth}
-\begin{example}\label{ex.dresher61.pg111}
+\begin{game}\label{ex.dresher61.pg111}
 A two-player zero-sum game in $1 \times 1$ variables on the interval
 $$x_{i1} \in [0,1] \quad \forall i \in \{1, 2\},$$
 with the utility function
@@ -20,7 +20,7 @@ with the utility function
 u_{1}\left( x_{1}, x_{2} \right) &= \left( 1 - \left| x_{21} - x_{11} \right| \right) \left|  x_{21} - x_{11} \right|
 \end{align*}
 \textcite[pg. 111]{Dresher2007-ez} proved that the only equilibrium of this game has an infinite support: $\mu_i^\star = \mathcal{U}[0,1]$, and its value is $\frac{1}{6}$.
-\end{example}
+\end{game}
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.35\textwidth}
@@ -46,7 +46,7 @@ u_{1}\left( x_{1}, x_{2} \right) &= \left( 1 - \left| x_{21} - x_{11} \right| \r
 \end{minipage}
 
 
-\begin{example} \label{ex.gross58.poly}
+\begin{game} \label{ex.gross58.poly}
 A two-player zero-sum game in $m_1 \times m_2$ variables on compact subsets of real numbers
 \[
     x_i \in X_i \subset \mathbb{R}^{m_i} \quad \forall i \in \{1,2\}.
@@ -68,7 +68,7 @@ with $g$ and $\psi$ being defined analogously for $x_2$, $\sigma_2$, $\mu_2$, an
 This game has the property that the parameters $\sigma$ and $\mu$ define a unique mixed Nash equilibrium supported on $\sigma_i \in X_i^{c_i}$ weighted by $\mu_i \in \Delta^{c_i-1}$, for any set of cluster points $\alpha_i \in X_i^{c_{-i}+1}$ that do not overlap with the supports.
 
 This construction of polynomial games with a unique prescribed solution was discovered by \textcite{gale1958note}. The generated games may be challenging to solve numerically given their large degrees and relative flatness near the equilibrium as shown in figure \ref{fig:gross}.
-\end{example}
+\end{game}
 
 \begin{figure}
 \centering
@@ -103,20 +103,20 @@ coordinates {(0.5, 0.5, 0)};
 \label{fig:gross}
 \end{figure}
 
-\begin{example}\label{ex.karlin59.vol2.sec71.ex1}
+\begin{game}\label{ex.karlin59.vol2.sec71.ex1}
 A two-player zero-sum game in $1 \times 1$ variables on the interval
 $$x_{i1} \in [0,1] \quad \forall i \in \{1,2\}.$$
 The utility function is defined by
 \begin{equation*}
 u_{1}\left( x_{1}, x_{2} \right) = \frac{1}{1 + \lambda \left( x_{11} - x_{21} \right)^{2}}
 \end{equation*}
-where $\lambda > 0$. \textcite[Example 1]{karlin:chapter} proved that the game has finitely supported optimal strategies.
-\end{example}
+where $\lambda > 0$. \textcite[Example~1]{karlin:chapter} proved that the game has finitely supported optimal strategies.
+\end{game}
 
 
 \noindent
 \begin{minipage}[c]{0.6\textwidth}
-\begin{example}\label{ex.karlin59.vol2.sec71.ex2}
+\begin{game}\label{ex.karlin59.vol2.sec71.ex2}
 A two-player zero-sum game in $1 \times 1$ variables on the interval
 $$x_{i1} \in [0,1] \quad \forall i \in \{1,2\}.$$
 The utility is defined by the rational function
@@ -124,8 +124,8 @@ The utility is defined by the rational function
 u_{1}\left( x_{1}, x_{2} \right) &=  \left( x_{21} - 0.5 \right)\left(\frac{1 + \left( x_{21} - 0.5 \right)^{2} \left( x_{11} - 0.5 \right)}{1 + \left( x_{21} - 0.5 \right)^{4} \left( x_{11} - 0.5 \right)^{2}} \right) \\
 & - \frac{x_{21} - 0.5 }{1 + \left( x_{21} - 0.5 \right)^{4} \left( \frac{1}{3} x_{11} -0.5\right)}
 \end{align*}
-\textcite[Example 2]{karlin:chapter} proved that the unique optimal strategy is the Cantor distribution.
-\end{example}
+\textcite[Example~2]{karlin:chapter} proved that the unique optimal strategy is the Cantor distribution.
+\end{game}
 \strut
 \end{minipage}
 \hfill
@@ -152,7 +152,7 @@ u_{1}\left( x_{1}, x_{2} \right) &=  \left( x_{21} - 0.5 \right)\left(\frac{1 + 
 \end{minipage}
 
 
-\begin{example}\label{ex.karlin59.vol2.sec76.pr1}
+\begin{game}\label{ex.karlin59.vol2.sec76.pr1}
 A two-player zero-sum game in $1 \times 1$ variables on the interval
 $$x_{i1} \in [0,1] \quad \forall i \in \{1,2\}.$$
 The utility is defined by \cite[Problem 1]{karlin:chapter}:
@@ -160,10 +160,10 @@ The utility is defined by \cite[Problem 1]{karlin:chapter}:
 u_{1}\left( x_{1}, x_{2} \right) = \frac{2 \left( x_{11} + x_{21} \right)}{\left( 1 + 2 x_{11} \right) \left( 1 + 2 x_{21} \right)}
 \end{equation*}
 The game has a Nash equilibrium where both players play $\mu^\star(z)=\frac{1+2z}{2}$.
-\end{example}
+\end{game}
 
 
-\begin{example}\label{ex.karlin59.vol2.sec76.pr2}
+\begin{game}\label{ex.karlin59.vol2.sec76.pr2}
 A two-player zero-sum game in $1 \times 1$ variables on the interval
 $$x_{i1} \in [0,1] \quad \forall i \in \{1,2\}.$$
 The utility is defined by
@@ -172,5 +172,5 @@ u_{1}\left( x_{1}, x_{2} \right) = \frac{\left( 1 + x_{11} \right) \left( 1 + x_
 \end{equation*}
 \textcite[Problem 2]{karlin:chapter} showed that the value of this game is $\frac{1}{\ln 2}$ when both players play $\mu^\star(z)=\frac{\ln (1+z)}{\ln 2}$.
 
-\end{example}
+\end{game}
 

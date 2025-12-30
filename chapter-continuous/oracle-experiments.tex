@@ -124,7 +124,7 @@ Suppose the algorithm is started with a point outside $x_1 > x_2 > \arctan(x_1)$
 
     \end{groupplot}
 \end{tikzpicture}
-\caption{Utility functions of both players in Example \ref{ex.tan.ridge}. The projected best response curves $\beta_1(x_2)=x_2$ and $\beta_2(x_1)=\arctan(x_1)$ show similar behavior near the origin, where they intersect, resulting in a unique pure NE.}
+\caption{Utility functions of both players in \cref{ex.tan.ridge}. The projected best response curves $\beta_1(x_2)=x_2$ and $\beta_2(x_1)=\arctan(x_1)$ show similar behavior near the origin, where they intersect, resulting in a unique pure NE.}
 \label{fig:tan.ridge.utility}
 \end{figure}
 
@@ -196,14 +196,14 @@ iter y1 y2
 
 \end{groupplot}
 \end{tikzpicture}
-\caption{A log-log plot of the sublinear $O(x^{-3/2})$ convergence of Example~\ref{ex.tan.ridge} in both the largest possible deviation by each player, as well as the Wasserstein distance between strategies from successive iterations.}
+\caption{A log-log plot of the sublinear $O(x^{-3/2})$ convergence of \cref{ex.tan.ridge} in both the largest possible deviation by each player, as well as the Wasserstein distance between strategies from successive iterations.}
 \label{fig:tan.ridge.convergence}
 \end{figure}
 \end{example}
 
 
 
-\begin{example*}[Example \ref{ex.parrilo06.3.1}]
+\begin{example}[\cref{ex.parrilo06.3.1}]
     Consider a two-player zero-sum game with strategy sets $[-1,1]$ and a utility function of the first player
     \[
       u(x,y) = 2xy^2 - x^2 - y.
@@ -258,13 +258,13 @@ iter y1 y2
     }
     \end{groupplot}
     \end{tikzpicture}
-    \caption{Convergence in Example \ref{ex.parrilo06.3.1}. After 10 iterations, our method finds pure strategies $x \approx 0.4$ and $y \approx 0.63$, resulting in payoffs \((-0.47, 0.47)\). }
+    \caption{Convergence in \cref{ex.parrilo06.3.1}. After 10 iterations, our method finds pure strategies $x \approx 0.4$ and $y \approx 0.63$, resulting in payoffs \((-0.47, 0.47)\). }
     \label{fig:oracle.zerosum.polynomial}
     \end{figure}
-\end{example*}
+\end{example}
 
 
-\begin{example*}[Example \ref{ex.stein08.2.3}]
+\begin{example}[\cref{ex.stein08.2.3}]
   The strategy set of each player is $[-1,1]$ and utility functions are
   \begin{align*}
     u_{1}(x,y) &= -3x^2y^2 - 2x^3 + 3y^3 + 2xy - x,\\
@@ -320,9 +320,9 @@ iter y1 y2
     }
     \end{groupplot}
     \end{tikzpicture}
-     \caption{Convergence in Example \ref{ex.stein08.2.3}. Our method finds mixed strategies where $x\approx0.11$ with probability $44.19\%$ and $x\approx-1$ with probability $55.81\%$ and $y\approx0.72$ resulting in payoffs \((1.13, 1.81)\).}
+     \caption{Convergence in \cref{ex.stein08.2.3}. Our method finds mixed strategies where $x\approx0.11$ with probability $44.19\%$ and $x\approx-1$ with probability $55.81\%$ and $y\approx0.72$ resulting in payoffs \((1.13, 1.81)\).}
     \end{figure}
-\end{example*}
+\end{example}
 
 \iffalse
 \begin{example}[Torus game \cite{Chasnov20}]\label{ex2}
@@ -428,7 +428,7 @@ NaN NaN NaN
 }
 \end{groupplot}
 \end{tikzpicture}
-\caption{Convergence of Example \ref{ex.kroupa21.5} showing the largest possible deviation by each player, as well as the wasserstein distance between strategies from successive iterations.}
+\caption{Convergence of \cref{ex.kroupa21.5} showing the largest possible deviation by each player, as well as the wasserstein distance between strategies from successive iterations.}
 \label{fig:oracle.small.separable}
 \end{figure}
 
@@ -499,7 +499,7 @@ NaN NaN NaN NaN
 }
 \end{groupplot}
 \end{tikzpicture}
-\caption{Convergence of Example \ref{ex.kroupa21.6} over 15 iterations.}
+\caption{Convergence of \cref{ex.kroupa21.6} over 15 iterations.}
 \label{fig:oracle.large.separable}
 \end{figure}
 \end{example}
