@@ -18,7 +18,7 @@ The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition \ref{prop:switch}
 		\Function{multiple-oracle}{$\calG$, $\bX$, $\eps$}
 			\Repeat
 				\State $\bX, \bx, \bmu \gets \text{iterate}(\calG, \bX)$
-			\Until{$\bU(\bx,\bmu_{-i})-\bU(\bmu) \leq \beps$}
+			\Until{ $\forall i \in N:\;U(\bx_i,\bmu_{-i})-U(\bmu) \leq \beps$}
 			\State \Return $\bmu$
 		\EndFunction
 	\end{algorithmic}

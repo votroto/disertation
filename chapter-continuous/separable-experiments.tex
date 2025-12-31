@@ -1,6 +1,6 @@
-In the remaining part of this paper we show several examples of polynomial games and recovered their equilibria by the method explained in the \cref{sec:poly}. We implemented the hierarchy of programs \eqref{momsdp} in Julia using \href{https://jump.dev/}{JuMP} \cite{JuMP} and the \href{https://jump.dev/SumOfSquares.jl/stable/}{SumOfSquares.jl} package \cite{PolyJuMP}. We solved the semidefinite programs using \href{https://www.mosek.com/}{Mosek} on a laptop with a 3.1GHz dual-core CPU. Our code is available \href{https://github.com/votroto/PolyNets.jl}{online}.
+In the remaining part of this paper we show several examples of polynomial games and recovered their equilibria by the method explained in the \cref{sec:poly}. We implemented the hierarchy of programs \eqref{momsdp} in Julia using \href{https://jump.dev/}{JuMP} \cite{JuMP} and the \href{https://jump.dev/SumOfSquares.jl/stable/}{SumOfSquares.jl} package \cite{PolyJuMP}. We solved the semidefinite programs using \href{https://www.mosek.com/}{Mosek} on a laptop with a 3.1GHz dual-core CPU.
 
-\begin{example}[\cref{ex.parrilo06.3.1}]
+\begin{example}[\cref{ex.parrilo06.3.1}]\label{ex:separable.parillo}
     Consider a two-player zero-sum polynomial game played on the $[-1,1]$ interval. The utility functions are
     \[
         u_{1}(x_{1},x_{2}) = 2x_{1}x_{2}^2 - x_{1}^2 - x_{2} = -u_{2}(x_{1},x_{2}).

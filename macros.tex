@@ -63,16 +63,18 @@
 \DeclareMathOperator*{\minimize}{minimize}
 \DeclareMathOperator*{\maximize}{maximize}
 \newtheorem{theorem}{Theorem}
-\newtheorem{remark}{Remark}
-\newtheorem*{example*}{Example}
-\newtheorem{example}{Example}
 \newtheorem{lemma}{Lemma}
 \newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
 \newtheorem{definition}{Definition}
-
-
 \newtheorem{game}{Game}[section]
-%\renewcommand{\thegame}{\thesection.\arabic{game}}
+\newtheorem*{example*}{Example}
+\newtheorem{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
 \crefname{game}{Game}{Games}
 \Crefname{game}{Game}{Games}
 

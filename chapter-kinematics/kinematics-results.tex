@@ -1,11 +1,11 @@
 We compare our QCQP-based procedure to the prior SOS-based method \textcite{trutman2022globally}. Our numerical experiments use an \emph{Intel Xeon Gold 6146} processor limited to 4 threads. Implementing the SOS-based method involves Maple 2022 and Mosek~10, while our method uses Gurobi 10. These solvers are the latest and fastest for each problem class available to us at the time of writing. Results for the SOS-based method are based on the original implementation and use all the techniques described in \cite{trutman2022globally} to improve numerical stability. We show the statistics of solve times estimated from randomly generated feasible and infeasible poses of the \href{https://www.kuka.com/en-us/products/robotics-systems/industrial-robots/lbr-iiwa}{KUKA LBR iiwa} 7-DOF manipulator, the \emph{iCub} \cite{icub} humanoid robot's right arm and torso (7--10 DOF), and on randomly generated designs with seven joints. Unless stated otherwise, the  results in following sections pertain to the lifting approach $\lift_\text{A}$ (see \cref{sec:lift}).
 
 \subsection{Factors Influencing the Solution Time}
-As we solve IK via a non-convex QCQP, it is difficult to predict the solution time of a given instance; however, in our experience, the time increases with the number of non-zeros in the constraint matrix, the number of variables, and the volume of the space that needs to be searched. In practical terms, the runtime depends on the manipulator's range of motion and the link twists. Specifically, designs with axes offset by $90^\circ$, as is the case for the \emph{iCub} and the \emph{KUKA~LBR~iiwa}, are easier to solve than ones with joints at arbitrary angles. 
+As we solve IK via a non-convex QCQP, it is difficult to predict the solution time of a given instance; however, in our experience, the time increases with the number of non-zeros in the constraint matrix, the number of variables, and the volume of the space that needs to be searched. In practical terms, the runtime depends on the manipulator's range of motion and the link twists. Specifically, designs with axes offset by $90^\circ$, as is the case for the \emph{iCub} and the \emph{KUKA~LBR~iiwa}, are easier to solve than ones with joints at arbitrary angles.
 
 To demonstrate how the time required to solve IK depends on the aspects of mechanical design, we will consider three sets of randomly generated robotic designs with seven joints:
 \begin{description}
-    \item[Orth.] (Orthogonal) designs with link twists sampled uniformly from $\{\nicefrac{-\pi}{2}, \nicefrac{\pi}{2}\}$, resulting in orthogonal axes and a 6-radian range of motion $-3 \leq \theta_i \leq 3$, 
+    \item[Orth.] (Orthogonal) designs with link twists sampled uniformly from $\{\nicefrac{-\pi}{2}, \nicefrac{\pi}{2}\}$, resulting in orthogonal axes and a 6-radian range of motion $-3 \leq \theta_i \leq 3$,
     \item[6-rad] designs with arbitrary link twists $\alpha_i$ uniformly sampled from $[-3,3]$ and  6-radian range of motion,
     \item[4-rad] designs with arbitrary twists $\alpha_i$ uniformly sampled from $[-3,3]$, and  4-radian range $-2 \leq \theta_i \leq 2$.
 \end{description}
@@ -20,9 +20,9 @@ As mentioned before in \cref{sec:sbab}, the size of tree that the Spatial Branch
               &\quad&&   \theta^{min}_i \leq \theta_i \leq \theta^{max}_i   \hspace{4em} i=1,\dots,n
 \end{aligned}
 \end{equation}
-This warm-starting may fail to provide a solution, as local solvers may get stuck at points of local infeasibility. We limited the local-solution search to 200 iterations (approximately $\qty{200}{\milli\second}$). Unless indicated otherwise, all of the following benchmarks used warm-starting. 
+This warm-starting may fail to provide a solution, as local solvers may get stuck at points of local infeasibility. We limited the local-solution search to 200 iterations (approximately $\qty{200}{\milli\second}$). Unless indicated otherwise, all of the following benchmarks used warm-starting.
 
-Switching to modern QP or iterative real-time techniques with higher precision and lower failure rates will likely improve solution times. Additionally, such techniques could be used during the runtime as branch-and-bound heuristics. 
+Switching to modern QP or iterative real-time techniques with higher precision and lower failure rates will likely improve solution times. Additionally, such techniques could be used during the runtime as branch-and-bound heuristics.
 
 {\small
 \begin{table}
@@ -51,7 +51,7 @@ Switching to modern QP or iterative real-time techniques with higher precision a
     \caption{A semi-log plot of solve-time kernel-density-estimates from 1000 samples of randomly generated designs for each parameter set.}
 \end{figure}
 
-Note that the variable and constraint count alone are not a good predictor of runtime. Despite not allowing for cancellation $\lift_\text{M}$ results in the fewest variables after presolve; however, while the method is faster on some designs on average, its behavior is less predictable. In extreme cases, this resulted in runtimes almost 100 times higher than the average. 
+Note that the variable and constraint count alone are not a good predictor of runtime. Despite not allowing for cancellation $\lift_\text{M}$ results in the fewest variables after presolve; however, while the method is faster on some designs on average, its behavior is less predictable. In extreme cases, this resulted in runtimes almost 100 times higher than the average.
 
 {\small
 \begin{table}
@@ -78,7 +78,7 @@ Note that the variable and constraint count alone are not a good predictor of ru
 }
 
 \subsection{Comparison Across Solvers and Methods (7 DOF)}
-Our approach outperforms the SOS-based method \cite{trutman2022globally} when tested on feasible IK instances generated by the \emph{KUKA LBR iiwa} 7-DOF manipulator. The state-of-the-art method was explicitly optimized to take advantage of the manipulator's structure and eliminate one of the joints. Due to Maple's license availability, the following comparison was performed on four threads of \emph{AMD Ryzen 5 4600G}. We did not include the modelling and Matlab overhead in the reported runtimes. The average solve-time (Figure \ref{fig:compare.kuka}) of our technique was $\qty{0.26}{\second}$, compared to $\qty{2.9}{\second}$ for the optimized SOS approach. We have also tried the free and open-source solver \emph{SCIP} instead of \emph{Gurobi}. However, the average solve time for \emph{SCIP} rises to $\qty{5.7}{\second}$. While a performance decrease is expected when comparing commercial solvers to free and open-source ones, in this case \emph{SCIP} could also not effectively utilize more than one thread and did not benefit from the local solution provided by warm-starting. The prior method can take advantage of the structure of the manipulator, which significantly improves the runtime compared to generic manipulators. 
+Our approach outperforms the SOS-based method \cite{trutman2022globally} when tested on feasible IK instances generated by the \emph{KUKA LBR iiwa} 7-DOF manipulator. The state-of-the-art method was explicitly optimized to take advantage of the manipulator's structure and eliminate one of the joints. Due to Maple's license availability, the following comparison was performed on four threads of \emph{AMD Ryzen 5 4600G}. We did not include the modelling and Matlab overhead in the reported runtimes. The average solve-time (Figure \ref{fig:compare.kuka}) of our technique was $\qty{0.26}{\second}$, compared to $\qty{2.9}{\second}$ for the optimized SOS approach. We have also tried the free and open-source solver \emph{SCIP} instead of \emph{Gurobi}. However, the average solve time for \emph{SCIP} rises to $\qty{5.7}{\second}$. While a performance decrease is expected when comparing commercial solvers to free and open-source ones, in this case \emph{SCIP} could also not effectively utilize more than one thread and did not benefit from the local solution provided by warm-starting. The prior method can take advantage of the structure of the manipulator, which significantly improves the runtime compared to generic manipulators.
 
 \begin{figure}[tpb]
 \centering
@@ -87,7 +87,7 @@ Our approach outperforms the SOS-based method \cite{trutman2022globally} when te
   \label{fig:compare.kuka}
 \end{figure}
 
-To compare the methods on randomly generated designs, we rounded the lengths and offsets of the \emph{6-rad} test-set to two significant digits, as the performance of the SOS-based method depends on the number of digits in the problem. The performance of our method is not significantly affected by the rounding. The average solve-time (Fig.~\ref{fig:compare.rand}) of our technique was $\qty{12.0}{\second}$ with \emph{Gurobi} and $\qty{931}{\second}$ with \emph{SCIP}. The modified SOS approach took $\qty{4328}{\second}$ to solve an instance on average. Finally, we note that the prior SOS-based method has roughly a $1\%$ failure rate, a problem we did not encounter with our method.
+To compare the methods on randomly generated designs, we rounded the lengths and offsets of the \emph{6-rad} test-set to two significant digits, as the performance of the SOS-based method depends on the number of digits in the problem. Such rounding is unnecessary with our method, but it does not significantly affect the runtime. The average solve-time (Fig.~\ref{fig:compare.rand}) of our technique was $\qty{12.0}{\second}$ with \emph{Gurobi} and $\qty{931}{\second}$ with \emph{SCIP}. The modified SOS approach took $\qty{4328}{\second}$ to solve an instance on average. Finally, we note that the prior SOS-based method has roughly a $1\%$ failure rate, a problem we did not encounter with our method.
 
 \begin{figure}[tpb]
 \centering
@@ -96,7 +96,7 @@ To compare the methods on randomly generated designs, we rounded the lengths and
 	\label{fig:compare.rand}
 \end{figure}
 
-The symbolic reduction step of the SOS-based method can be a bottleneck for some robots. For example, the 7-DOF IK instances of \emph{iCub}'s right arm (Fig.~\ref{fig:compare.icub}) did not consistently finish within 5 hours of runtime even despite rounding to the nearest millimeter (3 significant figures). In this case however, we found that the reduction is not necessary, and \emph{Mosek} could solve the SOS programs directly with only a $1\,\%$ failure rate (this was described as the \emph{naïve} approach in \cite{trutman2022globally}). The average solve-time over 1000 samples was $\qty{0.17}{\second}$ for \emph{Gurobi}, $\qty{4.5}{\second}$ for \emph{SCIP}, and $\qty{3.3}{\second}$ for the \emph{naïve} SOS. 
+The symbolic reduction step of the SOS-based method can be a bottleneck for some robots. For example, the 7-DOF IK instances of \emph{iCub}'s right arm (Fig.~\ref{fig:compare.icub}) did not consistently finish within 5 hours of runtime even despite rounding to the nearest millimeter (3 significant figures). In this case however, we found that the reduction is not necessary, and \emph{Mosek} could solve the SOS programs directly with only a $1\,\%$ failure rate (this was described as the \emph{naïve} approach in \cite{trutman2022globally}). The average solve-time over 1000 samples was $\qty{0.17}{\second}$ for \emph{Gurobi}, $\qty{4.5}{\second}$ for \emph{SCIP}, and $\qty{3.3}{\second}$ for the \emph{naïve} SOS.
 
 \begin{figure}[tpb]
 \centering
@@ -108,7 +108,7 @@ The symbolic reduction step of the SOS-based method can be a bottleneck for some
 Finally, we tested the SOS-based method without symbolic reduction on \href{https://www.asc-csa.gc.ca/eng/iss/canadarm2/about.asp}{Canadarm2}. While the average runtime was $\qty{6.3}{\second}$, the success rate was only $31 \%$ out of 1000 feasible instances. The average runtime for QCQP with \emph{Gurobi} was~$1.8\,\si{\second}$.
 
 \subsection{\emph{iCub} Right Arm and Torso (7--10 DOF)}
-We also demonstrate (Table \ref{icubtable}) that our technique scales to realistic instances with up to 10 degrees of freedom. Due to the low range of motion of the iCub's arms, it can be beneficial to include the torso in the kinematic chain. We start with the 7-DOF right arm and progressively add torso joints up to the full 10-DOF chain. We are aware of no suitable baseline for this class of problems. % Our technique took 1.67 seconds to solve a feasible 8DOF IK problem on average. 
+We also demonstrate (Table \ref{icubtable}) that our technique scales to realistic instances with up to 10 degrees of freedom. Due to the low range of motion of the iCub's arms, it can be beneficial to include the torso in the kinematic chain. We start with the 7-DOF right arm and progressively add torso joints up to the full 10-DOF chain. We are aware of no suitable baseline for this class of problems. % Our technique took 1.67 seconds to solve a feasible 8DOF IK problem on average.
 
 {\small
 \begin{table}

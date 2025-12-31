@@ -15,11 +15,15 @@ This thesis covers results published under the supervision of Tomáš Kroupa on 
     \item[Nash Equilibria in Separable Network Games] We provide an infinite-dimensional linear program and a Moment--Sum-of-Squares hierarchy for Nash equilibria in polynomial separable network games. See \cref{sec:separable}, \cref{thm:opti}, and examples 49–50.
 
     Our infinite-dimensional linear program for continuous network games is a generalisation of the linear program by \textcite{Cai16} originally applicable to games with finite action spaces.
+
+    Our code for polynomial network games is published at \url{https://github.com/votroto/PolyNets.jl}.
+
     \item[Epsilon Equilibria in Continuous Games] We extend the Double Oracle algorithm to multi-player general-sum continuous games, prove the convergence to ϵ-equilibria in the Wasserstein metric under exact best-response oracles, and empirically evaluate it on a wide library of continuous games. See \cref{sec:multiple.oracle} and Appendix~\ref{appendix:do.results}.
 
     Our program for multi-player general-sum continuous games is a generalisation of the Double Oracle algorithm by \textcite{McMahan03}, originally designed for zero-sum matrix games, and of its later generalisation by \textcite{adam.horčík.ea:double} to two-player zero-sum continuous games.
 
     Relevant Julia source code is published at \url{https://github.com/votroto/Quack.jl}.
+
     \item[Optimal Inverse Kinematics] We develop a bilinear lifting scheme for polynomial inverse kinematics with possible applications to manipulator design, enabling the computation of globally optimal solutions for generic manipulators with up to 10 degrees of freedom. See \cref{ch:ik}.
 
     Our scheme substantially improves upon the results of Trutman et al. [87], who demonstrated that inverse kinematics with 7 degrees of freedom are solvable using a method based on algebraic geometry.
