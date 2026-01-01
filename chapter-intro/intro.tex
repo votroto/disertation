@@ -12,7 +12,7 @@ Finding global optima of functions over a set in the absence of any assumptions 
 \section{Contributions and Thesis Structure}
 This thesis covers results published under the supervision of Tomáš Kroupa on the solutions of games with infinite action spaces. It focuses on a generically applicable algorithm called \emph{Multiple Oracle}, and shows how the powerful underlying global optimisation techniques extend to applications in robotics. Finally, it outlines the future direction for our research.
 \begin{description}
-    \item[Nash Equilibria in Separable Network Games] We provide an infinite-dimensional linear program and a Moment--Sum-of-Squares hierarchy for Nash equilibria in polynomial separable network games. See \cref{sec:separable}, \cref{thm:opti}, and examples 49–50.
+    \item[Nash Equilibria in Separable Network Games] We provide an infinite-dimensional linear program and a Moment--Sum-of-Squares hierarchy for Nash equilibria in polynomial separable network games. See \cref{sec:separable}, \cref{thm:opti}, and \cref{ex:separable.network,ex:separable.security}.
 
     Our infinite-dimensional linear program for continuous network games is a generalisation of the linear program by \textcite{Cai16} originally applicable to games with finite action spaces.
 
@@ -26,7 +26,7 @@ This thesis covers results published under the supervision of Tomáš Kroupa on 
 
     \item[Optimal Inverse Kinematics] We develop a bilinear lifting scheme for polynomial inverse kinematics with possible applications to manipulator design, enabling the computation of globally optimal solutions for generic manipulators with up to 10 degrees of freedom. See \cref{ch:ik}.
 
-    Our scheme substantially improves upon the results of Trutman et al. [87], who demonstrated that inverse kinematics with 7 degrees of freedom are solvable using a method based on algebraic geometry.
+    Our scheme substantially improves upon the results of \textcite{trutman2022globally}, who demonstrated that inverse kinematics with 7 degrees of freedom are solvable using a method based on algebraic geometry.
 
     Relevant Julia source code is published at \url{https://github.com/votroto/IK.jl}.
     \item[List of Continuous Games] We curate and standardise a library of continuous-game benchmarks. See Appendix~\ref{appendix:games}.

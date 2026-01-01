@@ -116,6 +116,46 @@ This polynomial security game was studied by \textcite[Example~6]{kroupa.vannucc
 \end{game}
 
 
+\noindent
+\begin{minipage}[c]{0.6\textwidth}
+\begin{game}\label{ex.adam21.townsend}
+A two-player zero-sum game in $1 \times 1$ variables constrained to the intervals
+\begin{align*}
+x_{11} &\in [-2.25,2.5]\\
+x_{21} &\in [-2.5,1.75]
+\end{align*}
+with the utility given by the \emph{Townsend} function
+\begin{align*}
+u_1(x_{1}, x_{2}) = x_{11} \sin\left( 3 x_{11} + x_{21} \right) + \cos^{2}\left( \left(x_{11}-0.1 \right) x_{21} \right)
+\end{align*}
+This game was studied by \textcite[Townsend]{adam.horčík.ea:double}.
+\end{game}
+\strut
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.35\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+    font=\small,
+    domain=-2.25:2.5,
+    y domain=-2.5:1.75,
+    xlabel=$x_{11}$,
+    ylabel=$x_{21}$,
+    title={$u_1(x_1,x_2)$},
+    colormap/viridis,
+    view={135}{30},
+    mesh/ordering=y varies,
+    width=\textwidth,
+]
+\addplot3[
+    surf,
+    shader=interp,
+]
+{cos(deg((x - 0.1) * y))^2 + x * sin(deg(3 * x + y))};
+\end{axis}
+\end{tikzpicture}
+\end{minipage}
+
 
 \begin{game}\label{ex.yasodharan19}
 A general-sum 2-player game in $(m+1) \times 1$ variables on the unit hypercubes
