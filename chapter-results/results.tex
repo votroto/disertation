@@ -5,7 +5,7 @@ In the main chapters, we focused on cases where the oracles and the master-probl
 
 It is certainly not possible to develop an oracle generic enough to handle all games, as this reduces to global optimization over arbitrary functions. Nevertheless, we will show that an off-the-shelf global optimization solver is sufficient to solve a surprisingly wide variety of continuous games automatically. To this end, we use the suite of continuous games compiled from the game‑theoretic and optimisation literature presented in Appendix \ref{appendix:games}. The collection spans multi-player polynomial, rational‑polynomial, and more generic games, with action spaces that include n-spheres and simplexes.
 
-A consistent implementation also enables us to report meaningful and comparable runtimes across games. Our experiments show that a generic algorithm can solve many continuous games efficiently. Notably, our implementation locates the pure‑strategy Nash equilibrium of \cref{ex.zhou19.5.1} within a distance of less than $3\times 10^{-4}$ in 0.086 seconds compared to the 184.5 seconds reported originally.
+A consistent implementation also enables us to report meaningful and comparable runtimes across games. Our experiments show that a generic algorithm can solve many continuous games efficiently. Notably, our implementation locates the pure‑strategy Nash equilibrium of \cref{ex.zhou19.5.1} within a distance of less than $3\times 10^{-4}$ in 0.086 seconds compared to the 184.5 seconds achieved with a custom algorithm by \textcite{zhou.wang.ea:saddle}.
 
 \cref{alg:mo} may converge to mixed solutions with many atoms even in games where pure solutions exist. We found that tightening the $\epsilon$ is not a reliable method to produce simpler equilibria.
 
@@ -74,12 +74,12 @@ in 5 iterations and a time of $2.2\,\mathrm{s}$.
 
 \cref{alg:mo} was also able to successfully converge to pure equilibria in all the \emph{General Blotto} games with $p=1$:
 \begin{description}
-\item[$\beps$-NE of \ref{ex.golman09.isolated} ($p=1$)] For isolated fronts, DO computed $\epsilon$-NE:
+\item[$\beps$-NE of \ref{ex.golman09.isolated} ($p=1$)] For isolated fronts, \ref{alg:mo} computed $\epsilon$-NE:
 $x_1^\star \approx (1, 0, 0, 0, 0)$, $x_2^\star \approx (1, 0, 0, 0, 0)$
 in a single iteration and a time of $0.004\,\mathrm{s}$.
-\item[$\beps$-NE of \ref{ex.golman09.pairs} ($p=1$)] For all pairs, DO computed the following $\epsilon$-NE in two iterations and a time of  $0.018\,\mathrm{s}$:
+\item[$\beps$-NE of \ref{ex.golman09.pairs} ($p=1$)] For all pairs, MO computed the following $\epsilon$-NE in two iterations and a time of  $0.018\,\mathrm{s}$:
 $x_1^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}\right)$, $x_2^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}\right)$
-\item[$\beps$-NE of \ref{ex.golman09.sets} ($p=1$)] For all sets, DO computed $\epsilon$:
+\item[$\beps$-NE of \ref{ex.golman09.sets} ($p=1$)] For all sets, MO found
 $x_1^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}\right)$, $x_2^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}\right)$
 in two iterations and $1.5\,\mathrm{s}$.
 \end{description}
@@ -492,7 +492,7 @@ x_2^\star \approx (0.54, 0.84).&
 \end{flalign*}
 \end{description}
 
-DO initially failed to solve Examples \ref{ex.zhou19.5.2.ii} and \ref{ex.zhou19.5.7.i.polar} as it attempted to initialize at the discontinuity. Both examples were solved by initializing in the interior of the sets.
+Our implementation of \ref{alg:mo} initially failed to solve Examples \ref{ex.zhou19.5.2.ii} and \ref{ex.zhou19.5.7.i.polar} as it attempted to initialize at the discontinuity. Both examples were solved by initializing in the interior of the sets.
 \begin{description}
 \item[$\beps$-NE of \ref{ex.zhou19.5.2.ii}]
 found after $0.0086\;(+0.002)\,\mathrm{s}$ and $ 1$ iterations:
@@ -508,7 +508,7 @@ x_2^\star \approx 1.&
 \end{flalign*}
 \end{description}
 
-Our implementation can not be directly applied to search for solutions in Games with unbounded strategy spaces. We know of no global solver powerful enough to automatically infer bounds on the location of best responses in general games.
+\cref{alg:mo} cannot directly be applied to search for solutions in Games with unbounded strategy spaces. We know of no global solver powerful enough to automatically infer bounds on the location of best responses in general games.
 
 
 \end{document}

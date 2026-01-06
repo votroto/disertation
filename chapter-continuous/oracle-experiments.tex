@@ -101,14 +101,14 @@ Let $X_1,X_2\subset[0,1]$, and $x^\star_1,x^\star_2 = \min X_1, \min X_2$. Every
 In the utilities, the distances are mapped through the decreasing function $-\sqrt{\cdot}$ which inverts the relations. Therefore, $u_1(x_1,x^\star_2) \le u_1(x^\star_1,x^\star_2)$ for all $x_1\in X_1$; and $u_2(x^\star_1,x_2) \le u_2(x^\star_1,x^\star_2)$ for all $x_2\in X_2$.
 \end{proof}
 
-It follows that if DO is initialized with a single action for both players, all generated subgames will have pure equilibria. The master-problem can be implemented by placing all weight on the minimal actions, while the oracles are given in closed form by $\beta_1(x_2) = x_2$ and $\beta_2(x_1)=\arctan(x_1)$.
+It follows that if \ref{alg:mo} is initialized with a single action for both players, all generated subgames will have pure equilibria. The master-problem can be implemented by placing all weight on the minimal actions, while the oracles are given in closed form by $\beta_1(x_2) = x_2$ and $\beta_2(x_1)=\arctan(x_1)$.
 
 Suppose the algorithm is started with a point outside $x_1 > x_2 > \arctan(x_1)$, e.g. $(1,1)$. Then the pure equilibria of the generated subgames fall alternately on one of the best response curves. The players take turns expanding their supports with successive iterates of $\arctan^{(i)}(1)$, which converges to the unique pure NE at the origin along a trajectory of slope approximately one. As a result, progress slows significantly in later iterations, mirroring the behavior observed in the \emph{General Blotto} game. \cref{alg:mo} takes 14424 iterations to reach an $\epsilon=10^{-3}$ NE, when started from the point $(1,1)$ as shown in Fig \ref{fig:tan.ridge.convergence}.
 
 \begin{figure}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=1.5cm }, width=5cm, xlabel={$x_1$}, ylabel={$x_2$}, colormap/viridis,cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist },ztick={-1,0}]
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=2cm }, width=5cm, xlabel={$x_1$}, ylabel={$x_2$}, colormap/viridis,cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist },ztick={-1,0}]
 \nextgroupplot[view={-40}{40}, title={$u_1(x_1,x_2) = -\sqrt{\lvert x_1-x_2\rvert}$}]
         \addplot3[surf,shader=interp,samples=40,domain=0:1] ({x},{y},{-sqrt(abs(x-y))});
 

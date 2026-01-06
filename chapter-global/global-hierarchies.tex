@@ -1,8 +1,8 @@
 The moment-SOS hierarchies are a basis of methods for constrained polynomial optimisation. More specifically, the methods are able to find the minimum of a polynomial over a compact set defined by polynomial inequalities. In some instances, they can even recover some minimisers as well as a certificate of global optimality. All of this is achievable under some mild assumptions on the structure of the feasible set, such as having a bound on the norm of the feasible elements. Under such constraints, each level of the hierarchy corresponds to a dual\footnote{Strong duality holds if the original constraint set has an interior point, or if either program is strictly feasible.} pair of semidefinite programs which provide a monotonically nondecreasing sequence of lower bounds that generically converge \cite{Nie2014} to the optimum. The current downsides of the hierarchies are that: the bounds on the convergence are not yet well understood; semidefinite solvers are not as well optimised for this task; and the recovery of minimisers of sufficient precision may be practically challenging.
 
-Let $\mathbf{g} = (g_1,\dots,g_k)$ be a tuple of polynomials. A \emph{basic semialgebraic set} \( \mathcal{S}(\bg) = \{\bx \in \R^n \mid \bg(\bx) \ge 0\} \) is a finite intersection of superlevel sets defined by $\mathbf{g}$. We are interested in finding the global minimum of a polynomial $f$ over the set $K=\calS(\bg)$:
+Let $\mathbf{g} = (g_1,\dots,g_k)$ be a tuple of polynomials. A \emph{basic semialgebraic set} \( \mathcal{S}(\bg) = \{\bx \in \R^n \mid \bg(\bx) \ge 0\} \) is a finite intersection of superlevel sets defined by $\mathbf{g}$. Polynomial Optimization Problems aim to find the global minimum of a polynomial $f$ over the set $K=\calS(\bg)$:
 \begin{equation}\label{eq:pop.original}
-    \min_{\bx \in K} \quad f(\bx).
+    \min_{\bx \in K} \quad f(\bx).\tag{POP}
 \end{equation}
 
 Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre2015}. The first approach involves maximizing a lower-bound $\alpha$ on the condition that $f-\alpha$ is non-negative on $K$:
@@ -18,7 +18,7 @@ where $\calP(K)$ is the set of polynomials nonnegative on $K$. The second approa
         \min_{\mu\in \calM(K)}\quad&\int_K f \dif \mu
     \end{aligned}
 \end{equation}
-where $\calM(K)$ is the set of regular Borel probability measures on $K$. Problems \ref{eq:sos.basis} and \ref{eq:mom.basis} are convex reformulations of problem \ref{eq:pop.original}, and their optimal values agree exactly. The practical versions of these problems are semidefinite programs which are their strenghtenings and relaxations respectively.
+where $\calM(K)$ is the set of regular Borel probability measures on $K$. Problems \ref{eq:sos.basis} and \ref{eq:mom.basis} are convex reformulations of \ref{eq:pop.original}, and their optimal values agree exactly. The practical versions of these problems are semidefinite programs which are their strenghtenings and relaxations respectively.
 
 \subsection{Nonnegative Polynomials Using Sums of Squares}
 As we represent polynomials by their coefficients, we need sufficient conditions on the coefficients so that we can algorithmically decide the question of nonnegativity on sets. To do this, we use \emph{preorders} and \emph{quadratic modules}.
@@ -70,7 +70,7 @@ where the unique $\mu\in\calM(K)$ is called the \emph{representing measure} of $
 
 Every linear functional $l$ can be encoded by its \emph{moment sequence} $\mathbf{y} = (l(x^\alpha))_{\alpha\in \mathbb{N}}$. However, regular Borel measures are a subset of the space of linear functionals. As before, we need a systematic way to carve out just those linear functionals that represent integration with respect to a measure over a semialgebraic set $K$. This is a version of the \emph{$K$-moment problem}; i.e. the characterization of those real sequences $\by$ which have a representing measure.
 
-Define $\calM_d(K)$ as the cone of moments up to degree $d$ which have a representing measure on $K$. Similarly, define $\calP_d(K)$ as the cone of polynomials up to degree $d$ which are nonnegative on $K$. It turns out, that if $K$ is compact \cite{Laurent2009}, the \emph{moment cone} $\calM_d(K)$ is dual to $\calP_d(K)$:
+Define $\calM_d(K)$ as the cone of moments up to degree $d$ which have a representing measure on $K$. Similarly, define $\calP_d(K)$ as the cone of polynomials up to degree $d$ which are nonnegative on $K$. If $K$ is compact \cite{Laurent2009}, the \emph{moment cone} $\calM_d(K)$ is dual to $\calP_d(K)$:
 \[
     \calM_d(K)=\calP_d(K)'= \left\{l \in \mathbb{R}[\bx]_d' \,\middle|\, l(p)\ge 0 \quad \forall p\in \calP_d(K) \right\}.
 \]

@@ -7,7 +7,7 @@ blah...The examples in our collections have utilities specified in terms of sums
 
 We show a comparison of oracle implementations. The following table shows the runtime attributable to the oracle computation for various examples and solvers including: \emph{Couenne}, \emph{Gurobi}, \emph{Gurobi} with \emph{GRBaddgenconstrPoly} applicable to univariate polynomials, the Sum-of-squares hierarchy using \emph{Mosek}, \emph{SCIP}, and the \emph{PolyJuMP} KKT optimizer using \emph{HomotopyContinuations}. The examples are split into groups of polynomial games over intervals, polynomial games over semialgebraic sets, and games with general utilities based on standard optimization test functions.
 
-All solvers were executed sequentially in each iteration of DO, using the value returned by \emph{Gurobi} as the reference solution, allowing us to verify that all global solvers agree on the best-response values. The oracle problem was passed via \emph{AMPL} to all global solvers with the exception of \emph{Gurobi}, which accepts nonlinear input from \emph{JuMP} natively. The following tests were executed on \emph{AMD Ryzen 5 4600G} and the listed times for each example are the sums of runtimes reported by the solvers in milliseconds.
+All solvers were executed sequentially in each iteration of \ref{alg:mo}, using the value returned by \emph{Gurobi} as the reference solution, allowing us to verify that all global solvers agree on the best-response values. The oracle problem was passed via \emph{AMPL} to all global solvers with the exception of \emph{Gurobi}, which accepts nonlinear input from \emph{JuMP} natively. The following tests were executed on \emph{AMD Ryzen 5 4600G} and the listed times for each example are the sums of runtimes reported by the solvers in milliseconds.
 \begin{center}
     \begin{tabular}{l||rrrrrrr}
         Example & Couenne & \multicolumn{2}{c}{Gurobi (Poly)} & Ipopt & SOS & SCIP & KKT \\
@@ -31,7 +31,7 @@ All solvers were executed sequentially in each iteration of DO, using the value 
 
 The results of this brief test supports our choice to use \emph{Gurobi} as the default oracle. The hierarchies are competitive on polynomial problems, while the FOSS solver \emph{SCIP} is the only other solver robust and generic enough to solve all the listed examples. This result is consitent with our experience. \emph{Ipopt} returned values deviating by a norm of less than $10^{-5}$ across all iterations for three univariate polynomial examples and one multivariate example, but none of the test functions. While we have succesfully used local-solvers as oracles, it is important to remember that convergence to equilibria is no longer guaranteed.
 
-The runtime of DO may be improved by adding multiple best responses in each iteration. In the case of the SOS hierarchies, solvers tend to find high-rank interior solutions and computing multiple solutions may be essentially free.
+The runtime of \ref{alg:mo} may be improved by adding multiple best responses in each iteration. In the case of the SOS hierarchies, solvers tend to find high-rank interior solutions and computing multiple solutions may be essentially free.
 
 \iffalse
 \paragraph{polynomials}
