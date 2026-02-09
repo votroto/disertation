@@ -27,7 +27,7 @@ We plot the progress of the largest possible gain from a profitable deviation (\
   \begin{figure}
   \centering
   \begin{tikzpicture}
-  \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=141, ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+  \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=141, ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
   \pgfplotstableread{chapter-continuous/img/blotto.slow.epsilon.dat}\exploitdata
   \pgfplotstableread{chapter-continuous/img/blotto.slow.wasserstein.dat}\wassersteindata
@@ -49,11 +49,6 @@ We plot the progress of the largest possible gain from a profitable deviation (\
   \label{fig:ex.blotto.slow}
   \end{figure}
 
-  \iffalse
-  \begin{align*}
-  \mu_1^\star &\approx 0.001\delta_{ (0.55, 0.41, 0.04) } + 0.001\delta_{ (0.1, 0.27, 0.63) } + 0.001\delta_{ (0.22, 0.11, 0.67) } + 0.001\delta_{ (0.64, 0.22, 0.14) } + 0.002\delta_{ (0.0, 0.42, 0.58) } + 0.002\delta_{ (0.13, 0.66, 0.21) } + 0.002\delta_{ (0.53, 0.39, 0.09) } + 0.003\delta_{ (0.12, 0.23, 0.65) } + 0.003\delta_{ (0.1, 0.51, 0.39) } + 0.003\delta_{ (0.47, 0.33, 0.2) } + 0.003\delta_{ (0.34, 0.52, 0.14) } + 0.004\delta_{ (0.66, 0.31, 0.03) } + 0.004\delta_{ (0.05, 0.35, 0.61) } + 0.004\delta_{ (0.37, 0.1, 0.53) } + 0.004\delta_{ (0.43, 0.48, 0.1) } + 0.004\delta_{ (0.35, 0.08, 0.57) } + 0.005\delta_{ (0.22, 0.67, 0.11) } + 0.005\delta_{ (0.45, 0.11, 0.44) } + 0.005\delta_{ (0.46, 0.54, 0.0) } + 0.006\delta_{ (0.03, 0.4, 0.57) } + 0.006\delta_{ (0.22, 0.61, 0.17) } + 0.006\delta_{ (0.21, 0.3, 0.48) } + 0.006\delta_{ (0.45, 0.55, 0.0) } + 0.007\delta_{ (0.34, 0.12, 0.54) } + 0.007\delta_{ (0.45, 0.5, 0.05) } + 0.007\delta_{ (0.03, 0.54, 0.42) } + 0.007\delta_{ (0.55, 0.23, 0.23) } + 0.008\delta_{ (0.19, 0.65, 0.16) } + 0.008\delta_{ (0.39, 0.03, 0.58) } + 0.008\delta_{ (0.62, 0.38, 0.0) } + 0.009\delta_{ (0.55, 0.01, 0.44) } + 0.009\delta_{ (0.06, 0.63, 0.31) } + 0.009\delta_{ (0.43, 0.43, 0.14) } + 0.009\delta_{ (0.63, 0.18, 0.19) } + 0.01\delta_{ (0.66, 0.05, 0.29) } + 0.011\delta_{ (0.64, 0.13, 0.23) } + 0.011\delta_{ (0.32, 0.56, 0.12) } + 0.011\delta_{ (0.5, 0.2, 0.3) } + 0.011\delta_{ (0.59, 0.16, 0.25) } + 0.011\delta_{ (0.1, 0.35, 0.55) } + 0.012\delta_{ (0.54, 0.44, 0.02) } + 0.012\delta_{ (0.49, 0.03, 0.47) } + 0.012\delta_{ (0.02, 0.43, 0.55) } + 0.012\delta_{ (0.39, 0.52, 0.09) } + 0.012\delta_{ (0.2, 0.28, 0.52) } + 0.013\delta_{ (0.33, 0.65, 0.03) } + 0.013\delta_{ (0.0, 0.57, 0.42) } + 0.013\delta_{ (0.66, 0.18, 0.16) } + 0.013\delta_{ (0.05, 0.61, 0.33) } + 0.013\delta_{ (0.6, 0.39, 0.01) } + 0.014\delta_{ (0.31, 0.09, 0.6) } + 0.014\delta_{ (0.08, 0.4, 0.52) } + 0.014\delta_{ (0.08, 0.59, 0.33) } + 0.015\delta_{ (0.2, 0.36, 0.45) } + 0.015\delta_{ (0.27, 0.58, 0.15) } + 0.016\delta_{ (0.57, 0.24, 0.19) } + 0.016\delta_{ (0.02, 0.38, 0.59) } + 0.017\delta_{ (0.04, 0.29, 0.66) } + 0.017\delta_{ (0.15, 0.21, 0.65) } + 0.018\delta_{ (0.01, 0.52, 0.47) } + 0.019\delta_{ (0.11, 0.24, 0.65) } + 0.019\delta_{ (0.62, 0.15, 0.23) } + 0.02\delta_{ (0.61, 0.03, 0.37) } + 0.02\delta_{ (0.01, 0.33, 0.66) } + 0.021\delta_{ (0.51, 0.48, 0.01) } + 0.022\delta_{ (0.16, 0.26, 0.58) } + 0.022\delta_{ (0.07, 0.32, 0.62) } + 0.023\delta_{ (0.33, 0.19, 0.48) } + 0.024\delta_{ (0.4, 0.56, 0.04) } + 0.025\delta_{ (0.41, 0.07, 0.53) } + 0.025\delta_{ (0.19, 0.61, 0.2) } + 0.025\delta_{ (0.53, 0.13, 0.34) } + 0.026\delta_{ (0.37, 0.0, 0.63) } + 0.027\delta_{ (0.13, 0.49, 0.37) } + 0.029\delta_{ (0.57, 0.02, 0.41) } + 0.03\delta_{ (0.47, 0.45, 0.08) } + 0.031\delta_{ (0.28, 0.66, 0.06) } + 0.033\delta_{ (0.24, 0.64, 0.12) } + 0.042\delta_{ (0.65, 0.08, 0.27) }
-  \end{align*}
-  \fi
 
   \begin{figure}
     \centering
@@ -131,7 +126,7 @@ Suppose the algorithm is started with a point outside $x_1 > x_2 > \arctan(x_1)$
 \begin{figure}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, ymin=1e-6,  ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, ymin=1e-6,  ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
 \pgfplotstableread{
 iter y1 y2
@@ -214,7 +209,7 @@ iter y1 y2
     \begin{figure}
     \centering
     \begin{tikzpicture}
-    \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+    \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
     \pgfplotstableread{
     4.0 2.0
@@ -276,7 +271,7 @@ iter y1 y2
    \begin{figure}
     \centering
     \begin{tikzpicture}
-    \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log, xmode=log,legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+    \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=11, ymode=log, xmode=log,legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
     \pgfplotstableread{
     6.78e-8 2.24
@@ -324,48 +319,6 @@ iter y1 y2
     \end{figure}
 \end{example}
 
-\iffalse
-\begin{example}[Torus game \cite{Chasnov20}]\label{ex2}
-  Each strategy set is the unit circle $S^1 = [-\pi, \pi]$ and the utility functions are
-  \begin{align*}
-    u_{1}(\theta_1, \theta_2) &= \alpha_1 \cos(\theta_1 - \phi_1) - \cos(\theta_1 - \theta_2),\\
-    u_{2}(\theta_1, \theta_2) &= \alpha_2 \cos(\theta_2 - \phi_2) - \cos(\theta_2 - \theta_1).
-  \end{align*}
-  parametrized by $\phi = (0, \pi/8)$ and $\alpha = (1, 1.5)$.
-
-  We implemented the best response oracles using the spatial Branch and Bound method implemented by the \emph{Couenne} solver. We note that both the \emph{Gurobi} solver and \emph{SCIP} can also accept trigonometric functions as constraints. The general-sum master-problem was solved using the multilinear approach again.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{do1.pdf}
-    \caption{Convergence in Example \ref{ex2}. We obtained pure strategies $\theta_1 \approx -1.06$, $\theta_2 \approx 1.01$ resulting in payoffs \((0.97, 1.71)\).}
-  \end{figure}
-\end{example}
-
-\begin{example}[General Blotto \cite{Golman09}]\label{ex3}
-  Each strategy set in this two-player zero-sum game is the standard $4$-dimensional simplex in $\R^5$ and the utility function of the first player is
-  \[
-    u(\textbf{x}, \textbf{y}) = \sum_{j=1}^5 f(x_j - y_j),
-  \]
-  where $f(x) = \sgn(x)\cdot x^2$.
-
-  The master problem reduces to linear programming. We chose to implement the oracles using spatial Branch and Bound with symbolic reformulation (\cref{sec:sbab}) in \emph{Gurobi}. We modeled the $\sgn$ function using the following piecewise linear approximation:
-  \[
-    \sgn(x) \approx \begin{cases*}
-      -1 & \text{if $x \le 0$}\\
-      +1 & \text{otherwise}
-    \end{cases*}.
-  \]
-  Since the multiplier $x^2$ will be zero, it is acceptable to ignore the behavior of this $\sgn$ approximation around zero.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{do6.pdf}
-    \caption{Convergence in Example \ref{ex3}. We recovered pure strategies $\textbf{x} \approx (0, 0, 1, 0, 0)$ and $\textbf{y} \approx (1, 0, 0, 0, 0)$ resulting in payoffs \((0, 0)\). This is an~equilibrium computed by \textcite[Proposition 5]{Golman09}}
-  \end{figure}
-\end{example}
-\fi
-
 \begin{example}[Random polymatrix games]\label{exsep}
   Separable network games (polymatrix games) with finitely many strategies of each player can be solved in polynomial time \cite{Cai16} by linear programming. We use \cref{alg:mo} to compute equilibria of five-player polymatrix games defined by 20 by 20 matrices. Specifically, we generated a random matrix for each edge in the network and then transposed and subtracted the matrix of utility functions to make the game globally zero sum. We remark that zero-sum polymatrix games are payoff-equivalent to the general polymatrix games by \cite[Theorem 7]{Cai16}. In a test of 100 games, our algorithm found an $\eps$-equilibrium with $\eps = 0.01$ after $17.69$ iterations in a mean time of $0.29$ seconds.
 \end{example}
@@ -384,7 +337,7 @@ We also experimented with oracles based on the SOS hierarchy, which resulted in 
 \begin{figure}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795,  ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
 \pgfplotstableread{
 0.0 0.125 2.0
@@ -445,7 +398,7 @@ Using oracles based on the SOS hierarchy, we found the same equilibrium in $1.2$
 \begin{figure}
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.3cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0, ymin=1e-6, xmax=16, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
+\begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=16, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
 \pgfplotstableread{
 0.0 0.0 0.623 0.0
