@@ -4,9 +4,9 @@ In this section, we make the following assumptions about the strategy spaces and
     \item In every two-player game involving players $i,j\in N$, the utility functions $u_{ij}$ and $u_{ji}$ of player $i$ and $j$, respectively, are real polynomials in $m_i+m_j$ indeterminates.  Therefore, each utility function $u_i$ given by (\ref{def:pi}) is a real polynomial in $m_1+\dots + m_n$ indeterminates.
     \item The game $\calG$ is zero-sum.
 \end{enumerate}
-These three assumptions define a \emph{polynomial zero-sum network game} $\calG$. Glicksberg's theorem (\ref{thm:Glick}) can be significantly strengthened for polynomial games --- each polynomial game has NE in which every player mixes only among finitely many pure strategies \cite{DresherKarlinShapley50,SteinOzdaglarParrilo08}.
+These three assumptions define a \emph{polynomial zero-sum network game} $\calG$. Glicksberg's theorem~(\ref{thm:Glick}) can be significantly strengthened for polynomial games --- each polynomial game has NE in which every player mixes only among finitely many pure strategies \cite{DresherKarlinShapley50,SteinOzdaglarParrilo08}.
 
-The solutions for polynomial zero-sum network games can be solved using Lasserre's hierarchies as described in \cref{sec:momsos}. Specifically, we relax the constraints on measures and polynomial inequalities of Program \ref{P}. Instead of requiring that the mixed strategies of players lie in the cone of probability measures, we apply constraints on truncated sequences of moments. Similarly, we replace the inequalities \eqref{P:ineq} with the constraint that $w_i - U_i(\cdot, \bmu_{-i})$ lies in the truncated quadratic module.
+The solutions for polynomial zero-sum network games can be solved using Lasserre's hierarchies as described in \cref{sec:momsos}. Specifically, we relax the constraints on measures and polynomial inequalities of Program~\ref{P}. Instead of requiring that the mixed strategies of players lie in the cone of probability measures, we apply constraints on truncated sequences of moments. Similarly, we replace the inequalities \eqref{P:ineq} with the constraint that $w_i - U_i(\cdot, \bmu_{-i})$ lies in the truncated quadratic module.
 
 The $h$-th level of the hierarchy is the following semidefinite program:
 \begin{equation}

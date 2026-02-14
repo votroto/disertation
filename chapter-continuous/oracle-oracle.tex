@@ -1,10 +1,3 @@
-\iffalse
-In games with polynomial utility functions, the best response oracles can employ both methods of the methods of global optimization described in Chapter \ref{ch:global}. In the rest of the games we use the spatial Branch and Bound approach as the best response oracle. From our experience, local solvers can work sufficiently well as oracles in some games, although no convergence guarantees then apply. \todo[inline]{this belongs elsewhere (to the "this is a metaalgorithm parametrized by master and oracle...".... ok now it's here)}
-
-blah...The examples in our collections have utilities specified in terms of sums and products of functions such as logarithms and square roots. All such functions should be accepted either directly by global solvers or through external modeling libraries such as \textsc{ampl}.
-\todo[inline]{merge this properly}
-\fi
-
 We show a comparison of oracle implementations. The following table shows the runtime attributable to the oracle computation for various examples and solvers including: \emph{Couenne}, \emph{Gurobi}, \emph{Gurobi} with \emph{GRBaddgenconstrPoly} applicable to univariate polynomials, the Sum-of-squares hierarchy using \emph{Mosek}, \emph{SCIP}, and the \emph{PolyJuMP} KKT optimizer using \emph{HomotopyContinuations}. The examples are split into groups of polynomial games over intervals, polynomial games over semialgebraic sets, and games with general utilities based on standard optimization test functions.
 
 All solvers were executed sequentially in each iteration of \ref{alg:mo}, using the value returned by \emph{Gurobi} as the reference solution, allowing us to verify that all global solvers agree on the best-response values. The oracle problem was passed via \emph{AMPL} to all global solvers with the exception of \emph{Gurobi}, which accepts nonlinear input from \emph{JuMP} natively. The following tests were executed on \emph{AMD Ryzen 5 4600G} and the listed times for each example are the sums of runtimes reported by the solvers in milliseconds.

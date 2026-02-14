@@ -3,7 +3,7 @@
 \begin{document}
 In the main chapters, we focused on cases where the oracles and the master-problem would be tailored to each game. While the ability to leverage the problem structure by providing custom oracles based on closed‑form best responses or reductions to classic combinatorial problems may be powerful, it naturally puts into question the applicability of our method.
 
-It is certainly not possible to develop an oracle generic enough to handle all games, as this reduces to global optimization over arbitrary functions. Nevertheless, we will show that an off-the-shelf global optimization solver is sufficient to solve a surprisingly wide variety of continuous games automatically. To this end, we use the suite of continuous games compiled from the game‑theoretic and optimisation literature presented in Appendix \ref{appendix:games}. The collection spans multi-player polynomial, rational‑polynomial, and more generic games, with action spaces that include n-spheres and simplexes.
+It is certainly not possible to develop an oracle generic enough to handle all games, as this reduces to global optimization over arbitrary functions. Nevertheless, we will show that an off-the-shelf global optimization solver is sufficient to solve a surprisingly wide variety of continuous games automatically. To this end, we use the suite of continuous games compiled from the game‑theoretic and optimisation literature presented in Appendix~\ref{appendix:games}. The collection spans multi-player polynomial, rational‑polynomial, and more generic games, with action spaces that include n-spheres and simplexes.
 
 A consistent implementation also enables us to report meaningful and comparable runtimes across games. Our experiments show that a generic algorithm can solve many continuous games efficiently. Notably, our implementation locates the pure‑strategy Nash equilibrium of \cref{ex.zhou19.5.1} within a distance of less than $3\times 10^{-4}$ in 0.086 seconds compared to the 184.5 seconds achieved with a custom algorithm by \textcite{zhou.wang.ea:saddle}.
 
@@ -492,7 +492,7 @@ x_2^\star \approx (0.54, 0.84).&
 \end{flalign*}
 \end{description}
 
-Our implementation of \ref{alg:mo} initially failed to solve Examples \ref{ex.zhou19.5.2.ii} and \ref{ex.zhou19.5.7.i.polar} as it attempted to initialize at the discontinuity. Both examples were solved by initializing in the interior of the sets.
+Our implementation of \ref{alg:mo} initially failed to solve Examples~\ref{ex.zhou19.5.2.ii} and \ref{ex.zhou19.5.7.i.polar} as it attempted to initialize at the discontinuity. Both examples were solved by initializing in the interior of the sets.
 \begin{description}
 \item[$\beps$-NE of \ref{ex.zhou19.5.2.ii}]
 found after $0.0086\;(+0.002)\,\mathrm{s}$ and $ 1$ iterations:

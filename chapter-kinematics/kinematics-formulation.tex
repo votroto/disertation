@@ -23,14 +23,14 @@ T_i(\theta_i) = \left[ {\begin{array}{rrrr}
 The end effector pose w.r.t. the base coordinate system is represented by the matrix $P$, which induces the \emph{pose constraint} $T_1(\theta_1)\dotsb T_n(\theta_n)= P$.
 
 \subsection{Polynomial Formulation}
-In this section we describe the POP for IK initially formulated by Trutman \textit{et al.} \cite{trutman2022globally}. This formulation avoids trigonometric functions in the D-H matrices. For each link $i=1,\dots,n$ introduce variables $c_i \coloneqq \cos \theta_i $ and $s_i\coloneqq \sin \theta_i$, along with the identity $c_i^2 + s_i^2 = 1$. After the change of variables, every D-H matrix $T_i(\theta_i)$ depends only on $c_i$ and~$s_i$, and we denote is simply by $T_i$.  We assume that each joint angle $\theta_i$ is constrained by the maximal value $\theta^{\mathit{max}}_i\in [0,\pi]$ and the minimal value $\theta^{\mathit{min}}_i\in [-\pi,0]$. The vector of preferred joint angles is $(\hat{\theta}_1,\dots,\hat{\theta}_n)$ and we consider some weights $w_1,\dots,w_n\ge 0$ satisfying $w_1+\dotsb + w_n=1$. The~goal is to minimize the weighted distance 
+In this section we describe the POP for IK initially formulated by Trutman \textit{et al.} \cite{trutman2022globally}. This formulation avoids trigonometric functions in the D-H matrices. For each link $i=1,\dots,n$ introduce variables $c_i \coloneqq \cos \theta_i $ and $s_i\coloneqq \sin \theta_i$, along with the identity $c_i^2 + s_i^2 = 1$. After the change of variables, every D-H matrix $T_i(\theta_i)$ depends only on $c_i$ and~$s_i$, and we denote is simply by $T_i$.  We assume that each joint angle $\theta_i$ is constrained by the maximal value $\theta^{\mathit{max}}_i\in [0,\pi]$ and the minimal value $\theta^{\mathit{min}}_i\in [-\pi,0]$. The vector of preferred joint angles is $(\hat{\theta}_1,\dots,\hat{\theta}_n)$ and we consider some weights $w_1,\dots,w_n\ge 0$ satisfying $w_1+\dotsb + w_n=1$. The~goal is to minimize the weighted distance
 \begin{equation}\label{criterion}
 \sum_{i=1}^n w_i\bigl((c_i-\cos \hat{\theta}_i)^2+(s_i-\sin \hat{\theta}_i)^2\bigr).
 \end{equation}
 The choice of preferred joint angles $(\hat{\theta}_1,\dots,\hat{\theta}_n)$ makes it possible to minimize the total movement of joints, or to find configurations where some links achieve desirable orientations (e.g. an upright posture in humanoid robots \cite{minimumjerk}).
 
-Further, we split the kinematic chain with $n$ joints into two subchains that meet in the middle\footnote{The placement of the split does not significantly affect the runtime as long as each subchain involves at least two joints.}: the first anchored at the origin $1$ and ending at $\nu$ and the second starting at $\nu+1$ and ending at $n$. The pose constraint $T_1(\theta_1)\dotsb T_n(\theta_n)= P$ then becomes $T_1\dotsb T_\nu = P T_n^{-1}\dotsb T_{\nu+1}^{-1}$. 
-This formulation enables us to lower the degree of polynomials appearing in the above constraint and, consequently, to reduce the number of lifting variables (see \cref{sec:lift}). 
+Further, we split the kinematic chain with $n$ joints into two subchains that meet in the middle\footnote{The placement of the split does not significantly affect the runtime as long as each subchain involves at least two joints.}: the first anchored at the origin $1$ and ending at $\nu$ and the second starting at $\nu+1$ and ending at $n$. The pose constraint $T_1(\theta_1)\dotsb T_n(\theta_n)= P$ then becomes $T_1\dotsb T_\nu = P T_n^{-1}\dotsb T_{\nu+1}^{-1}$.
+This formulation enables us to lower the degree of polynomials appearing in the above constraint and, consequently, to reduce the number of lifting variables (see \cref{sec:lift}).
 
 The resulting POP (see \cite[(9)]{trutman2022globally}) with variables $\mathbf{c}=(c_1,\dots,c_n)$, $\mathbf{s}=(s_1,\dots,s_n)$, the objective function \eqref{criterion}, and the constraints formulated above is:
 \begin{alignat}{3}
@@ -76,8 +76,8 @@ The number of variables and constraints in the resulting program depends on the 
 \end{aligned}
 \]
 \end{minipage}
-\vspace{0.5em}
-Taking advantage of repeated terms, and even the order in which products are lifted, has an observable impact on the speed and behavior of solvers and on the cuts that they apply. 
+
+\par\vspace*{1em}\noindent Taking advantage of repeated terms, and even the order in which products are lifted, has an observable impact on the speed and behavior of solvers and on the cuts that they apply.
 
 In the next section, we will focus on the performance of the method corresponding to System~\ref{eq:liftA} and the matrix based method. We will refer to these methods as $\lift_\text{A}$ and $\lift_\text{M}$, respectively. While $\lift_\text{M}$ often results in the fewest variables after presolve, it is not always the fastest. We found the behavior of $\lift_\text{A}$ more predictable. The full implementation of this approach is available in our public \href{https://github.com/votroto/IK.jl}{code repository}.
 

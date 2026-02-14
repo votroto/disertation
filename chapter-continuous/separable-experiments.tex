@@ -7,7 +7,7 @@ In the remaining part of this paper we show several examples of polynomial games
     \]
     Since polynomial network games are a generalization of polynomial games, we can use the same framework to solve them. A pure NE is achieved when Player 1 plays $x_{1} \approx 0.4$ and Player~2 plays $x_{2} \approx 0.63$. The optimal payoffs to each player are $\bw \approx (-0.47, 0.47)$. This problem was solved at order 4 of the hierarchy. Due to the low number of variables the problem required only 44 constraints and it was solved within 10\,ms.
 
-    \textcite{parrilo:polynomial} demonstrated that the hierarchy is not necessary for two-player zero-sum games with interval strategy sets. In this case, Lukács' theorem \cite[1.21.1]{szego75orthogonal} states that there exists a Putinar decomposition in terms of rank-1 multipliers such that the term degrees do not exceed that of the input polynomial. The $z\in[-1,1]$ strategy set would be encoded as $1+z \geq 0 \land 1-z \geq 0$ for inputs with odd degrees and $1-z^2 \geq 0$ for even degrees. Both encodings satisfy the Archimedean property as the product of the defining polynomials is positive on a compact set. However, semidefinite solvers usually cannot guarantee rank-1 solutions.
+    \textcite{parrilo:polynomial} demonstrated that the hierarchy is not necessary for two-player zero-sum games with interval strategy sets. In this case, Lukács' theorem \cite[1.21.1]{szego75orthogonal} states that there exists a Putinar decomposition in terms of rank\nobreakdash-1 multipliers such that the term degrees do not exceed that of the input polynomial. The $z\in[-1,1]$ strategy set would be encoded as $1+z \geq 0 \land 1-z \geq 0$ for inputs with odd degrees and $1-z^2 \geq 0$ for even degrees. Both encodings satisfy the Archimedean property as the product of the defining polynomials is positive on a compact set. However, semidefinite solvers usually cannot guarantee rank\nobreakdash-1 solutions.
 \end{example}
 
 \begin{example}[\cref{ex.kroupa21.5}]\label{ex:separable.network}
@@ -24,7 +24,7 @@ In the remaining part of this paper we show several examples of polynomial games
     \end{aligned}
   \end{equation*}
     \fi
-    We consider a three-player polynomial network game with a complete graph, where each strategy set is the interval $[-1,1]$ and the utility functions are
+    We consider a three-player polynomial network game with a~complete graph, where each strategy set is the interval $[-1,1]$ and the utility functions are
     \begin{equation*}\begin{aligned}
         u_{1}(x_{1},x_{2},x_{3}) &= -2x_{1}x_{2}^2 - 2x_{1}^2 + 5x_{1}x_{2} - 4x_{1}x_{3} - x_{2} - 2x_{3},\\
         u_{2}(x_{1},x_{2},x_{3}) &= 2x_{1}x_{2}^2 - 2x_{2}x_{3}^2 - 2x_{1}^2 - 5x_{1}x_{2} - 2x_{2}^2 + 5x_{2}x_{3} + x_{2},\\

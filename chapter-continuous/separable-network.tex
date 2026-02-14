@@ -15,7 +15,7 @@ The resulting $n$-person game with compact strategy sets is called a \emph{separ
 A class of network games often studied in the literature is the class of zero-sum polymatrix games. The ``global'' zero-sum assumption and finite strategy sets make such games computationally tractable \cite{Cai16,FPNet,Bailey19,Rubinstein,CaiDaskalkis}.
 
 \begin{example}
-Let $N=\{1,2,3,4\}$ and the graph $(N,E)$ be the cycle on Figure \ref{fig:4}. This is the smallest example of a network game such that each player interacts only with a strict subset of other players. For example, the utility function of player $3$ is $u_3(x_1,x_2,x_3,x_4)=u_{31}(x_3,x_1)+u_{34}(x_3,x_4)$. The zero-sum condition for this game can be formulated as $u_3=-u_1-u_2-u_4$.
+Let $N=\{1,2,3,4\}$ and the graph $(N,E)$ be the cycle on \cref{fig:4}. This is the smallest example of a network game such that each player interacts only with a strict subset of other players. For example, the utility function of player $3$ is $u_3(x_1,x_2,x_3,x_4)=u_{31}(x_3,x_1)+u_{34}(x_3,x_4)$. The zero-sum condition for this game can be formulated as $u_3=-u_1-u_2-u_4$.
 \end{example}
 
 \begin{figure}[ht]
@@ -65,7 +65,7 @@ As a direct consequence of Glicksberg's theorem \ref{thm:Glick}, every continuou
         \sum_{i \in N} w_i \geq \sum_{i \in N} U_i(\mu_i, \bmu_{-i}) = 0.
     \end{equation}
 
-    By Theorem \ref{thm:Glick}, there exists an NE $\bmu^\star$ such that $U_i(\bmu^\star) = \max_{x_i \in X_i} U_i(x_i, \bmu_{-i}^\star) \; \forall i \in N$. Let $\bmu$ be an NE and $\bw^\star_i$ be as in condition (\ref{def:wi}), then the inequalities in (\ref{ineq1}) become equalities, and the lower bound of zero is achieved in (\ref{ineq3}).
+    By \cref{thm:Glick}, there exists an NE $\bmu^\star$ such that $U_i(\bmu^\star) = \max_{x_i \in X_i} U_i(x_i, \bmu_{-i}^\star) \; \forall i \in N$. Let $\bmu$ be an NE and $\bw^\star_i$ be as in condition (\ref{def:wi}), then the inequalities in (\ref{ineq1}) become equalities, and the lower bound of zero is achieved in (\ref{ineq3}).
 
     We have shown that NE correspond to optimal solutions. Conversely, consider any optimal solution $(\bmu^\star, \bw^\star)$. Notice that $w_i^\star$ must be tight upper bounds on $U_i(\cdot, \bmu_{-i}^\star)$. By the zero-sum property, $\sum_{i \in N} U_i(\bmu) = 0$ for any $\bmu$. If $\bmu^\star$ were not an NE, then there exists a player $i$ such that $\max_{x_i \in X_i} U_i(x_i, \bmu_{-i}) > U_i(\bmu)$. This implies that
     \[
@@ -74,4 +74,4 @@ As a direct consequence of Glicksberg's theorem \ref{thm:Glick}, every continuou
     i.e., the objective value is not optimal.
 \end{proof}
 
-The Borel probability measures and continuous functions in Problem \ref{P} do not generally allow for effective computation. Still, there are cases where the solution can be computed. For example, in the case of zero-sum polymatrix games, Problem \ref{P} becomes a linear program \cite{Cai16}. Similarly, if we restrict the model to polynomial functions and semialgebraic sets, the solution can be computed using the tools of polynomial optimization discussed in \cref{sec:momsos}.
+The Borel probability measures and continuous functions in Problem~\ref{P} do not generally allow for effective computation. Still, there are cases where the solution can be computed. For example, in the case of zero-sum polymatrix games, Problem~\ref{P} becomes a linear program~\cite{Cai16}. Similarly, if we restrict the model to polynomial functions and semialgebraic sets, the solution can be computed using the tools of polynomial optimization discussed in \cref{sec:momsos}.

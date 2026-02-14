@@ -6,7 +6,7 @@ The algorithm is initialized by selecting an arbitrary point found heuristically
 We plot the progress of the largest possible gain from a profitable deviation (\ref{crit1}, $\epsilon$) for each player at each iteration, along with the Wasserstein distance \eqref{crit2} between mixed strategies from consecutive iterations. Neither sequence is monotonic, and both often attain zero, for example, when only some of players profit from switching strategies.
 
 \begin{example}[General Blotto]\label{ex:do.slow.blotto}
-  The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts. We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$, with the weighing function $f(z) = \operatorname{sgn}(z)\,|z|^p$. When $p=0.5$, the utility function is non-differentiable and the game converges very slowly as shown in \cref{fig:ex.blotto.slow}. Large gains are possible by winning a front by a small margin as the slope of the utility function around zero approaches infinity. After 140 iterations, the algorithm recovers the $\epsilon$-NE with $\epsilon=0.006$ shown in figure \ref{fig:ex.blotto.slow.simplex}.
+  The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts. We chose a game with three isolated fronts defined by the utility $u_1(x_1, x_2) = \sum_{j=1}^m f\left( x_{1j} - x_{2j} \right)$, with the weighing function $f(z) = \operatorname{sgn}(z)\,|z|^p$. When $p=0.5$, the utility function is non-differentiable and the game converges very slowly as shown in \cref{fig:ex.blotto.slow}. Large gains are possible by winning a front by a small margin as the slope of the utility function around zero approaches infinity. After 140 iterations, the algorithm recovers the $\epsilon$-NE with $\epsilon=0.006$ shown in \cref{fig:ex.blotto.slow.simplex}.
 
   Multilinear terms, square roots and sums can be formulated directly via the generic modelling languages \emph{JuMP}, and \emph{AMPL}; however the sign function and absolute value are more challenging. Due to a lack of support and differentiability, all of the solvers: \emph{Ipopt}, \emph{Bonmin}, \emph{Couenne}, \emph{SCIP}, and \emph{Gurobi} were unable to solve a direct formulation of the oracle problem. Instead, we formulated the oracle as the following mixed-integer quadratic program:
   \[
@@ -73,7 +73,7 @@ We plot the progress of the largest possible gain from a profitable deviation (\
 
 
 
-\begin{example}[Tangent Ridge Game]\label{ex.tan.ridge}
+\begin{example}[Tangent Ridge Game \ref{ex.tangent.ridge}]\label{ex.tan.ridge}
 Consider a two-player general-sum game on $[0,1]$, with utility functions illustrated in Fig. \ref{fig:tan.ridge.utility}:
 \[\begin{aligned}
 u_1(x_1,x_2)&=-\sqrt{|x_1-x_2|} \\
@@ -98,7 +98,7 @@ In the utilities, the distances are mapped through the decreasing function $-\sq
 
 It follows that if \ref{alg:mo} is initialized with a single action for both players, all generated subgames will have pure equilibria. The master-problem can be implemented by placing all weight on the minimal actions, while the oracles are given in closed form by $\beta_1(x_2) = x_2$ and $\beta_2(x_1)=\arctan(x_1)$.
 
-Suppose the algorithm is started with a point outside $x_1 > x_2 > \arctan(x_1)$, e.g. $(1,1)$. Then the pure equilibria of the generated subgames fall alternately on one of the best response curves. The players take turns expanding their supports with successive iterates of $\arctan^{(i)}(1)$, which converges to the unique pure NE at the origin along a trajectory of slope approximately one. As a result, progress slows significantly in later iterations, mirroring the behavior observed in the \emph{General Blotto} game. \cref{alg:mo} takes 14424 iterations to reach an $\epsilon=10^{-3}$ NE, when started from the point $(1,1)$ as shown in Fig \ref{fig:tan.ridge.convergence}.
+Suppose the algorithm is started with a point outside $x_1 > x_2 > \arctan(x_1)$, e.g. $(1,1)$. Then the pure equilibria of the generated subgames fall alternately on one of the best response curves. The players take turns expanding their supports with successive iterates of $\arctan^{(i)}(1)$, which converges to the unique pure NE at the origin along a trajectory of slope approximately one. As a result, progress slows significantly in later iterations, mirroring the behavior observed in the \emph{General Blotto} game. \cref{alg:mo} takes 14424 iterations to reach an $\epsilon=10^{-3}$ NE, when started from the point $(1,1)$ as shown in \cref{fig:tan.ridge.convergence}.
 
 \begin{figure}
 \centering
@@ -266,7 +266,7 @@ iter y1 y2
     u_{2}(x,y) &= 2x^2y^2 + x^2y - 4y^3 - x^2 + 4y.
   \end{align*}
 
-  We computed equilibria in the general-sum matrix subgames using the multilinear program \ref{eq:sturmfels}. The best response oracles were implemented using Lasserre hierarchies.
+  We computed equilibria in the general-sum matrix subgames using the multilinear program~\ref{eq:sturmfels}. The best response oracles were implemented using Lasserre hierarchies.
 
    \begin{figure}
     \centering
@@ -326,7 +326,7 @@ iter y1 y2
 \begin{example}[Separable Network Games]
 We can also solve the polynomial network games \ref{ex.kroupa21.5} and \ref{ex.kroupa21.6}, which were analyzed with the tools of polynomial optimization earlier in \cref{sec:separable.experiments}. We show their convergence in \cref{fig:oracle.small.separable,fig:oracle.large.separable}. The master problem was solved using the LP technique by \textcite[Linear Program 1]{Cai16} with \emph{Mosek}, while the oracles were implemented using spatial branch and bound using \emph{Gurobi}.
 
-The experimental run over 10 iterations of \cref{ex.kroupa21.5} is shown in figure \ref{fig:oracle.small.separable}. The algorithm converged in $0.15$ seconds and $8$ iterations to the $\epsilon$-NE:
+The experimental run over 10 iterations of \cref{ex.kroupa21.5} is shown in \cref{fig:oracle.small.separable}. The algorithm converged in $0.15$ seconds and $8$ iterations to the $\epsilon$-NE:
 \begin{align*}
 \mu_1^\star &\approx \delta_{ -0.06 },\\
 \mu_2^\star &\approx 0.573\delta_{ 0.34 } + 0.427\delta_{ 0.37 },\\
@@ -385,7 +385,7 @@ NaN NaN NaN
 \label{fig:oracle.small.separable}
 \end{figure}
 
-The experiment on \cref{ex.kroupa21.6} is shown in figure \ref{fig:oracle.large.separable}. The algorithm converged already after $0.5\,s$ and $12$ iterations to:
+The experiment on \cref{ex.kroupa21.6} is shown in \cref{fig:oracle.large.separable}. The algorithm converged already after $0.5\,s$ and $12$ iterations to:
 \begin{align*}
 \mu_1^\star &\approx \delta_{ (0.29, 0, 0, 0.21) },\\
 \mu_2^\star &\approx 0.494\delta_{ (0.34, 0.22, 0, 0.24) } + 0.303\delta_{ (0.35, 0, 0.2, 0.25) } + 0.204\delta_{ (0.43, 0.06, 0, 0.3) },\\
