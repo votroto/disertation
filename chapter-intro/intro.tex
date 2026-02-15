@@ -1,8 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-In practice, the inherent complexity of game-theoretical concepts often necessitates simplifying assumptions to model interactions between agents.
-Mapping our problem to one of the well-studied classes of games allows for the practical computation of established solution concepts. Interesting interactions in the real world care little about game theory, however, and they appear arbitrarily far from any of the convenient classes of games. In scenarios where such reductions would be too drastic, we may still gain some insight into players' behavior with ad hoc heuristics, such as by discretizing the action spaces. While these approaches can be useful, they may lack robustness and guarantees.
+In practice, the inherent complexity of game-theoretical concepts often necessitates simplifying assumptions to model interactions between agents. When it is possible to map our problem to one of the well-studied classes of games, established solution concepts can usually be practically computed. Interesting interactions in the real world care little about game theory, however, and they appear arbitrarily far from any of the convenient classes of games. In scenarios where the reductions introduced by such mapping would be too drastic, we may still gain some insight into players' behavior with ad hoc heuristics, such as by discretizing the action spaces. While these approaches can be useful, they may lack robustness and guarantees.
 
 In this thesis, we explore methods capable of providing guarantees or certificates on the quality of their solutions across a broad range of games. Consequently, we explore methods for global optimization, which appears as a very common sub-task in game theory. The~ability to check global optimality is, for example, useful in answering whether an agent in an interaction is behaving rationally.
 
@@ -13,23 +12,23 @@ Finding global optima of functions over a set in the absence of any assumptions 
 \section{Contributions and Thesis Structure}
 This thesis covers results published under the supervision of Tomáš Kroupa on the solutions of games with infinite action spaces. It focuses on a generically applicable algorithm called \emph{Multiple Oracle}, and shows how the powerful underlying global optimisation techniques extend to applications in robotics. Finally, it outlines the future direction for our research.
 \begin{description}
-    \item[Nash Equilibria in Separable Network Games] We provide an infinite-dimensional linear program and a Moment--Sum-of-Squares hierarchy for Nash equilibria in polynomial separable network games. See \cref{sec:separable}, \cref{thm:opti}, and \cref{ex:separable.network,ex:separable.security}.
+    \item[Nash Equilibria in Separable Network Games] We provide an infinite-dimensional linear program and a Moment--Sum-of-Squares hierarchy for Nash equilibria in polynomial separable network games in \cref{sec:separable}. See \cref{thm:opti}, and \cref{ex:separable.network,ex:separable.security}.
 
     Our infinite-dimensional linear program for continuous network games is a generalisation of the linear program by \textcite{Cai16} originally applicable to games with finite action spaces.
 
-    Our code at \url{https://github.com/votroto/PolyNets.jl} leverages Moment--Sum-of-Squares hierarchies to solve polynomial network games.
+    Our code at \url{https://github.com/votroto/PolyNets.jl} solves polynomial separable network games using Moment--Sum-of-Squares hierarchies.
 
-    \item[Epsilon Equilibria in Continuous Games] We extend the Double Oracle algorithm to multi-player general-sum continuous games, prove the convergence to ϵ-equilibria in the Wasserstein metric under exact best-response oracles, and empirically evaluate it on a~wide library of continuous games. See \cref{sec:multiple.oracle} and Appendix~\ref{appendix:do.results}.
+    \item[Epsilon Equilibria in Continuous Games] In \cref{sec:multiple.oracle}, we extend the Double Oracle algorithm to multi-player general-sum continuous games, prove the convergence to ϵ-equilibria in the Wasserstein metric under exact best-response oracles, and empirically evaluate it in Appendix~\ref{appendix:do.results} on a~wide library of continuous games.
 
     Our program for multi-player general-sum continuous games is a generalisation of the Double Oracle algorithm by \textcite{McMahan03}, originally designed for zero-sum matrix games, and of its later generalisation by \textcite{adam.horčík.ea:double} to two-player zero-sum continuous games.
 
     Relevant Julia source code is published at \url{https://github.com/votroto/Quack.jl}.
 
-    \item[Optimal Inverse Kinematics] We develop a bilinear lifting scheme for polynomial inverse kinematics with possible applications to manipulator design, enabling the computation of globally optimal solutions for generic manipulators with up to 10 degrees of freedom. See \cref{ch:ik}.
+    \item[Optimal Inverse Kinematics] In \cref{ch:ik}, we develop a bilinear lifting scheme for polynomial inverse kinematics with possible applications to manipulator design, enabling the computation of globally optimal solutions for generic manipulators with up to 10 degrees of freedom.
 
     Our scheme substantially improves upon the results of \textcite{trutman2022globally}, who demonstrated that inverse kinematics with 7 degrees of freedom are solvable using a method based on algebraic geometry.
 
     Relevant Julia source code is published at \url{https://github.com/votroto/IK.jl}.
-    \item[List of Continuous Games] We curate and standardise a library of continuous-game benchmarks. See Appendix~\ref{appendix:games}.
+    \item[List of Continuous Games] Appendix~\ref{appendix:games} contains our curated and standardised library of continuous-game benchmarks.
 \end{description}
 \end{document}
