@@ -1,4 +1,4 @@
-Finding NE in zero-sum finite games reduces to either the classical linear program, or its aforementioned extension by \textcite{Cai16} in case of polymatrix games. The implementation of the master problem corresponding to general-sum matrix sub-games is more complex. Various methods exist to solve general-sum games, including the global Newton method, simplical subdivision, or even straightforward strategy enumeration. These methods, however, may have unpredictable runtimes and do not always guarantee convergence.
+Finding NE in zero-sum finite games reduces to either the classical linear program, or its aforementioned extension by \textcite{Cai16} in case of polymatrix games. The implementation of the master problem corresponding to general-sum matrix subgames is more complex. Various methods exist to solve general-sum games, including the global Newton method, simplical subdivision, or even straightforward strategy enumeration. These methods, however, may have unpredictable runtimes and do not always guarantee convergence.
 
 In our experiments on general-sum matrix games, we use the path following algorithm implemented by the \emph{gambit-logit} utility which is a part of the Gambit library, along with a version of a multilinear formulation of NE \eqref{eq:sturmfels} described by \textcite{sturmfels} and improved by \textcite{multilinear}. We also use the classical linear programming implementation where appropriate.
 
@@ -20,7 +20,7 @@ As the utility functions are defined by tensors and strategy spaces are finite, 
 	\sum_{\bx \in \bX} U_i[\bx] \prod_{i \in N} \mu_i[x_i].
 \]
 
-As mentioned in \cref{sec:sbab}, algebraic functions can be decomposed into binary operations for which there exist known tight convex relaxations. Specifically, the multilinear program~\ref{eq:sturmfels} can be reformulated as a non-convex quadratically-constrained quadratic program, which can then be solved by spatial Branch and Bound solvers.
+As mentioned in \cref{sec:sbab}, algebraic functions can be decomposed into binary operations for which there exist known tight convex relaxations. Specifically, the multilinear program~\ref{eq:sturmfels} can be reformulated as a nonconvex quadratically-constrained quadratic program, which can then be solved by spatial Branch and Bound solvers.
 
 An advantage of the multilinear program, is that it can be modified to search for specific solutions. Constraining the search to symmetric equilibria can be done trivially by adding variables $\mu_0$ and equating $\mu_0 = \mu_i \;\forall i \in N$. We use this modification to exploit the symmetry of Blotto games and speed up the search in Experiment~\ref{ex:do.slow.blotto}. Additionally, as \ref{eq:sturmfels} is a feasibility program, it can be trivially modified to search for equilibria with the smallest $\ell_0$ norm.
 

@@ -3,7 +3,7 @@
 \begin{document}
 In the main chapters, we focused on cases where the oracles and the master-problem would be tailored to each game. While the ability to leverage the problem structure by providing custom oracles based on closed‑form best responses or reductions to classic combinatorial problems may be powerful, it naturally puts into question the applicability of our method.
 
-It is certainly not possible to develop an oracle generic enough to handle all games, as this reduces to global optimization over arbitrary functions. Nevertheless, we will show that an off-the-shelf global optimization solver is sufficient to solve a surprisingly wide variety of continuous games automatically. To this end, we use the suite of continuous games compiled from the game‑theoretic and optimisation literature presented in Appendix~\ref{appendix:games}. The collection spans multi-player polynomial, rational‑polynomial, and more generic games, with action spaces that include n-spheres and simplexes.
+It is certainly not possible to develop an oracle generic enough to handle all games, as this reduces to global optimization over arbitrary functions. Nevertheless, we will show that an off-the-shelf global optimization solver is sufficient to solve a surprisingly wide variety of continuous games automatically. To this end, we use the suite of continuous games compiled from the game‑theoretic and optimisation literature presented in Appendix~\ref{appendix:games}. The collection spans multiplayer polynomial, rational‑polynomial, and more generic games, with action spaces that include n-spheres and simplexes.
 
 A consistent implementation also enables us to report meaningful and comparable runtimes across games. Our experiments show that a generic algorithm can solve many continuous games efficiently. Notably, our implementation locates the pure‑strategy Nash equilibrium of \cref{ex.zhou19.5.1} within a distance of less than $3\times 10^{-4}$ in 0.086 seconds compared to the 184.5 seconds achieved with a custom algorithm by \textcite{zhou.wang.ea:saddle}.
 
@@ -15,7 +15,7 @@ We show the performance of \cref{alg:mo} implemented in \emph{Julia 1.11} using 
 \subsection{Experiments on General Blotto}
 The utility functions in \emph{General Blotto} games are sums of non-linearly weighted margins of victory over sets of fronts. The family of weighing functions described by \textcite{Golman2009} is \(f(z) = \operatorname{sgn}(z)\,|z|^p\), parametrized by $p$ which is strictly positive for continuous games. The margins of victory are differences of products of the allocations to each front.
 
-While products, exponents, sums and differences should be available through most modeling interfaces for non-linear problems; neither $\operatorname{sgn}$, nor the absolute value is available via the non-linear input for \emph{Gurobi}. Instead, we modelled the absolute value as $\sqrt{z^2}$.
+While products, exponents, sums and differences should be available through most modeling interfaces for nonlinear problems; neither $\operatorname{sgn}$, nor the absolute value is available via the nonlinear input for \emph{Gurobi}. Instead, we modelled the absolute value as $\sqrt{z^2}$.
 
 \begin{figure}
     \centering
@@ -84,7 +84,7 @@ $x_1^\star \approx \left(\frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \frac{1}{5}, \fr
 in two iterations and $1.5\,\mathrm{s}$.
 \end{description}
 
-The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its non-linear interface. Attempting to model the utility as $\sfrac{z}{\sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
+The utility functions are continuous but not differentiable for $0<p<1$; Since \emph{Gurobi} does not accept neither the sign function nor absolute value through its nonlinear interface. Attempting to model the utility as $\sfrac{z}{\sqrt[4]{z^2}}$ introduces a discontinuity which \emph{Gurobi} is able to avoid; however, the oracle did not find a best response within two minutes. The local solver \emph{Ipopt} failed to compute a solution as well, since the utility is not differentiable. The global solver \emph{Couenne} via \emph{AMPL} depends on \emph{Ipopt} and was similarly unsuccessful.
 
 While our generic algorithm failed on all non-differentiable instances, specifying a custom oracle makes it possible to send more information about the utility to solvers. We investigated this approach in section \ref{sec:custom.oracles}.
 

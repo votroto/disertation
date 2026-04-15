@@ -5,7 +5,7 @@ Let $\mathbf{g} = (g_1,\dots,g_k)$ be a tuple of polynomials. A \emph{basic semi
     \min_{\bx \in K} \quad f(\bx).\tag{POP}
 \end{equation}
 
-Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre2015}. The first approach involves maximizing a lower-bound $\alpha$ on the condition that $f-\alpha$ is non-negative on $K$:
+Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre2015}. The first approach involves maximizing a lower-bound $\alpha$ on the condition that $f-\alpha$ is nonnegative on $K$:
 \begin{equation}\label{eq:sos.basis}
     \begin{aligned}
         \max_{\alpha \in \R}\quad&\alpha\\
@@ -37,7 +37,7 @@ Following \textcite[Definition 3.18]{Laurent2009}, we say that \(\calQ(\bg)\) is
     Let $\calQ\left(\bg\right)$ be Archimedean. If a polynomial $p$ satisfies $p(\bx) > 0\;\forall \bx \in \calS(\bg) \subseteq \R^n$, then $p \in \calQ\left(\bg\right)$.
 \end{theorem}
 
-We remark that the Archimedean condition is very mild. Many sets important for applications are in fact the solution sets of finitely many polynomial inequalities where the bounds on the variables are known. In particular, such a semi-algebraic set is not necessarily convex or connected.
+We remark that the Archimedean condition is very mild. Many sets important for applications are in fact the solution sets of finitely many polynomial inequalities where the bounds on the variables are known. In particular, such a semialgebraic set is not necessarily convex or connected.
 
 With a multi-index $\balpha=(\alpha_1,\dots,\alpha_{m})\in\N^{m}$ we use the standard notation $\bx^{\balpha}=x_1^{\alpha_1}\dotsb x_{m}^{\alpha_{m}}$ to define monomials. For any $d\in \N$, we define the set of multi-indices truncated to degree $d$,
 \[
