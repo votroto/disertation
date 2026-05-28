@@ -3,8 +3,6 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\spt}{spt}
-\DeclareMathOperator*{\sgn}{sgn}
-%\DeclareMathOperator*{\deg}{deg}
 \DeclareMathOperator*{\rank}{rank}
 
 \newcommand*\dif{\mathop{}\!\mathrm{d}}
@@ -22,43 +20,6 @@
 \let\oldnorm\norm
 \def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
 \makeatother
-
-%%%%%% NUMBER SYSTEMS
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\Q}{\mathbb{Q}}
-\newcommand{\R}{\mathbb{R}}
-
-%%%%%% CALS
-\newcommand{\calA}{\mathcal{A}}
-\newcommand{\calB}{\mathcal{B}}
-\newcommand{\calC}{\mathcal{C}}
-\newcommand{\calD}{\mathcal{D}}
-\newcommand{\calE}{\mathcal{E}}
-\newcommand{\calF}{\mathcal{F}}
-\newcommand{\calG}{\mathcal{G}}
-\newcommand{\calH}{\mathcal{H}}
-\newcommand{\calI}{\mathcal{I}}
-\newcommand{\calJ}{\mathcal{J}}
-\newcommand{\calK}{\mathcal{K}}
-\newcommand{\calL}{\mathcal{L}}
-\newcommand{\calM}{\mathcal{M}}
-\newcommand{\calN}{\mathcal{N}}
-\newcommand{\calO}{\mathcal{O}}
-\newcommand{\calP}{\mathcal{P}}
-\newcommand{\calQ}{\mathcal{Q}}
-\newcommand{\calR}{\mathcal{R}}
-\newcommand{\calS}{\mathcal{S}}
-\newcommand{\calT}{\mathcal{T}}
-\newcommand{\calU}{\mathcal{U}}
-\newcommand{\calV}{\mathcal{V}}
-\newcommand{\calW}{\mathcal{W}}
-\newcommand{\calX}{\mathcal{X}}
-\newcommand{\calY}{\mathcal{Y}}
-\newcommand{\calZ}{\mathcal{Z}}
-
-%%%%%% REDEFINITIONS
-\renewcommand{\phi}{\varphi}
 
 \DeclareMathOperator*{\minimize}{minimize}
 \DeclareMathOperator*{\maximize}{maximize}
@@ -80,66 +41,49 @@
 
 %--------------------------------------------------------------
 
-%%%%%% NUMBER SETS
-\DeclareMathOperator{\C}{\mathbb{C}}
+%%%%%% NUMBER SYSTEMS
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
 
-%%%%%% VECTORS
-\newcommand{\ba}{\mathbf{a}}
-\newcommand{\bb}{\mathbf{b}}
-\newcommand{\bB}{\mathbf{B}}
-\newcommand{\bc}{\mathbf{c}}
-\newcommand{\bC}{\mathbf{C}}
-\newcommand{\bd}{\mathbf{d}}
-\newcommand{\bD}{\mathbf{D}}
-\newcommand{\bX}{\mathbf{X}}
+%%%%%% CALS
+
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calS}{\mathcal{S}}
+
+\renewcommand{\phi}{\varphi}
+
 \newcommand{\bM}{\mathbf{M}}
-\newcommand{\boldf}{\mathbf{f}}
 \newcommand{\bg}{\mathbf{g}}
-\newcommand{\bh}{\mathbf{h}}
-\newcommand{\bH}{\mathbf{H}}
-\newcommand{\bI}{\mathbf{I}}
-\newcommand{\bp}{\mathbf{p}}
-\newcommand{\bP}{\mathbf{P}}
-\newcommand{\bQ}{\mathbf{Q}}
-\newcommand{\bR}{\mathbf{R}}
-\newcommand{\bT}{\mathbf{T}}
-\newcommand{\bu}{\mathbf{u}}
-\newcommand{\bU}{\mathbf{U}}
-\newcommand{\bY}{\mathbf{Y}}
 
-\newcommand{\sT}{\mathsf{T}}
-
-\newcommand{\2}{\mathbf{2}}
 \newcommand{\bx}{\mathbf{x}}
-\newcommand{\be}{\mathbf{e}}
 \newcommand{\by}{\mathbf{y}}
 \newcommand{\bz}{\mathbf{z}}
 \newcommand{\bw}{\mathbf{w}}
-\newcommand{\bA}{\mathbf{A}}
-\newcommand{\bS}{\mathbf{S}}
+
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+
+\newcommand{\bU}{\mathbf{U}}
+
 \newcommand{\balpha}{\symbfup{\alpha}}
 \newcommand{\bbeta}{\symbfup{\beta}}
 \newcommand{\bgamma}{\symbfup{\gamma}}
 \newcommand{\bmu}{\symbfup{\mu}}
 \newcommand{\bnu}{\symbfup{\nu}}
-\newcommand{\bupsilon}{\symbfup{\upsilon}}
-\newcommand{\bsigma}{\symbfup{\sigma}}
-\newcommand{\bDelta}{\symbfup{\Delta}}
 \newcommand{\bcalP}{\symbfup{\calP}}
 \newcommand{\beps}{\symbfup{\epsilon}}
 
 %%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\eps}{\epsilon}
-\newcommand{\br}{\textrm{br}}
 \newcommand{\cl}{\operatorname{cl}}
 
 %%%%%%%%%%%%%%%%%%%%
 
-% Empty name; formatting does the work
 \crefname{mo}{}{}
 \Crefname{mo}{}{}
-
-% Print exactly one hyperlinked "MO"
 \crefformat{mo}{#2MO#3}
 \Crefformat{mo}{#2MO#3}
