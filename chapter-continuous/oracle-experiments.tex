@@ -29,8 +29,8 @@ We plot the progress of the largest possible gain from a profitable deviation (\
   \begin{tikzpicture}
   \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=141, ymode=log, xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
-  \pgfplotstableread{chapter-continuous/img/blotto.slow.epsilon.dat}\exploitdata
-  \pgfplotstableread{chapter-continuous/img/blotto.slow.wasserstein.dat}\wassersteindata
+  \pgfplotstableread[col sep=space,header=false]{chapter-continuous/img/blotto.slow.epsilon.dat}\exploitdata
+  \pgfplotstableread[col sep=space,header=false]{chapter-continuous/img/blotto.slow.wasserstein.dat}\wassersteindata
 
   \pgfplotstablegetcolsof{\exploitdata}
   \pgfmathtruncatemacro{\numcols}{\pgfplotsretval}
@@ -211,7 +211,7 @@ iter y1 y2
     \begin{tikzpicture}
     \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
-    \pgfplotstableread{
+    \pgfplotstableread[col sep=space,header=false]{
     4.0 2.0
     0.0 1.12
     0.879 0.0
@@ -223,7 +223,7 @@ iter y1 y2
     2.25e-5 1.12e-5
     5.63e-6 2.79e-6
     }\exploitdata
-    \pgfplotstableread{
+    \pgfplotstableread[col sep=space,header=false]{
     NaN NaN
     2.0 2.0
     0.0 0.75
@@ -273,7 +273,7 @@ iter y1 y2
     \begin{tikzpicture}
     \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=11, ymode=log, xmode=log,legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
-    \pgfplotstableread{
+    \pgfplotstableread[col sep=space,header=false]{
     6.78e-8 2.24
     0.797 0.0
     0.0 0.504
@@ -285,7 +285,7 @@ iter y1 y2
     2.28e-6 0.000115
     2.26e-6 2.85e-5
     }\exploitdata
-    \pgfplotstableread{
+    \pgfplotstableread[col sep=space,header=false]{
     NaN NaN
     2.92e-8 1.83
     1.13 1.97e-8
@@ -339,7 +339,7 @@ We also experimented with oracles based on the SOS hierarchy, which resulted in 
 \begin{tikzpicture}
 \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795,  ymin=1e-6, xmax=11, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
-\pgfplotstableread{
+\pgfplotstableread[col sep=space,header=false]{
 0.0 0.125 2.0
 1.03 1.12 0.0
 0.00347 0.281 2.67
@@ -351,7 +351,7 @@ We also experimented with oracles based on the SOS hierarchy, which resulted in 
 7.75e-7 7.26e-5 0.0
 1.22e-5 1.82e-5 2.0e-16
 }\exploitdata
-\pgfplotstableread{
+\pgfplotstableread[col sep=space,header=false]{
 NaN NaN NaN
 0.0 0.25 1.0
 0.0 0.417 0.5
@@ -400,7 +400,7 @@ Using oracles based on the SOS hierarchy, we found the same equilibrium in $1.2$
 \begin{tikzpicture}
 \begin{groupplot}[ group style={ group size=2 by 1, horizontal sep=0.5cm }, width=5cm, height=4cm, cycle list/Set1-3, cycle multiindex* list={ mark list*\nextlist Set1-3\nextlist }, xmin=0.795, ymin=1e-6, xmax=16, ymode=log,xmode=log, legend style={ at={(1.04,1.08)}, anchor=south, legend columns=-1, column sep=1ex } ]
 
-\pgfplotstableread{
+\pgfplotstableread[col sep=space,header=false]{
 0.0 0.0 0.623 0.0
 0.175 0.448 0.0 0.0
 0.105 0.269 0.0 0.0
@@ -417,7 +417,7 @@ Using oracles based on the SOS hierarchy, we found the same equilibrium in $1.2$
 2.51e-9 8.98e-5 1.0e-16 0.0
 2.67e-9 2.36e-5 1.0e-16 0.0
 }\exploitdata
-\pgfplotstableread{
+\pgfplotstableread[col sep=space,header=false]{
 NaN NaN NaN NaN
 0.0 0.0 1.41 0.0
 0.0 0.629 0.566 0.0

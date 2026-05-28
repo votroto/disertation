@@ -5,7 +5,7 @@ Let $\mathbf{g} = (g_1,\dots,g_k)$ be a tuple of polynomials. A \emph{basic semi
     \min_{\bx \in K} \quad f(\bx).\tag{POP}
 \end{equation}
 
-Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre2015}. The first approach involves maximizing a lower-bound $\alpha$ on the condition that $f-\alpha$ is nonnegative on $K$:
+Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre15:book}. The first approach involves maximizing a lower-bound $\alpha$ on the condition that $f-\alpha$ is nonnegative on $K$:
 \begin{equation}\label{eq:sos.basis}
     \begin{aligned}
         \max_{\alpha \in \R}\quad&\alpha\\
@@ -33,7 +33,7 @@ Following \textcite[Definition 3.18]{Laurent2009}, we say that \(\calQ(\bg)\) is
 \end{definition}
 
 
-\begin{theorem}[Putinar's Positivstellensatz \cite{Putinar93}]\label{thm:Putinar}
+\begin{theorem}[Putinar's Positivstellensatz \cite{Putinar1993}]\label{thm:Putinar}
     Let $\calQ\left(\bg\right)$ be Archimedean. If a polynomial $p$ satisfies $p(\bx) > 0\;\forall \bx \in \calS(\bg) \subseteq \R^n$, then $p \in \calQ\left(\bg\right)$.
 \end{theorem}
 
@@ -52,14 +52,14 @@ Any polynomial $p(\bx)$ with the coefficient vector $\mathbf{c}=(c_{\balpha})_{\
     p(\bx) = \sum_{|\balpha|\le d} c_{\balpha} \bx^{\balpha} = \mathbf{c}^\intercal[\bx]_{d}.
 \]
 
-A polynomial $p(\bx)$ of degree at most $2d$ is SOS if, and only if, there exists a positive semidefinite matrix $G$ such that $p(\bx)=[\bx]_d^\intercal G [\bx]_d$ \cite[Proposition 2.1]{Lasserre2015}. We can therefore formulate the problem of checking whether such $p(\bx)$ is SOS as the semidefinite feasibility problem for a matrix $G$ indexed by $\bbeta$ and $\bgamma$:
+A polynomial $p(\bx)$ of degree at most $2d$ is SOS if, and only if, there exists a positive semidefinite matrix $G$ such that $p(\bx)=[\bx]_d^\intercal G [\bx]_d$ \cite[Proposition 2.1]{Lasserre15:book}. We can therefore formulate the problem of checking whether such $p(\bx)$ is SOS as the semidefinite feasibility problem for a matrix $G$ indexed by $\bbeta$ and $\bgamma$:
 \begin{equation*}
     \begin{aligned}
        \sum\limits_{\bbeta+\bgamma=\balpha} G_{\bbeta\bgamma} &= c_{\balpha}  \quad \forall \balpha, |\balpha|\le 2d,\\
 G &\succeq 0.
     \end{aligned}
 \end{equation*}
-Membership of $p$ in $Q(\bg)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem~\ref{thm:Putinar}~\cite[Chapter 2.4.2]{Lasserre2015}.
+Membership of $p$ in $Q(\bg)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem~\ref{thm:Putinar}~\cite[Chapter 2.4.2]{Lasserre15:book}.
 
 \subsection{Existence of Representing Measures}
 To manipulate measures algorithmically, we represent them as functionals $l: \mathbb{R}[\bx] \to \mathbb{R}$. Every linear functional $l$ can be encoded by its \emph{pseudo-moment sequence} \(\mathbf{y} = (l(x^{\balpha}))_{\balpha}\). The space of such functionals is the dual space \(\mathbb{R}[\bx]'\), and for $f(\bx) = \sum_{\balpha} c_{\balpha} \bx^{\balpha}$ we can write \(l(f) = \sum_{\balpha} c_{\balpha} y_{\balpha}\).
@@ -68,7 +68,7 @@ Given a compact $K$ and $f\in\mathbb{R}[\bx]$, if $l$ in nonnegative on $\calP(K
 \[
 l(f) = \int_K f \,d\mu,
 \]
-where the unique $\mu\in\calM(K)$ is called the \emph{representing measure} of $l$ \cite{Putinar93}.
+where the unique $\mu\in\calM(K)$ is called the \emph{representing measure} of $l$ \cite{Putinar1993}.
 
 However, regular Borel measures are a subset of the space of linear functionals. As before, we need a systematic way to carve out just those linear functionals that represent integration with respect to a measure over a semialgebraic set $K$. This is a version of the \emph{$K$-moment problem}; i.e. the characterization of those real sequences $\by$ which have a representing measure. To simplify the explanation, we define the \emph{moment of a linear functional} as $l(x^{\balpha})$, so that we can refer to $\by$ consistently as \emph{moment sequences}, regardless of whether they have a representing measure or not.
 
@@ -90,7 +90,7 @@ for some real coefficients $(c_{\bgamma})_{\bgamma\in\N^{m}}$, of which only fin
 (M_d(g_{i},\by))_{\balpha\bbeta}=\sum_{\bgamma}c_{\bgamma}y_{\balpha+\bbeta+\bgamma}.
 \]
 
-\begin{theorem}[{\textcite[Theorem 2.44(b)]{Lasserre2015}}]
+\begin{theorem}[{\textcite[Theorem 2.44(b)]{Lasserre15:book}}]
 Let $\bg$ be a tuple such that $\calQ(\bg)$ is Archimedean. The moment sequence $\by$ with $y_\mathbf{0}=1$ has a representing Borel measure supported in $\calS(\bg)$ if, and only if,
 \begin{equation}\label{moment}
     \begin{aligned}
@@ -102,7 +102,7 @@ where $A\succeq 0$ denotes that a real symmetric matrix $A$ is positive semidefi
 \end{theorem}
 
 \subsection{Hierarchy of Semidefinite Relaxations}
-The final step is to put bounds on the sizes of moment sequences and degrees of polynomials using the Lasserre's hierarchies \cite[Chapter 6]{Lasserre2015}. Each relaxation in the hierarchy is a convex semidefinite program that approximates the solution of the original program.
+The final step is to put bounds on the sizes of moment sequences and degrees of polynomials using the Lasserre's hierarchies \cite[Chapter 6]{Lasserre15:book}. Each relaxation in the hierarchy is a convex semidefinite program that approximates the solution of the original program.
 
 We consider the quadratic module $\calQ_h(\bg)$ truncated to a degree $h$:
 \[
