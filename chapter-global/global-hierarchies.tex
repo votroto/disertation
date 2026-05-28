@@ -62,7 +62,7 @@ G &\succeq 0.
 Membership of $p$ in $Q(\bg)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem~\ref{thm:Putinar}~\cite[Chapter 2.4.2]{Lasserre2015}.
 
 \subsection{Existence of Representing Measures}
-To manipulate measures algorithmically, we represent them as functionals $l: \mathbb{R}[\bx] \to \mathbb{R}$. Every linear functional $l$ can be encoded by its \emph{moment sequence} \(\mathbf{y} = (l(x^{\balpha}))_{\balpha}\). The space of such functionals is the dual space \(\mathbb{R}[\bx]'\), and for $f(\bx) = \sum_{\balpha} c_{\balpha} \bx^{\balpha}$ we can write \(l(f) = \sum_{\balpha} c_{\balpha} y_{\balpha}\).
+To manipulate measures algorithmically, we represent them as functionals $l: \mathbb{R}[\bx] \to \mathbb{R}$. Every linear functional $l$ can be encoded by its \emph{pseudo-moment sequence} \(\mathbf{y} = (l(x^{\balpha}))_{\balpha}\). The space of such functionals is the dual space \(\mathbb{R}[\bx]'\), and for $f(\bx) = \sum_{\balpha} c_{\balpha} \bx^{\balpha}$ we can write \(l(f) = \sum_{\balpha} c_{\balpha} y_{\balpha}\).
 
 Given a compact $K$ and $f\in\mathbb{R}[\bx]$, if $l$ in nonnegative on $\calP(K)$ then $l(f)$ has the form:
 \[
@@ -70,7 +70,7 @@ l(f) = \int_K f \,d\mu,
 \]
 where the unique $\mu\in\calM(K)$ is called the \emph{representing measure} of $l$ \cite{Putinar93}.
 
-However, regular Borel measures are a subset of the space of linear functionals. As before, we need a systematic way to carve out just those linear functionals that represent integration with respect to a measure over a semialgebraic set $K$. This is a version of the \emph{$K$-moment problem}; i.e. the characterization of those real sequences $\by$ which have a representing measure.
+However, regular Borel measures are a subset of the space of linear functionals. As before, we need a systematic way to carve out just those linear functionals that represent integration with respect to a measure over a semialgebraic set $K$. This is a version of the \emph{$K$-moment problem}; i.e. the characterization of those real sequences $\by$ which have a representing measure. To simplify the explanation, we define the \emph{moment of a linear functional} as $l(x^{\balpha})$, so that we can refer to $\by$ consistently as \emph{moment sequences}, regardless of whether they have a representing measure or not.
 
 Define $\calM_d(K)$ as the cone of moments up to degree $d$ which have a representing measure on $K$. Similarly, define $\calP_d(K)$ as the cone of polynomials up to degree $d$ which are nonnegative on $K$. If $K$ is compact \cite{Laurent2009}, the \emph{moment cone} $\calM_d(K)$ is dual to $\calP_d(K)$:
 \[

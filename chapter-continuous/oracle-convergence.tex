@@ -4,7 +4,7 @@ We consider an arbitrary metric~$\rho_i$ on the compact strategy space $X_i\subs
 \]
  The preservation of distance from $X_i$ to $\calM(X_i)$ is a very natural property, since the space of pure strategies $X_i$ is embedded in $\calM(X_i)$ via the correspondence $x\mapsto \delta_x$ mapping the pure strategy $x$ to the Dirac measure $\delta_x$.
 
-The Wasserstein distance originated from optimal transport theory. It is nowadays highly instrumental in solving many problems of computer science. Specifically, the \emph{Wasserstein distance} of mixed strategies $\mu,\nu\in \calM(X_i)$ is
+The Wasserstein distance originated from optimal transport theory. It is nowadays highly instrumental in solving many problems of computer science, such as in Generative Adversarial Network training \cite{pmlr-v70-arjovsky17a} or Markov decision processes \cite{NEURIPS2023_61779e9b}, to name but a few. Specifically, the \emph{Wasserstein distance} of mixed strategies $\mu,\nu\in \calM(X_i)$ is
 \[
 	d_W(\mu,\nu) = \inf_{\xi} \int_{X_i^2} \rho_i(x,y) \dif\xi(x,y),
 \]
