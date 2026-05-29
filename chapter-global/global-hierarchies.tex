@@ -2,23 +2,23 @@ The moment-SOS hierarchies are a basis of methods for constrained polynomial opt
 
 Let $\mathbf{g} = (g_1,\dots,g_k)$ be a tuple of polynomials. A \emph{basic semialgebraic set} \( \mathcal{S}(\bg) = \{\bx \in \R^n \mid \bg(\bx) \ge 0\} \) is a finite intersection of superlevel sets defined by $\mathbf{g}$. Polynomial Optimization Problems aim to find the global minimum of a polynomial $f$ over the set $K=\calS(\bg)$:
 \begin{equation}\label{eq:pop.original}
-    \min_{\bx \in K} \quad f(\bx).\tag{POP}
+    \inf_{\bx \in K} \quad f(\bx).\tag{POP}
 \end{equation}
 
 Two complementary techniques form the basis of polynomial optimization methods called the Moment-SOS hierarchies \cite{Lasserre15:book}. The first approach involves maximizing a lower-bound $\alpha$ on the condition that $f-\alpha$ is nonnegative on $K$:
 \begin{equation}\label{eq:sos.basis}
     \begin{aligned}
-        \max_{\alpha \in \R}\quad&\alpha\\
+        \sup_{\alpha \in \R}\quad&\alpha\\
         \text{\normalfont s.t.}\quad&f(\mathbf{x}) - \alpha \in \calP(K)
     \end{aligned}
 \end{equation}
 where $\calP(K)$ is the set of polynomials nonnegative on $K$. The second approach is based on the problem of finding a measure which minimizes the Lebesgue integral of $f$:
 \begin{equation}\label{eq:mom.basis}
     \begin{aligned}
-        \min_{\mu\in \calM(K)}\quad&\int_K f \dif \mu
+        \inf_{\mu\in \calM(K)}\quad&\int_K f \dif \mu
     \end{aligned}
 \end{equation}
-where $\calM(K)$ is the set of regular Borel probability measures on $K$. Problems~\ref{eq:sos.basis} and \ref{eq:mom.basis} are convex reformulations of~\ref{eq:pop.original}, and their optimal values agree exactly. The practical versions of these problems are semidefinite programs which are their strenghtenings and relaxations respectively.
+where $\calM(K)$ is the set of regular Borel probability measures on $K$. Problems~\ref{eq:sos.basis} and \ref{eq:mom.basis} are convex reformulations of~\ref{eq:pop.original}, and their optimal values agree exactly. The practical versions of these problems are semidefinite programs which are their strengthenings and relaxations respectively.
 
 \subsection{Nonnegative Polynomials Using Sums of Squares}
 As we represent polynomials by their coefficients, we need sufficient conditions on the coefficients so that we can algorithmically decide the question of nonnegativity on sets. To~do this, we use \emph{preorders} and \emph{quadratic modules}.

@@ -22,7 +22,7 @@ All solvers were executed sequentially in each iteration of \ref{alg:mo}, using 
     \end{tabular}
 \end{center}
 
-The results of this brief test supports our choice to use \emph{Gurobi} as the default oracle. The hierarchies are competitive on polynomial problems, while the free and open-source solver \emph{SCIP} is the only other solver robust and generic enough to solve all the listed examples. This result is consitent with our experience. \emph{Ipopt} returned values deviating by a norm of less than $10^{-5}$ across all iterations for three univariate polynomial examples and one multivariate example, but none of the test functions. While we have succesfully used local-solvers as oracles, it is important to remember that convergence to equilibria is no longer guaranteed.
+The results of this brief test supports our choice to use \emph{Gurobi} as the default oracle. The hierarchies are competitive on polynomial problems, while the free and open-source solver \emph{SCIP} is the only other solver robust and generic enough to solve all the listed examples. This result is consistent with our experience. \emph{Ipopt} returned values deviating by a norm of less than $10^{-5}$ across all iterations for three univariate polynomial examples and one multivariate example, but none of the test functions. While we have successfully used local-solvers as oracles, it is important to remember that convergence to equilibria is no longer guaranteed.
 
 The runtime of \ref{alg:mo} may be improved by adding multiple best responses in each iteration. In the case of the SOS hierarchies, solvers tend to find high-rank interior solutions and computing multiple solutions may be essentially free.
 
