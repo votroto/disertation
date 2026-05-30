@@ -47,22 +47,22 @@ To formulate the sum of squares condition using semidefinite constraints, we def
 \[
     [\bx]_d=(\bx^{\balpha})_{\balpha\in \N^{m}_d}.
 \]
-Any polynomial $p(\bx)$ with the coefficient vector $\mathbf{c}=(c_{\balpha})_{\balpha\in \N^{m}_d}$ can then be expressed as
+Any polynomial $p(\bx)$ with the coefficient vector $\mathbf{p}=(\coeff{p}_{\balpha})_{\balpha\in \N^{m}_d}$ can then be expressed as
 \[
-    p(\bx) = \sum_{|\balpha|\le d} c_{\balpha} \bx^{\balpha} = \mathbf{c}^\intercal[\bx]_{d}.
+    p(\bx) = \sum_{|\balpha|\le d} \coeff{p}_{\balpha} \bx^{\balpha} = \mathbf{p}^\intercal[\bx]_{d}.
 \]
 
 A polynomial $p(\bx)$ of degree at most $2d$ is SOS if, and only if, there exists a positive semidefinite matrix $G$ such that $p(\bx)=[\bx]_d^\intercal G [\bx]_d$ \cite[Proposition 2.1]{Lasserre15:book}. We can therefore formulate the problem of checking whether such $p(\bx)$ is SOS as the semidefinite feasibility problem for a matrix $G$ indexed by $\bbeta$ and $\bgamma$:
 \begin{equation*}
     \begin{aligned}
-       \sum\limits_{\bbeta+\bgamma=\balpha} G_{\bbeta\bgamma} &= c_{\balpha}  \quad \forall \balpha, |\balpha|\le 2d,\\
+       \sum\limits_{\bbeta+\bgamma=\balpha} G_{\bbeta\bgamma} &= \coeff{p}_{\balpha}  \quad \forall \balpha, |\balpha|\le 2d,\\
 G &\succeq 0.
     \end{aligned}
 \end{equation*}
 Membership of $p$ in $Q(\bg)$ can then be formulated as a single semidefinite program by applying such conditions to each polynomial variable in Theorem~\ref{thm:Putinar}~\cite[Chapter 2.4.2]{Lasserre15:book}.
 
 \subsection{Existence of Representing Measures}
-To manipulate measures algorithmically, we represent them as functionals $l: \mathbb{R}[\bx] \to \mathbb{R}$. Every linear functional $l$ can be encoded by its \emph{pseudo-moment sequence} \(\mathbf{y} = (l(x^{\balpha}))_{\balpha}\). The space of such functionals is the dual space \(\mathbb{R}[\bx]'\), and for $f(\bx) = \sum_{\balpha} c_{\balpha} \bx^{\balpha}$ we can write \(l(f) = \sum_{\balpha} c_{\balpha} y_{\balpha}\).
+To manipulate measures algorithmically, we represent them as functionals $l: \mathbb{R}[\bx] \to \mathbb{R}$. Every linear functional $l$ can be encoded by its \emph{pseudo-moment sequence} \(\mathbf{y} = (l(x^{\balpha}))_{\balpha}\). The space of such functionals is the dual space \(\mathbb{R}[\bx]'\), and for $f(\bx) = \sum_{\balpha} \coeff{f}_{\balpha} \bx^{\balpha}$ we can write \(l(f) = \sum_{\balpha} \coeff{f}_{\balpha} y_{\balpha}\).
 
 Given a compact $K$ and $f\in\mathbb{R}[\bx]$, if $l$ in nonnegative on $\calP(K)$ then $l(f)$ has the form:
 \[
@@ -83,11 +83,11 @@ Membership of a sequence $\by$ in $\calM_d(K)$ can be encoded as the constraint 
 \]
 Each polynomial $g_i$ defining the semialgebraic set $\mathcal{S}(\mathbf{g})$ can be written as
 \[
-g_{i}(\bx)=\sum_{\bgamma}c_{\bgamma}\bx^{\bgamma}
+g_{i}(\bx)=\sum_{\bgamma}\coeff{g_i}_{\bgamma}\bx^{\bgamma}
 \]
-for some real coefficients $(c_{\bgamma})_{\bgamma\in\N^{m}}$, of which only finitely many are nonzero. Then, the~\emph{localizing matrix of order} $d$ is the matrix $M_d(g_{i},\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$, where
+for some real coefficients $(\coeff{g_i}_{\bgamma})_{\bgamma\in\N^{m}}$, of which only finitely many are nonzero. Then, the~\emph{localizing matrix of order} $d$ is the matrix $M_d(g_{i},\by)$ with rows indexed by $\balpha\in\N^{m}_d$ and columns indexed by $\bbeta\in\N^{m}_d$, where
 \[
-(M_d(g_{i},\by))_{\balpha\bbeta}=\sum_{\bgamma}c_{\bgamma}y_{\balpha+\bbeta+\bgamma}.
+(M_d(g_{i},\by))_{\balpha\bbeta}=\sum_{\bgamma}\coeff{g_i}_{\bgamma}y_{\balpha+\bbeta+\bgamma}.
 \]
 
 \begin{theorem}[{\textcite[Theorem 2.44(b)]{Lasserre15:book}}]
