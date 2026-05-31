@@ -117,20 +117,20 @@ We consider the quadratic module $\calQ_h(\bg)$ truncated to a degree $h$:
 Instead of testing polynomial positivity by checking its membership in $\calQ(\mathbf{g})$ the $h$-th level of the hierarchy tests for membership in $\calQ_h(\mathbf{g})$. Similarly, instead of requiring that the constraints hold for all moments, the $h$-th program in a hierarchy only constrains the moment and localizing matrices of order $h$. Moreover, we consider only truncated moment sequences~$\hat{\by}$, which are just finite-dimensional real vectors. Under our initial Archimedean assumption, the optimization problems are mutually strongly-dual. Each level of the hierarchy is then a semidefinite program which under-estimates the optimum. By going to higher levels, the original problem can be approximated arbitrarily well.
 
 \subsection{Recovery of Global Minimizers}
-It is possible to certify the convergence of the Moment hierarchy and to extract the minimizers in a robust way \cite{klep2018minimizer}. On the other hand, neither task is directly possible from the side of SOS polynomials, except via duality.
+It is possible to certify the convergence of the Moment hierarchy \cite{Laurent2009,lasserre2009moments,fialkow1991recursiveness} and to extract the minimizers in a robust way \cite{klep2018minimizer}. On the other hand, neither task is directly possible from the side of SOS polynomials, except via duality.
 
-\begin{theorem}[\textcite{Lasserre15:book}]
-The sequence $\by$ of $2t$ moments has a representing measure $\mu$ on a~semialgebraic set $\mathcal{S}(\mathbf{g})$, if and only if:
+\begin{theorem}[{\textcite[Theorem 2.47]{Lasserre15:book}}]
+The sequence $\by$ of moments up to order $2t$ has a representing measure $\mu$ on a~semialgebraic set $\mathcal{S}(\mathbf{g})$, if and only if:
 \[\begin{aligned}
     M_t(\by) &\succeq 0,\\
     M_{t-v}(g_i\by) &\succeq 0 \quad \forall g_i\in \mathbf{g},\\
     \rank M_{t}(\by) &= \rank M_{t-v}(\by),
 \end{aligned}
 \]
-where $v = \left\lceil \frac{1}{2} \deg(\mathbf{g}) \right\rceil$. Furthermore $\mu$ is $r$-atomic, with $r=\rank M_d(\by)$.
+where $v = \left\lceil \frac{1}{2} \deg(\mathbf{g}) \right\rceil$. Furthermore, $\mu$ is $r$-atomic, with $r\leq\rank M_t(\by)$.
 \end{theorem}
 
-\textcite[Section 6.7]{Laurent2009} describes a technique to extract solutions from a truncated sequence of moments\footnote{\emph{GloptiPoly} extracts solutions using this technique \cite{Henrion2005}}. Rank-$r$ moment matrices are convex combinations of $r$ rank\nobreakdash-1 matrices corresponding to Dirac measures supported on the minimizers. The minimizers can be computed using a linear algebra algorithm: Given an optimal $M_t(\by^\star)$, first, obtain its decomposition $M_t(\by^\star) = LL'$. Secondly, Convert $L$ to column-echelon form, and for each variable $x_i$, construct the square multiplication matrix $N_i$ by extracting from $L$ the columns corresponding to the pivots, and the rows corresponding to the pivot monomials multiplied by~$x_i$. Finally, compute the eigenvectors of a random convex combination of the multiplication matrices to get their common eigenvectors $\mathbf{v}$. The optimal measure is then supported on the set:
+\textcite[Section 6.7]{Laurent2009} explains a technique to extract solutions from a truncated sequence of moments (see also the implementation in \emph{GloptiPoly} \cite{Henrion2005,henrion2009gloptipoly}). Rank-$r$ moment matrices are convex combinations of $r$ rank\nobreakdash-1 matrices corresponding to Dirac measures supported on the minimizers. The minimizers can be computed using a linear algebra algorithm: Given an optimal $M_t(\by^\star)$, first, obtain its decomposition $M_t(\by^\star) = LL'$. Secondly, Convert $L$ to column-echelon form, and for each variable $x_i$, construct the square multiplication matrix $N_i$ by extracting from $L$ the columns corresponding to the pivots, and the rows corresponding to the pivot monomials multiplied by~$x_i$. Finally, compute the eigenvectors of a random convex combination of the multiplication matrices to get their common eigenvectors $\mathbf{v}$. The optimal measure is then supported on the set:
 \[\left\{\left(v_j^\top N_1v_j,\dots\right) \;\middle|\; j \in 1,\dots,r \right\}.\]
 
 The convergence rate of the hierarchy is not yet well understood, and it may not be practically possible to reach levels high enough to certify convergence. Regardless of whether a truncated sequence describes a measure or a generic linear functional, we may try the first-order moments as candidate minimizers. The hierarchies yield a nondecreasing sequence of lower bounds on the optimal value of the original problem, while any feasible evaluation of the original problem provides an upper bound. If the first-order moments are feasible and the evaluation of the original problem equals the value of the relaxation, then we have a lower bound equal to the upper bound and therefore a proof of optimality.
