@@ -21,9 +21,9 @@ For every $\bmu\in \bM$ and each player $i\in N$, by $\bmu_{-i}$ we denote the r
 \end{equation}
 
 \begin{definition}[\textcite{Nash51}]\label{def:ne}
-    A Nash equilibrium is a strategy profile $\bmu^\star\in\bM$ satisfying
+    A mixed Nash equilibrium is a strategy profile $\bmu^\star\in\bM$ satisfying
     \begin{equation*}
-        U_i(\bmu^\star)=\max_{x_i\in X_i} U_i(x_i,\bmu_{-i}^\star), \qquad \forall i\in N.
+        U_i(\bmu^\star)=\max_{\nu\in \calM(X_i)} U_i(\nu,\bmu_{-i}^\star), \qquad \forall i\in N.
     \end{equation*}
     That is, each player's strategy is a best response against the strategies of the others.
 \end{definition}
@@ -31,3 +31,17 @@ For every $\bmu\in \bM$ and each player $i\in N$, by $\bmu_{-i}$ we denote the r
 \begin{theorem}[\textcite{Glicksberg52}]\label{thm:Glick}
     Every continuous game has a mixed strategy Nash equilibrium.
 \end{theorem}
+
+By compactness of~$\calM(X_i)$ and continuity of $U_i$, all maxima and maximizers of $U_i$ on $\calM(X_i)$ exist. This implies that the optimal value of utility function in response to the mixed strategies of other players is attained for some pure strategy. Proposition~\ref{prop:switch} is the precise formulation of this useful fact.
+
+\begin{proposition}\label{prop:switch}
+	For each player $i\in N$ and any mixed strategy profile $\bmu_{-i}\in \bM_{-i}$, there exists a pure strategy $x_i\in X_i$ such that
+	\[
+		\max_{\nu\in \calM(X_i)} U_i(\nu,\bmu_{-i})=\max_{x\in X_i} U_i(x,\bmu_{-i})=U_i(x_i,\bmu_{i}).
+	\]
+\end{proposition}
+
+The following useful characterization is a consequence of Proposition~\ref{prop:switch}: A profile $\bmu^\star$ is an equilibrium if, and only if,
+\[
+	U_i(x_i,\bmu_{-i}^\star) \leq U_i(\bmu^\star), \qquad \text{for every $i\in N$ and all $x_i\in X_i$.}
+\]
