@@ -96,7 +96,12 @@ To compare the methods on randomly generated designs, we rounded the lengths and
 	\label{fig:compare.rand}
 \end{figure}
 
-The symbolic reduction step of the SOS-based method can be a bottleneck for some robots. For example, the 7-DOF IK instances of \emph{iCub}'s right arm (Fig.~\ref{fig:compare.icub}) did not consistently finish within 5 hours of runtime even despite rounding to the nearest millimeter (3 significant figures). In this case however, we found that the reduction is not necessary, and \emph{Mosek} could solve the SOS programs directly with only a $1\,\%$ failure rate (this was described as the \emph{naïve} approach in \cite{trutman2022globally}). The average solve-time over 1000 samples was $\qty{0.17}{\second}$ for \emph{Gurobi}, $\qty{4.5}{\second}$ for \emph{SCIP}, and $\qty{3.3}{\second}$ for the \emph{naïve} SOS.
+\pagebreak
+
+The symbolic reduction step of the SOS-based method can be a bottleneck for some robots. For example, the 7-DOF IK instances of \emph{iCub}'s right arm (Fig.~\ref{fig:compare.icub}) did not consistently finish within 5 hours of runtime even despite rounding to the nearest millimeter (3 significant figures). In this case however, we found that the reduction is not necessary, and \emph{Mosek} could solve the SOS programs directly with only a $1\,\%$ failure rate. An SDP corresponding to the first level\footnote{7-DOF problems involve quartic polynomials, so the first admissible relaxation is of order two, with higher orders being considered impractical \cite{trutman2022globally}.} of the hierarchy without symbolic reduction was referred to as the \emph{naïve} approach by \textcite{trutman2022globally}. The average solve-time over 1000 samples was $\qty{0.17}{\second}$ for \emph{Gurobi}, $\qty{4.5}{\second}$ for \emph{SCIP}, and $\qty{3.3}{\second}$ for the \emph{naïve} approach.
+
+Finally, the same \emph{naïve} approach on \href{https://www.asc-csa.gc.ca/eng/iss/canadarm2/about.asp}{Canadarm2} resulted in an average runtime of $\qty{6.3}{\second}$, with a success rate of only $31 \%$ out of 1000 feasible instances. The average runtime for QCQP with \emph{Gurobi} was~$1.8\,\si{\second}$.
+
 
 \begin{figure}[tpb]
 \centering
@@ -104,8 +109,6 @@ The symbolic reduction step of the SOS-based method can be a bottleneck for some
 	\caption{Normalized cumulative distributions $F(s)$ of solve times from 1000 samples of the \emph{iCub's} 7-DOF right arm. The full SOS-based method with symbolic reduction did not finish in time.}
 	\label{fig:compare.icub}
 \end{figure}
-
-Finally, we tested the SOS-based method without symbolic reduction on \href{https://www.asc-csa.gc.ca/eng/iss/canadarm2/about.asp}{Canadarm2}. While the average runtime was $\qty{6.3}{\second}$, the success rate was only $31 \%$ out of 1000 feasible instances. The average runtime for QCQP with \emph{Gurobi} was~$1.8\,\si{\second}$.
 
 \subsection{\emph{iCub} Right Arm and Torso (7--10 DOF)}
 We also demonstrate (\cref{icubtable}) that our technique scales to realistic instances with up to 10 degrees of freedom. Due to the low range of motion of the iCub's arms, it can be beneficial to include the torso in the kinematic chain. We start with the 7-DOF right arm and progressively add torso joints up to the full 10-DOF chain. We are aware of no suitable baseline for this class of problems. % Our technique took 1.67 seconds to solve a feasible 8DOF IK problem on average.
