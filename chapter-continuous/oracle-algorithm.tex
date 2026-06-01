@@ -24,7 +24,7 @@ The set $\beta_i(\bmu_{-i})$ is always nonempty by Proposition~\ref{prop:switch}
 	\end{algorithmic}
 \end{algorithm}
 
-\cref{alg:mo} proceeds as follows: In every iteration $j$, finite strategy sets $X_i^j$ are constructed for each player $i\in N$ and the corresponding finite subgame of $\calG$ is solved. Let $\bmu^j$ be its equilibrium. Then, an arbitrary best response strategy $x_i^{j+1}$ with respect to $\bmu_{-i}^{j}$ is added to each strategy set~$X_i^j$. Those steps are repeated until
+We denote the finite strategy set of Player $i$ at iteration $j$ by $X_i^j$. \cref{alg:mo} proceeds as follows: At every iteration $j$, finite strategy sets $X_i^j$ are constructed for each player $i\in N$ and the corresponding finite subgame of $\calG$ is solved. Let $\bmu^j$ be its equilibrium. Then, an arbitrary best response strategy $x_i^{j+1}$ with respect to $\bmu_{-i}^{j}$ is added to each strategy set~$X_i^j$. Those steps are repeated until
 \begin{equation}\label{def:diff}
 	U_i(x_i^{j+1},\bmu_{-i}^j)-U_i(\bmu^j)\leq \eps \qquad \forall i\in N.
 \end{equation}

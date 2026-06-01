@@ -1,7 +1,7 @@
 
 We show the performance that can be expected from \cref{alg:mo} on various important examples from the literature. We focus on examples which demonstrate interesting behaviors, as well as special classes of games for which efficient oracles and master-problems exist. We will detail the setup individually for each example. In Appendix~\ref{appendix:do.results}, we follow with a more comprehensive evaluation of a general implementation of the algorithm based on nonlinear solvers and finite general-sum games.
 
-The algorithm is initialized by selecting an arbitrary point found heuristically by solvers\footnote{We experimented with initialization with interior points of players' strategy spaces and with best responses to such points, but did not observe a consistently faster runtime.}. The algorithm then continues with standard \cref{alg:mo} iterations: by computing an equilibrium of the finite subgame and selecting best responses.
+The algorithm is initialized by selecting an arbitrary point found heuristically by solvers\footnote{We experimented with initialization by interior points of players' strategy spaces and by best responses to such points, but did not observe a consistently faster runtime.}. The algorithm then continues with standard \cref{alg:mo} iterations: by computing an equilibrium of the finite subgame and selecting best responses.
 
 We plot the progress of the largest possible gain from a profitable deviation (\ref{crit1}, $\epsilon$) for each player at each iteration, along with the Wasserstein distance \eqref{crit2} between mixed strategies from consecutive iterations. Neither sequence is monotonic, and both often attain zero, for example, when only some of players profit from switching strategies.
 

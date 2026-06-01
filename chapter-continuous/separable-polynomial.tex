@@ -13,7 +13,7 @@ The $h$-th level of the hierarchy is the following semidefinite program:
     \begin{aligned}
         \minimize_{\hat{\by}_1,\dots,\hat{\by}_n,\bw}\quad& w_1+\dots +w_n \\
         \text{\normalfont subject to}\quad
-        & w_i - \bar{u}_i(\hat{\by}_{-i}) \in Q_{2h}(X_i) &\forall i \in N\\
+        & w_i - l_{\hat{\by}_{-i}}(u_i) \in Q_{2h}(X_i) &\forall i \in N\\
         & \hat{\by}_i=(y_{i,\balpha})_{\balpha\in\N^{m_i}_{2h}} \text{ and $y_{i,\mathbf{0}}=1$} &\forall i \in N\\
         & M_h(\hat{\by}_i)\succeq 0 &\forall i \in N\\
         & M_h(g_{ik}, \hat{\by}_i)\succeq 0 & \forall k\in K_i,\, \forall i \in N\\
@@ -21,5 +21,7 @@ The $h$-th level of the hierarchy is the following semidefinite program:
     \end{aligned}
     \label{momsdp}
 \end{equation}
+
+where $l_{\hat{\by}_{-i}}(u_i)$, denotes the polynomial in variables $x_i$, with the rest substituted for the corresponding moments in $\hat{\by}_{-i}$.
 
 We then iteratively solve each level of the hierarchy until all sequences $\hat{\by}_i$ have a representing atomic measure, which we extract using the algorithm of \textcite[Algorithm 6.9]{Lasserre15:book}. With the strategies of other players fixed, the best response condition is equivalent to certifying optimality for a polynomial over a semialgebraic set.

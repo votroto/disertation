@@ -104,17 +104,19 @@ where $A\succeq 0$ denotes that a real symmetric matrix $A$ is positive semidefi
 \subsection{Hierarchy of Semidefinite Relaxations}
 The final step is to put bounds on the sizes of moment sequences and degrees of polynomials using the Lasserre's hierarchies \cite[Chapter 6]{Lasserre15:book}. Each relaxation in the hierarchy is a convex semidefinite program that approximates the solution of the original program.
 
-We consider the quadratic module $\calQ_h(\bg)$ truncated to a degree $h$:
+We consider the quadratic module $\calQ_h(\bg)$ truncated to a degree $2h$:
 \[
 \calQ_h(\bg) = \left\{\, s_0 + \sum_{i=1}^k g_is_i \;\middle|\; {}
    \begin{aligned}[c]
-    & \mathbf{s} \; \text{are \textsc{sos} polynomials}, \\
-    & \deg(g_is_i)\le h, \forall i\in 1,\dots,k \\
-    & \deg(s_0)\le h
+    & \mathbf{s} \; \text{are \textsc{sos} polynomials}; \\
+    & \deg(g_is_i)\le 2h, \forall i\in 1,\dots,k; \\
+    & \deg(s_0)\le 2h
    \end{aligned}\,\right\}
 \]
 
-Instead of testing polynomial positivity by checking its membership in $\calQ(\mathbf{g})$ the $h$-th level of the hierarchy tests for membership in $\calQ_h(\mathbf{g})$. Similarly, instead of requiring that the constraints hold for all moments, the $h$-th program in a hierarchy only constrains the moment and localizing matrices of order $h$. Moreover, we consider only truncated moment sequences~$\hat{\by}$, which are just finite-dimensional real vectors. Under our initial Archimedean assumption, the optimization problems are mutually strongly-dual. Each level of the hierarchy is then a semidefinite program which under-estimates the optimum. By going to higher levels, the original problem can be approximated arbitrarily well.
+Instead of testing polynomial positivity by checking its membership in $\calQ(\mathbf{g})$ the $h$-th level of the hierarchy tests for membership in $\calQ_h(\mathbf{g})$. Similarly, instead of requiring that the constraints hold for all moments, the $h$-th program in a hierarchy only constrains the moment and localizing matrices of order $h$. Moreover, we consider only truncated moment sequences~$\hat{\by}$, which are finite-dimensional real vectors containing moments up to degree $2h$.
+
+Under the Archimedean assumption (\cref{def:archimedean}), strong duality holds at every relaxation order \cite{josz2016:duality}. Each level of the hierarchy is then a semidefinite program which under-estimates the optimum. By going to higher levels, the original problem can be approximated arbitrarily well.
 
 \subsection{Recovery of Global Minimizers}
 It is possible to certify the convergence of the Moment hierarchy \cite{Laurent2009,lasserre2009moments,fialkow1991recursiveness} and to extract the minimizers in a robust way \cite{klep2018minimizer}. On the other hand, neither task is directly possible from the side of SOS polynomials, except via duality.
